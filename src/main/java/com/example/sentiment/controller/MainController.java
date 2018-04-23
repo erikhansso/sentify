@@ -14,11 +14,15 @@ public class MainController {
     @Autowired
     TwitterCommunication twitterCommunication;
 
-    @GetMapping("/")
-    public ModelAndView getIndex() throws IOException {
-
+    @GetMapping("/demo")
+    public ModelAndView getDemo() {
         String testTweet = twitterCommunication.getTweets();
         return new ModelAndView("demo")
                 .addObject("tweet", testTweet);
+    }
+
+    @GetMapping("/")
+    public ModelAndView getStartPage(){
+        return new ModelAndView("index");
     }
 }
