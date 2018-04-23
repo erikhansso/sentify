@@ -1,4 +1,4 @@
-package com.example.sentiment.controller.entities;
+package com.example.sentiment.entities;
 
 public class QuerySelector {
 

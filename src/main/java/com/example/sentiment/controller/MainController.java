@@ -10,7 +10,6 @@ public class MainController {
     @GetMapping("/")
     public ModelAndView getIndex(){
         String test = System.getenv("E_testKey");
-
         return new ModelAndView("demo").addObject("test", test);
     }
 }
