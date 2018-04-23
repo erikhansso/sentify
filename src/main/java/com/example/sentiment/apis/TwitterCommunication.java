@@ -34,4 +34,14 @@ public class TwitterCommunication {
 
         return results.getTweets().get(0).getText();
     }
+
+    public String getTweetByQuery(String query) {
+        Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+
+        SearchParameters params = new SearchParameters(query);
+        params.lang("sv").count(1);
+        SearchResults results = twitter.searchOperations().search(params);
+
+        return results.getTweets().get(0).getText();
+    }
 }
