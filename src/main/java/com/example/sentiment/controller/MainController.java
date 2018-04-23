@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class MainController {
 
@@ -34,7 +37,14 @@ public class MainController {
 
     @PostMapping("/searchForTweets")
     @ResponseBody
-    public String getTweets(@RequestParam String searchInput){
-        return twitterCommunication.getTweetByQuery(searchInput);
+    public List<String> getTweets(@RequestParam String searchInput){
+
+        String tweet = twitterCommunication.getTweetByQuery(searchInput);
+        String sentimentScore = sentimentCommunication.getSentiment(tweet);
+
+        List<String> result = new ArrayList<>();
+        result.add(tweet);
+        result.add(sentimentScore);
+        return result;
     }
 }

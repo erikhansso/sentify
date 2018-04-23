@@ -15,7 +15,7 @@ $("#searchButton").on("click", function (e) {
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
             console.log("successfully inserted ", result);
-            $("#output").append("<p>"+result+"</p>");
+            $("#output").append("<p>"+result[0]+"</p><p>"+result[1]+"</p>");
         }
     });
 });
