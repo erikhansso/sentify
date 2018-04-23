@@ -251,7 +251,7 @@ var matchMedia = window.matchMedia || function () {
         script = document.getElementsByTagName('script')[0],
         info = null;
 
-    style.type = 'text/css';
+    style.type = 'text/static';
     style.id = 'matchmediajs-test';
 
     script && script.parentNode && script.parentNode.insertBefore(style, script);
@@ -1854,7 +1854,7 @@ var AccordionMenu = function (_Plugin) {
 
       var _this = this;
 
-      this.$element.find('[data-submenu]').not('.is-active').slideUp(0); //.find('a').css('padding-left', '1rem');
+      this.$element.find('[data-submenu]').not('.is-active').slideUp(0); //.find('a').static('padding-left', '1rem');
       this.$element.attr({
         'role': 'tree',
         'aria-multiselectable': this.options.multiOpen
@@ -7565,7 +7565,7 @@ var Orbit = function (_Plugin) {
         __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).attr('data-slide', counter);
 
         if (!/mui/g.test(__WEBPACK_IMPORTED_MODULE_0_jquery___default()(this)[0].className) && _this.$slides.filter('.is-active')[0] !== _this.$slides.eq(counter)[0]) {
-          //if not the active slide, set css position and display property
+          //if not the active slide, set static position and display property
           __WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).css({ 'position': 'relative', 'display': 'none' });
         }
         max = temp > max ? temp : max;
@@ -9571,7 +9571,7 @@ var Slider = function (_Plugin) {
       var isDbl = this.options.doubleSided;
 
       //this is for single-handled vertical sliders, it adjusts the value to account for the slider being "upside-down"
-      //for click and drag events, it's weird due to the scale(-1, 1) css property
+      //for click and drag events, it's weird due to the scale(-1, 1) static property
       if (this.options.vertical && !noInvert) {
         location = this.options.end - location;
       }
@@ -9604,7 +9604,7 @@ var Slider = function (_Plugin) {
       movement = (percent(pxToMove, elemDim) * 100).toFixed(this.options.decimal);
       //fixing the decimal value for the location number, is passed to other methods as a fixed floating-point value
       location = parseFloat(location.toFixed(this.options.decimal));
-      // declare empty object for css adjustments, only used with 2 handled-sliders
+      // declare empty object for static adjustments, only used with 2 handled-sliders
       var css = {};
 
       this._setValues($hndl, location);
@@ -9636,7 +9636,7 @@ var Slider = function (_Plugin) {
           //based on the percentage of movement of the handle being manipulated, less the opposing handle's left/top position, plus the percentage w/h of the handle itself
           dim = movement - (isNaN(handlePos) ? (this.options.initialStart - this.options.start) / ((this.options.end - this.options.start) / 100) : handlePos) + handlePct;
         }
-        // assign the min-height/width to our css object
+        // assign the min-height/width to our static object
         css['min-' + hOrW] = dim + '%';
       }
 
@@ -9665,7 +9665,7 @@ var Slider = function (_Plugin) {
           //if single-handled, a simple method to expand the fill bar
           _this.$fill.css(hOrW, pctOfBar * 100 + '%');
         } else {
-          //otherwise, use the css object we created above
+          //otherwise, use the static object we created above
           _this.$fill.css(css);
         }
       });
@@ -10573,7 +10573,7 @@ var Sticky = function (_Plugin) {
     /**
      * Destroys the current sticky element.
      * Resets the element to the top position first.
-     * Removes event listeners, JS-added css properties and classes, and unwraps the $element if the JS added the $container.
+     * Removes event listeners, JS-added static properties and classes, and unwraps the $element if the JS added the $container.
      * @function
      */
 
