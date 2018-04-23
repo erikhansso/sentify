@@ -9,8 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 class sentimentQuery {
 
@@ -23,11 +21,11 @@ class sentimentQuery {
     }
 }
 
-class documents {
+class Documents {
 
     public List<sentimentQuery> documents;
 
-    public documents() {
+    public Documents() {
         this.documents = new ArrayList<>();
     }
 
@@ -38,22 +36,16 @@ class documents {
     }
 }
 
-@Component
 public class GetSentiment {
-
-
-    // Replace the accessKey string value with your valid access key.
-    static String azureKey = System.getenv("Azure_keyEH");
-
-
-//    @Value("${azureKey}")
-//    String azureKey;
 
 
     static String host = "https://northeurope.api.cognitive.microsoft.com";
     static String path = "/text/analytics/v2.0/sentiment";
 
-    public static String getSentiment (documents documents) throws Exception {
+    public static String getSentiment (String tweet, String azureKey) throws Exception {
+
+        Documents documents = new Documents();
+        documents.add("1", "sv", tweet);
 
         String text = new Gson().toJson(documents);
 
@@ -93,25 +85,4 @@ public class GetSentiment {
     }
 
 
-    public static void main (String[] args) {
-
-
-        try {
-
-            documents sentlist = new documents();
-            sentlist.add("1", "en", "I really enjoy the new XBox One S. It has a clean look, it has 4K/HDR resolution and it is affordable.");
-            sentlist.add("2", "es", "Este ha sido un dia terrible, llegué tarde al trabajo debido a un accidente automobilistico.");
-
-            String response = getSentiment(sentlist);
-
-            System.out.println("not prettified: "+response);
-            System.out.println(prettify(response));
-        }
-
-        catch (Exception e) {
-
-            System.out.println(e);
-
-        }
-    }
 }
