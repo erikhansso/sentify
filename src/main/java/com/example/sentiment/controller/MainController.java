@@ -21,14 +21,14 @@ public class MainController {
     @Autowired
     SentimentCommunication sentimentCommunication;
 
-    @GetMapping("/demo")
-    public ModelAndView getDemo() {
-        String testTweet = twitterCommunication.getTweets();
-        String testSentiment = sentimentCommunication.getSentiment(testTweet);
-        return new ModelAndView("demo")
-                .addObject("tweet", testTweet)
-                .addObject("sentiment", testSentiment);
-    }
+//    @GetMapping("/demo")
+//    public ModelAndView getDemo() {
+//        String testTweet = twitterCommunication.getTweets();
+//        String testSentiment = sentimentCommunication.getSentiment(testTweet);
+//        return new ModelAndView("demo")
+//                .addObject("tweet", testTweet)
+//                .addObject("sentiment", testSentiment);
+//    }
 
     @GetMapping("/")
     public ModelAndView getStartPage(){
@@ -37,14 +37,15 @@ public class MainController {
 
     @PostMapping("/searchForTweets")
     @ResponseBody
-    public List<String> getTweets(@RequestParam String searchInput){
+    public List<String> getTweets(@RequestParam String searchInput) throws twitter4j.TwitterException{
 
-        String tweet = twitterCommunication.getTweetByQuery(searchInput);
-        String sentimentScore = sentimentCommunication.getSentiment(tweet);
+//        String tweet = twitterCommunication.getTweetByQuery(searchInput);
+        List<String> tweets = twitterCommunication.getTweetByQuery(searchInput);
+       // String sentimentScore = sentimentCommunication.getSentiment(tweet);
 
-        List<String> result = new ArrayList<>();
-        result.add(tweet);
-        result.add(sentimentScore);
-        return result;
+//        List<String> result = new ArrayList<>();
+//        result.add(tweet);
+//        result.add(sentimentScore);
+        return tweets;
     }
 }
