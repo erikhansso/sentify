@@ -1,21 +1,24 @@
 package com.example.sentiment.entities;
 
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
+@Entity
 public class Tweet {
 
-    // Fields
-    private long id;
-    private String user;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String handle; //UserName
     private String text;
-    private Date date;
+    private LocalDateTime date;
     private double sentimentScore;
 
     // Constructors
-    public Tweet(long id, String user, String text, Date date, double sentimentScore) {
+    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore) {
 
         this.id = id;
-        this.user = user;
+        this.handle = handle;
         this.text = text;
         this.date = date;
         this.sentimentScore = sentimentScore;
@@ -30,12 +33,12 @@ public class Tweet {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getHandle() {
+        return handle;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setHandle(String handle) {
+        this.handle = handle;
     }
 
     public String getText() {
@@ -46,11 +49,11 @@ public class Tweet {
         this.text = text;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
