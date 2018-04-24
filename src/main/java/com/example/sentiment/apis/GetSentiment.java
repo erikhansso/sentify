@@ -4,9 +4,8 @@ import java.io.*;
 import java.net.*;
 import javax.net.ssl.HttpsURLConnection;
 
-import com.example.sentiment.entities.Documents;
-import com.example.sentiment.entities.Sentiment;
-import com.example.sentiment.entities.SentimentResponse;
+import com.example.sentiment.pojos.Documents;
+import com.example.sentiment.pojos.SentimentResponse;
 import com.google.gson.Gson;
 
 
