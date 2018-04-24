@@ -23,9 +23,7 @@ public class Tweet {
     }
 
     // Constructors
-    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore, Query query) {
-
-        this.id = id;
+    public Tweet(String handle, String text, LocalDateTime date, double sentimentScore, Query query) {
         this.handle = handle;
         this.text = text;
         this.date = date;
@@ -33,13 +31,11 @@ public class Tweet {
         this.query = query;
     }
 
-    // Getters & Setters
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
+
+    // Getters & Setters
+    public Long getId() {
+        return id;
     }
 
     public String getHandle() {
