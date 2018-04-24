@@ -1,5 +1,6 @@
 package com.example.sentiment.apis;
 
+import com.example.sentiment.entities.TestTweet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
@@ -28,7 +29,7 @@ public class TwitterCommunication {
     public TwitterCommunication() {
     }
 
-    public List<String> getTweetByQuery(String query) throws twitter4j.TwitterException {
+    public List<TestTweet> getTweetsByQuery(String query) throws twitter4j.TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
@@ -39,33 +40,15 @@ public class TwitterCommunication {
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         Query q = new Query(query);
-        q.setCount(1); //Number of tweets to be returned, max 100
+        q.setCount(10); //Number of tweets to be returned, max 100
         QueryResult result = twitter.search(q);
-        return result.getTweets().stream()
-                .map(item -> item.getText())
-                .collect(Collectors.toList());
-
+        List<Status> tweetList = result.getTweets();
+        List<TestTweet> tweetObjectList = new ArrayList<>();
+        for (Status status : tweetList) {
+            tweetObjectList.add(new TestTweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), query));
+        }
+        return tweetObjectList;
 
     }
 
-
-    // TODO: 2018-04-24 Method that returns a List of SentimentQuery objects
-//    public List<SentimentQuery> getTweetByQuery(String query) throws twitter4j.TwitterException {
-//        ConfigurationBuilder cb = new ConfigurationBuilder();
-//        cb.setDebugEnabled(true)
-//                .setOAuthConsumerKey(consumerKey)
-//                .setOAuthConsumerSecret(consumerSecret)
-//                .setOAuthAccessToken(accessToken)
-//                .setOAuthAccessTokenSecret(accessTokenSecret)
-//                .setTweetModeExtended(true);
-//        TwitterFactory tf = new TwitterFactory(cb.build());
-//        Twitter twitter = tf.getInstance();
-//        Query q = new Query(query);
-//        q.setCount(1); //Number of tweets to be returned, max 100
-//        QueryResult result = twitter.search(q);
-//
-//        return result.getTweets().stream()
-//                .map(item -> item.getText())
-//                .collect(Collectors.toList());
-//    }
 }

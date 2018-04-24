@@ -2,6 +2,7 @@ package com.example.sentiment.controller;
 
 import com.example.sentiment.apis.SentimentCommunication;
 import com.example.sentiment.apis.TwitterCommunication;
+import com.example.sentiment.entities.TestTweet;
 import com.example.sentiment.pojos.Documents;
 import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.entities.SentimentQueryBuilder;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MainController {
@@ -27,24 +29,6 @@ public class MainController {
 
 
 
-    @GetMapping("/demo")
-    public ModelAndView getDemo() {
-
-        String testTweet = "";
-        try {
-            testTweet = twitterCommunication.getTweetByQuery("#jkflaflakl").get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("No tweets were found.");
-            testTweet = "No tweets were found";
-        }
-       // String testSentiment = sentimentCommunication.getSentiment(testTweet);
-
-        return new ModelAndView("demo")
-                .addObject("tweet", testTweet);
-                //.addObject("sentiment", testSentiment);
-    }
-
     @GetMapping("/")
     public ModelAndView getStartPage() {
         return new ModelAndView("index");
@@ -53,13 +37,25 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public List<String> getTweets(@RequestParam String searchInput) {
-        List<String> tweets = new ArrayList<>();
+        List<String> dummystring = new ArrayList<>();
+        List<TestTweet> tweetObjects;
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
         try {
-            tweets = twitterCommunication.getTweetByQuery(searchInput);
-            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweets);
-            sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList);
+            tweetObjects = twitterCommunication.getTweetsByQuery(searchInput);
+            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
+            sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
+            for (TestTweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
+                for (Sentiment sentiment : sentimentResponse) {
+                    if(sentiment.getId().equals(String.valueOf(tweetObject.getAzureId()))){
+                        tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
+                        break;
+                    }
+                }
+            }
+            for (TestTweet tweetObject : tweetObjects) {
+                System.out.println(tweetObject.toString());
+            }
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
@@ -70,10 +66,8 @@ public class MainController {
             System.out.println("Something went wrong with sentiment query");
         }
 
-        for (Sentiment sentiment : sentimentResponse) {
-            System.out.println(sentiment.toString());
-        }
 
-        return tweets;
+
+        return dummystring;
     }
 }

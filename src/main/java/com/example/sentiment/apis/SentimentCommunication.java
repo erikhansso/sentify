@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
+import com.example.sentiment.entities.SentimentQuery;
 import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.pojos.SentimentResponse;
 import com.google.gson.Gson;
@@ -24,6 +25,13 @@ public class SentimentCommunication {
     static String path = "/text/analytics/v2.0/sentiment";
 
     public List<Sentiment> getSentiment (Documents docs) throws Exception {
+
+
+//        for (SentimentQuery query : docs.documents) {
+//            System.out.println("Id is: "+query.id);
+//            System.out.println("Language is: "+query.language);
+//            System.out.println("Text is: "+query.text);
+//        }
 
         String text = new Gson().toJson(docs);
 
@@ -50,6 +58,7 @@ public class SentimentCommunication {
         }
         in.close();
 
+        System.out.println("Naked response is: "+response.toString());
         SentimentResponse sentresp = new Gson().fromJson(response.toString(), SentimentResponse.class);
         System.out.println("This shows entire json-string : "+sentresp.toString());
         System.out.println("This shows score for first document: "+sentresp.getDocuments().get(0).getScore());

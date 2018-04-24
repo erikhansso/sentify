@@ -7,12 +7,12 @@ import java.util.List;
 public class SentimentResponse {
 
     private List<Sentiment> documents;
-    private List<String> errors;
+    private List<AzureError> errors;
 
     public SentimentResponse() {
     }
 
-    public SentimentResponse(List<Sentiment> documents, List<String> errors) {
+    public SentimentResponse(List<Sentiment> documents, List<AzureError> errors) {
         this.documents = documents;
         this.errors = errors;
     }
@@ -33,11 +33,11 @@ public class SentimentResponse {
         this.documents = documents;
     }
 
-    public List<String> getErrors() {
+    public List<AzureError> getErrors() {
         return errors;
     }
 
-    public void setErrors(List<String> errors) {
+    public void setErrors(List<AzureError> errors) {
         this.errors = errors;
     }
 }

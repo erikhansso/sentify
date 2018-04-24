@@ -1,21 +1,27 @@
 package com.example.sentiment.entities;
 
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 public class Tweet {
 
     // Fields
     private long id;
-    private String user;
+    private String handle;
     private String text;
-    private Date date;
+//    private String azureId;
+//    private String tweetText;
+//    private String query;
+//    private String sentiment;
+//    private String language;
+    private LocalDateTime date;
     private double sentimentScore;
 
     // Constructors
-    public Tweet(long id, String user, String text, Date date, double sentimentScore) {
+    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore) {
 
         this.id = id;
-        this.user = user;
+        this.handle = handle;
         this.text = text;
         this.date = date;
         this.sentimentScore = sentimentScore;
@@ -31,11 +37,11 @@ public class Tweet {
     }
 
     public String getUser() {
-        return user;
+        return handle;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUser(String handle) {
+        this.handle = handle;
     }
 
     public String getText() {
@@ -46,11 +52,11 @@ public class Tweet {
         this.text = text;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
