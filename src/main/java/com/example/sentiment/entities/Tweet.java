@@ -14,6 +14,9 @@ public class Tweet {
     private LocalDateTime date;
     private double sentimentScore;
 
+    public Tweet() {
+    }
+
     // Constructors
     public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore) {
 

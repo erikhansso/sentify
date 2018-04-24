@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,14 +31,18 @@ public class DBController {
         return "ok";
     }
     @GetMapping("/addToDatabase")
-    public void addTweetsToDatabase(List<Tweet> tweets){
-        tweets.add(new Tweet(1, "Erik", "Blablabla", LocalDateTime.now(), 1));
-        for (Tweet tweet : tweets) {
-            tweetRepository.save(tweet);
-        }
+    public String addTweetsToDatabase(List<Tweet> tweets){
+//        List<Tweet> tweets1 = new ArrayList<>();
+//        tweets1.add(new Tweet(1, "Erik", "Blablabla", LocalDateTime.now(), 1));
+//        for (Tweet tweet : tweets1) {
+//            tweetRepository.save(tweet);
+//        }
+        Tweet tweet = new Tweet(1, "Erik", "Blablabla", LocalDateTime.now(), 1);
+        tweetRepository.save(tweet);
+        return "ok";
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findall")
     public Iterable<Tweet> findAll(){
         return tweetRepository.findAll();
     }
