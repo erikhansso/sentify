@@ -1,7 +1,7 @@
 package com.example.sentiment.apis;
 
 
-import com.example.sentiment.entities.Documents;
+import com.example.sentiment.pojos.Documents;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
