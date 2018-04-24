@@ -66,20 +66,17 @@ public class MainController {
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
         //checks if query is already in database, commented out because row 79 doesnt work yet
-//        if (queryRepository.findByQueryText(searchInput) == null) {
-//            Query query = new Query(searchInput);
-//            queryRepository.save(query);
-//            System.out.println("inserted query in database");
-//            List<Tweet> testTweets = new ArrayList<>();
-//            testTweets.add(new Tweet("Elin", "Hej", LocalDateTime.now(), 1, query));
-//            tweetRepository.saveAll(testTweets);
-//        } else {
-//            //if the query already exists get all tweets associated with that query
-//            System.out.println("query is already in database");
-//            Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(new Query(searchInput));
-//        }
-
-
+        if (queryRepository.findByQueryText(searchInput) == null) {
+            Query query = new Query(searchInput);
+            queryRepository.save(query);
+            //Following three lines are just for test purposes, can be removed when method is done
+            List<Tweet> testTweets = new ArrayList<>();
+            testTweets.add(new Tweet("Elin", "Hej", LocalDateTime.now(), 1, query));
+            tweetRepository.saveAll(testTweets);
+        } else {
+            //if the query already exists get all tweets associated with that query
+            Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+        }
         try {
             tweets = twitterCommunication.getTweetByQuery(searchInput);
 
