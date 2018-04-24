@@ -1,15 +1,15 @@
 package com.example.sentiment.apis;
 
+import com.example.sentiment.entities.QueryEntity;
 import com.example.sentiment.entities.TestTweet;
+import com.example.sentiment.entities.Tweet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class TwitterCommunication {
@@ -29,7 +29,7 @@ public class TwitterCommunication {
     public TwitterCommunication() {
     }
 
-    public List<TestTweet> getTweetsByQuery(String query) throws twitter4j.TwitterException {
+    public List<Tweet> getTweetsByQuery(String query) throws twitter4j.TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
@@ -45,9 +45,10 @@ public class TwitterCommunication {
 
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
-        List<TestTweet> tweetObjectList = new ArrayList<>();
+        List<Tweet> tweetObjectList = new ArrayList<>();
+        QueryEntity queryEntityEntity = new QueryEntity(query);
         for (Status status : tweetList) {
-            tweetObjectList.add(new TestTweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), query));
+            tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntityEntity));
         }
         return tweetObjectList;
 

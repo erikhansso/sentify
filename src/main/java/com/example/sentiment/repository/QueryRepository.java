@@ -1,11 +1,11 @@
 package com.example.sentiment.repository;
 
-import com.example.sentiment.entities.Query;
+import com.example.sentiment.entities.QueryEntity;
 import org.springframework.data.repository.CrudRepository;
 
-public interface QueryRepository extends CrudRepository<Query, Long> {
+public interface QueryRepository extends CrudRepository<QueryEntity, Long> {
 
     //if querytext exists returns that query
-    Query findByQueryText(String queryText);
+    QueryEntity findByQueryText(String queryText);
 
 }

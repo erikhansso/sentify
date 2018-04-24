@@ -6,17 +6,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Query {
+public class QueryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String queryText;
 
-    public Query() {
+    public QueryEntity() {
     }
 
-    public Query(String queryText) {
+    public QueryEntity(String queryText) {
         this.queryText = queryText;
     }
 

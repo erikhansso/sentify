@@ -3,11 +3,10 @@ package com.example.sentiment.controller;
 import com.example.sentiment.apis.SentimentCommunication;
 import com.example.sentiment.apis.TwitterCommunication;
 
+import com.example.sentiment.entities.QueryEntity;
 import com.example.sentiment.entities.TestTweet;
 
-import com.example.sentiment.entities.Query;
 import com.example.sentiment.entities.Tweet;
-
 import com.example.sentiment.pojos.Documents;
 import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.entities.SentimentQueryBuilder;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,10 +32,10 @@ public class MainController {
     TwitterCommunication twitterCommunication;
     @Autowired
     SentimentCommunication sentimentCommunication;
-    @Autowired
-    TweetRepository tweetRepository;
-    @Autowired
-    QueryRepository queryRepository;
+//    @Autowired
+//    TweetRepository tweetRepository;
+//    @Autowired
+//    QueryRepository queryRepository;
 
 
     @GetMapping("/")
@@ -49,13 +47,13 @@ public class MainController {
     @ResponseBody
     public List<String> getTweets(@RequestParam String searchInput) {
         List<String> dummystring = new ArrayList<>();
-        List<TestTweet> tweetObjects;
+        List<Tweet> tweetObjects;
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
         //checks if query is already in database, commented out because row 79 doesnt work yet
 //        if (queryRepository.findByQueryText(searchInput) == null) {
-//            Query query = new Query(searchInput);
+//            QueryEntity query = new QueryEntity(searchInput);
 //            queryRepository.save(query);
 //            System.out.println("inserted query in database");
 //            List<Tweet> testTweets = new ArrayList<>();
@@ -64,16 +62,17 @@ public class MainController {
 //        } else {
 //            //if the query already exists get all tweets associated with that query
 //            System.out.println("query is already in database");
-//            Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(new Query(searchInput));
+//            Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(new QueryEntity(searchInput));
 //        }
 
 
         try {
-
+            //QueryEntity queryEntity = new QueryEntity(searchInput);
+            //queryRepository.save(queryEntity);
             tweetObjects = twitterCommunication.getTweetsByQuery(searchInput);
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
-            for (TestTweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
+            for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
                 for (Sentiment sentiment : sentimentResponse) {
                     if(sentiment.getId().equals(String.valueOf(tweetObject.getAzureId()))){
                         tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
@@ -81,7 +80,7 @@ public class MainController {
                     }
                 }
             }
-            for (TestTweet tweetObject : tweetObjects) {
+            for (Tweet tweetObject : tweetObjects) {
                 System.out.println(tweetObject.toString());
             }
 

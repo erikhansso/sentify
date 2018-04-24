@@ -6,11 +6,11 @@ import java.util.List;
 
 public class SentimentQueryBuilder {
 
-    public static Documents buildSentimentQueries(List<TestTweet> tweetObjects){
+    public static Documents buildSentimentQueries(List<Tweet> tweetObjects){
 
         Documents docs = new Documents();
 
-        for (TestTweet tweetObject : tweetObjects) {
+        for (Tweet tweetObject : tweetObjects) {
             docs.add(String.valueOf(tweetObject.getAzureId()), tweetObject.getLanguage(), tweetObject.getTweetText());
         }
 
