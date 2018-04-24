@@ -1,4 +1,6 @@
-package com.example.sentiment.entities;
+package com.example.sentiment.pojos;
+
+import com.example.sentiment.entities.SentimentQuery;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -60,17 +60,7 @@
             <artifactId>twitter4j-core</artifactId>
             <version>[4.0,)</version>
         </dependency>
-        <!-- In-Memory database used for local development & testing -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <!-- Switch back from Spring Boot 2.x standard HikariCP to Tomcat JDBC,
-    configured later in Heroku (see https://stackoverflow.com/a/49970142/4964553) -->
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jdbc</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>
