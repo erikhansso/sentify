@@ -7,7 +7,6 @@ $("#searchButton").on("click", function (e) {
         type: "POST",
         error: function () {
             console.log("error sending the data");
-            render([]);
         },
         data: {
             searchInput: searchInput

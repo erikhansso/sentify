@@ -26,7 +26,7 @@ public class StatisticsTestController {
 
         double average = Statistics.getAverageByKeyWord(keyword, objects);
 
-        return new ModelAndView("stat")
+        return new ModelAndView("test")
                 .addObject("keyword", keyword)
                 .addObject("averageScore", average);
     }
