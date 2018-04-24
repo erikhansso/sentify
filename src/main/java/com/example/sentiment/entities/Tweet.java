@@ -14,17 +14,23 @@ public class Tweet {
     private LocalDateTime date;
     private double sentimentScore;
 
+
+    //Foreign key to query-entity
+    @ManyToOne
+    private Query query;
+
     public Tweet() {
     }
 
     // Constructors
-    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore) {
+    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore, Query query) {
 
         this.id = id;
         this.handle = handle;
         this.text = text;
         this.date = date;
         this.sentimentScore = sentimentScore;
+        this.query = query;
     }
 
     // Getters & Setters
@@ -66,5 +72,17 @@ public class Tweet {
 
     public void setSentimentScore(double sentimentScore) {
         this.sentimentScore = sentimentScore;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
     }
 }
