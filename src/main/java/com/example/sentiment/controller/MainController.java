@@ -32,10 +32,10 @@ public class MainController {
     TwitterCommunication twitterCommunication;
     @Autowired
     SentimentCommunication sentimentCommunication;
-//    @Autowired
-//    TweetRepository tweetRepository;
-//    @Autowired
-//    QueryRepository queryRepository;
+    @Autowired
+    TweetRepository tweetRepository;
+    @Autowired
+    QueryRepository queryRepository;
 
 
     @GetMapping("/")
