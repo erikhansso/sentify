@@ -1,44 +1,68 @@
 package com.example.sentiment.apis;
 
-import org.springframework.social.twitter.api.SearchParameters;
-import org.springframework.social.twitter.api.SearchResults;
-import org.springframework.social.twitter.api.Tweet;
-import org.springframework.social.twitter.api.Twitter;
-import org.springframework.social.twitter.api.impl.TwitterTemplate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import twitter4j.*;
+import twitter4j.conf.ConfigurationBuilder;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class TwitterCommunication {
 
-    String consumerKey = ""; // The application's consumer key
-    String consumerSecret = ""; // The application's consumer secret
-    String accessToken = ""; // The access token granted after OAuth authorization
-    String accessTokenSecret = ""; // The access token secret granted after OAuth authorization
+    @Value("${consumerKey}")
+    private String consumerKey; // The application's consumer key
 
-    public void getTweets()throws IOException {
-        Twitter twitter = new TwitterTemplate(consumerKey, consumerSecret, accessToken, accessTokenSecret);
+    @Value("${consumerSecret}")
+    private String consumerSecret; // The application's consumer secret
 
-        SearchParameters params = new SearchParameters("#stockholm");
-        params.lang("sv").count(1);
-        SearchResults results = twitter.searchOperations().search(params);
+    @Value("${accessToken}")
+    private String accessToken; // The access token granted after OAuth authorization
 
-        List<Tweet> tweets = results.getTweets();
+    @Value("${accessTokenSecret}")
+    private String accessTokenSecret;// The access token secret granted after OAuth authorization
 
-        List<String> lines = new ArrayList<>();
-        for (Tweet t : tweets) {
-            System.out.println(t.getText());
-            lines.add(t.getText());
-        }
-
-        //Writes the tweets to a file
-        // TODO: 2018-04-23 Write to database instead
-        Path file = Paths.get("the-file-name.txt");
-        Files.write(file, lines, Charset.forName("UTF-8"));
+    public TwitterCommunication() {
     }
+
+    public List<String> getTweetByQuery(String query) throws twitter4j.TwitterException {
+        ConfigurationBuilder cb = new ConfigurationBuilder();
+        cb.setDebugEnabled(true)
+                .setOAuthConsumerKey(consumerKey)
+                .setOAuthConsumerSecret(consumerSecret)
+                .setOAuthAccessToken(accessToken)
+                .setOAuthAccessTokenSecret(accessTokenSecret)
+                .setTweetModeExtended(true);
+        TwitterFactory tf = new TwitterFactory(cb.build());
+        Twitter twitter = tf.getInstance();
+        Query q = new Query(query);
+        q.setCount(1); //Number of tweets to be returned, max 100
+        QueryResult result = twitter.search(q);
+        return result.getTweets().stream()
+                .map(item -> item.getText())
+                .collect(Collectors.toList());
+
+
+    }
+
+    // TODO: 2018-04-24 Method that returns a List of SentimentQuery objects
+//    public List<SentimentQuery> getTweetByQuery(String query) throws twitter4j.TwitterException {
+//        ConfigurationBuilder cb = new ConfigurationBuilder();
+//        cb.setDebugEnabled(true)
+//                .setOAuthConsumerKey(consumerKey)
+//                .setOAuthConsumerSecret(consumerSecret)
+//                .setOAuthAccessToken(accessToken)
+//                .setOAuthAccessTokenSecret(accessTokenSecret)
+//                .setTweetModeExtended(true);
+//        TwitterFactory tf = new TwitterFactory(cb.build());
+//        Twitter twitter = tf.getInstance();
+//        Query q = new Query(query);
+//        q.setCount(1); //Number of tweets to be returned, max 100
+//        QueryResult result = twitter.search(q);
+//
+//        return result.getTweets().stream()
+//                .map(item -> item.getText())
+//                .collect(Collectors.toList());
+//    }
 }
