@@ -24,10 +24,10 @@ public class MainController {
     @GetMapping("/demo")
     public ModelAndView getDemo() {
         String testTweet = twitterCommunication.getTweets();
-        String testSentiment = sentimentCommunication.getSentiment(testTweet);
+        //String testSentiment = sentimentCommunication.getSentiment(testTweet);
         return new ModelAndView("demo")
-                .addObject("tweet", testTweet)
-                .addObject("sentiment", testSentiment);
+                .addObject("tweet", testTweet);
+                //.addObject("sentiment", testSentiment);
     }
 
     @GetMapping("/")
@@ -40,11 +40,11 @@ public class MainController {
     public List<String> getTweets(@RequestParam String searchInput){
 
         String tweet = twitterCommunication.getTweetByQuery(searchInput);
-        String sentimentScore = sentimentCommunication.getSentiment(tweet);
+        //String sentimentScore = sentimentCommunication.getSentiment(tweet);
 
         List<String> result = new ArrayList<>();
         result.add(tweet);
-        result.add(sentimentScore);
+        //result.add(sentimentScore);
         return result;
     }
 }
