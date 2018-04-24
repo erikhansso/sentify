@@ -1,7 +1,6 @@
 package com.example.sentiment.apis;
 
 import com.example.sentiment.entities.QueryEntity;
-import com.example.sentiment.entities.TestTweet;
 import com.example.sentiment.entities.Tweet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class TwitterCommunication {
     public TwitterCommunication() {
     }
 
-    public List<Tweet> getTweetsByQuery(String query) throws twitter4j.TwitterException {
+    public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity) throws twitter4j.TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
@@ -46,9 +45,9 @@ public class TwitterCommunication {
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
         List<Tweet> tweetObjectList = new ArrayList<>();
-        QueryEntity queryEntityEntity = new QueryEntity(query);
+      //  QueryEntity queryEntityEntity = new QueryEntity(query);
         for (Status status : tweetList) {
-            tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntityEntity));
+            tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
         }
         return tweetObjectList;
 
