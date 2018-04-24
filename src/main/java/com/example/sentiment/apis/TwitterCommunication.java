@@ -2,10 +2,7 @@ package com.example.sentiment.apis;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import twitter4j.Query;
-import twitter4j.QueryResult;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
+import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.List;
@@ -42,10 +39,11 @@ public class TwitterCommunication {
         Query q = new Query(query);
         q.setCount(1); //Number of tweets to be returned, max 100
         QueryResult result = twitter.search(q);
-
         return result.getTweets().stream()
                 .map(item -> item.getText())
                 .collect(Collectors.toList());
+
+
     }
 
     // TODO: 2018-04-24 Method that returns a List of SentimentQuery objects
