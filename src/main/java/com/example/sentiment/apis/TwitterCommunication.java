@@ -64,7 +64,7 @@ public class TwitterCommunication {
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         Query q = new Query(query);
-        q.setCount(50);
+        q.setCount(1);
         QueryResult result = twitter.search(q);
 
         return result.getTweets().stream()
