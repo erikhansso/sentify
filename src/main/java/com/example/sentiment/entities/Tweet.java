@@ -14,6 +14,7 @@ public class Tweet {
     private String tweetText;
     private String language;
     private Date createdAt;
+    private String query;
     private double sentimentScore;
 
 
@@ -32,6 +33,19 @@ public class Tweet {
         this.handle = handle;
         this.createdAt = createdAt;
         this.queryEntity = queryEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "Tweet{" +
+                "id=" + id +
+                ", handle='" + handle + '\'' +
+                ", azureId=" + azureId +
+                ", language='" + language + '\'' +
+                ", createdAt=" + createdAt +
+                ", query='" + query + '\'' +
+                ", sentimentScore=" + sentimentScore +
+                '}';
     }
 
     public Long getId() {
