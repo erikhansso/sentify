@@ -64,6 +64,5 @@ public class MainController {
 //        result.add(tweet);
 //        result.add(sentimentScore);
         return tweets;
-
     }
 }
