@@ -6,19 +6,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class EntityTest {
+public class Query {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String queryText;
 
-    private String name;
-
-    public EntityTest() {
+    public Query() {
     }
 
-    public EntityTest(String name) {
-        this.name = name;
+    public Query(String queryText) {
+        this.queryText = queryText;
     }
 
     public Long getId() {
@@ -29,11 +28,11 @@ public class EntityTest {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getQueryText() {
+        return queryText;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setQueryText(String queryText) {
+        this.queryText = queryText;
     }
 }

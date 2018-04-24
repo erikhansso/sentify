@@ -1,46 +1,50 @@
 package com.example.sentiment.entities;
 
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
 public class Tweet {
 
-    // Fields
-    private long id;
-    private String handle;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String handle; //UserName
     private String text;
-//    private String azureId;
-//    private String tweetText;
-//    private String query;
-//    private String sentiment;
-//    private String language;
     private LocalDateTime date;
     private double sentimentScore;
 
-    // Constructors
-    public Tweet(long id, String handle, String text, LocalDateTime date, double sentimentScore) {
 
-        this.id = id;
+    //Foreign key to query-entity
+    @ManyToOne
+    private Query query;
+
+    public Tweet() {
+    }
+
+    // Constructors
+    public Tweet(String handle, String text, LocalDateTime date, double sentimentScore, Query query) {
+
         this.handle = handle;
         this.text = text;
         this.date = date;
         this.sentimentScore = sentimentScore;
+        this.query = query;
     }
 
+
+
     // Getters & Setters
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getUser() {
+    public String getHandle() {
         return handle;
     }
 
-    public void setUser(String handle) {
+    public void setHandle(String handle) {
+
         this.handle = handle;
     }
 
@@ -66,5 +70,17 @@ public class Tweet {
 
     public void setSentimentScore(double sentimentScore) {
         this.sentimentScore = sentimentScore;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
     }
 }

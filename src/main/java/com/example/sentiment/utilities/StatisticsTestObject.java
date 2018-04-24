@@ -1,4 +1,4 @@
-package com.example.sentiment.entities;
+package com.example.sentiment.utilities;
 
 public class StatisticsTestObject {
 
@@ -14,6 +14,7 @@ public class StatisticsTestObject {
         this.keyword = keyword;
     }
 
+    // Getters & Setters
     public long getId() {
         return id;
     }
