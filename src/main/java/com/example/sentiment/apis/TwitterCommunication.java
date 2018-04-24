@@ -1,14 +1,14 @@
 package com.example.sentiment.apis;
 
+import com.example.sentiment.entities.QueryEntity;
+import com.example.sentiment.entities.Tweet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class TwitterCommunication {
@@ -28,7 +28,7 @@ public class TwitterCommunication {
     public TwitterCommunication() {
     }
 
-    public List<String> getTweetByQuery(String query) throws twitter4j.TwitterException {
+    public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity) throws twitter4j.TwitterException {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
@@ -39,34 +39,18 @@ public class TwitterCommunication {
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         Query q = new Query(query);
-        q.setCount(1);
-        //Number of tweets to be returned, max 100
-        QueryResult result = twitter.search(q);
-        return result.getTweets().stream()
-                .map(item -> item.getText())
-                .collect(Collectors.toList());
 
+        q.setCount(10); //Number of tweets to be returned, max 100
+
+        QueryResult result = twitter.search(q);
+        List<Status> tweetList = result.getTweets();
+        List<Tweet> tweetObjectList = new ArrayList<>();
+      //  QueryEntity queryEntityEntity = new QueryEntity(query);
+        for (Status status : tweetList) {
+            tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
+        }
+        return tweetObjectList;
 
     }
 
-
-    // TODO: 2018-04-24 Method that returns a List of SentimentQuery objects
-//    public List<SentimentQuery> getTweetByQuery(String query) throws twitter4j.TwitterException {
-//        ConfigurationBuilder cb = new ConfigurationBuilder();
-//        cb.setDebugEnabled(true)
-//                .setOAuthConsumerKey(consumerKey)
-//                .setOAuthConsumerSecret(consumerSecret)
-//                .setOAuthAccessToken(accessToken)
-//                .setOAuthAccessTokenSecret(accessTokenSecret)
-//                .setTweetModeExtended(true);
-//        TwitterFactory tf = new TwitterFactory(cb.build());
-//        Twitter twitter = tf.getInstance();
-//        Query q = new Query(query);
-//        q.setCount(1); //Number of tweets to be returned, max 100
-//        QueryResult result = twitter.search(q);
-//
-//        return result.getTweets().stream()
-//                .map(item -> item.getText())
-//                .collect(Collectors.toList());
-//    }
 }
