@@ -33,7 +33,7 @@ public class MainController {
             System.out.println("No tweets were found.");
             testTweet = "No tweets were found";
         }
-        String testSentiment = sentimentCommunication.getSentiment(testTweet);
+       // String testSentiment = sentimentCommunication.getSentiment(testTweet);
 
         return new ModelAndView("demo")
                 .addObject("tweet", testTweet);
