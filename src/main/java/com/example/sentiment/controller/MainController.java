@@ -2,8 +2,8 @@ package com.example.sentiment.controller;
 
 import com.example.sentiment.apis.SentimentCommunication;
 import com.example.sentiment.apis.TwitterCommunication;
-import com.example.sentiment.entities.Documents;
-import com.example.sentiment.entities.Sentiment;
+import com.example.sentiment.pojos.Documents;
+import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.entities.SentimentQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

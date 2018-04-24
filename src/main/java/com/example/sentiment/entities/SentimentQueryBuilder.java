@@ -1,5 +1,7 @@
 package com.example.sentiment.entities;
 
+import com.example.sentiment.pojos.Documents;
+
 import java.util.List;
 
 public class SentimentQueryBuilder {
