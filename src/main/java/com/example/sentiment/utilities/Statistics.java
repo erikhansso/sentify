@@ -1,4 +1,6 @@
-package com.example.sentiment.entities;
+package com.example.sentiment.utilities;
+
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -18,11 +20,11 @@ public class Statistics {
     }
 
     // Perhaps no need for keyword as parameter? Does the object list only contain objects with same keyword?
-    public double getAverageByKeyWord(String keyword, List<StatisticsTestObject> objectList) {
+    public static double getAverageByKeyWord(String keyword, List<StatisticsTestObject> objectList) {
 
         double average;
         double totalScore = 0;
-        int objectCount = objectList.size();
+        double objectCount = objectList.size();
 
         for (StatisticsTestObject object : objectList) {
             totalScore += object.getScore();
