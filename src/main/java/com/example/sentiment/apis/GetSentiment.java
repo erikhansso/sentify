@@ -2,28 +2,21 @@ package com.example.sentiment.apis;
 
 import java.io.*;
 import java.net.*;
-import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
-import com.example.sentiment.pojos.Sentiment;
+import com.example.sentiment.pojos.Documents;
 import com.example.sentiment.pojos.SentimentResponse;
 import com.google.gson.Gson;
-import com.example.sentiment.pojos.Documents;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 
-@Component
-public class SentimentCommunication {
 
+public class GetSentiment {
 
-    @Value("${azureKey}")
-    String azureKey;
 
     static String host = "https://northeurope.api.cognitive.microsoft.com";
     static String path = "/text/analytics/v2.0/sentiment";
 
-    public List<Sentiment> getSentiment (Documents docs) throws Exception {
+    public static String getSentiment (Documents docs, String azureKey) throws Exception {
 
         String text = new Gson().toJson(docs);
 
@@ -54,8 +47,7 @@ public class SentimentCommunication {
         System.out.println("This shows entire json-string : "+sentresp.toString());
         System.out.println("This shows score for first document: "+sentresp.getDocuments().get(0).getScore());
 
-
-        return sentresp.getDocuments();
+        return response.toString();
     }
 
 
