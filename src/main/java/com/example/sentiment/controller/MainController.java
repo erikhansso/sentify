@@ -21,14 +21,14 @@ public class MainController {
     @Autowired
     SentimentCommunication sentimentCommunication;
 
-//    @GetMapping("/demo")
-//    public ModelAndView getDemo() {
-//        String testTweet = twitterCommunication.getTweets();
-//        String testSentiment = sentimentCommunication.getSentiment(testTweet);
-//        return new ModelAndView("demo")
-//                .addObject("tweet", testTweet)
-//                .addObject("sentiment", testSentiment);
-//    }
+    @GetMapping("/demo")
+    public ModelAndView getDemo() throws twitter4j.TwitterException {
+        String testTweet = twitterCommunication.getTweetByQuery("#tårta").get(0);
+        String testSentiment = sentimentCommunication.getSentiment(testTweet);
+        return new ModelAndView("demo")
+                .addObject("tweet", testTweet)
+                .addObject("sentiment", testSentiment);
+    }
 
     @GetMapping("/")
     public ModelAndView getStartPage(){
@@ -39,7 +39,6 @@ public class MainController {
     @ResponseBody
     public List<String> getTweets(@RequestParam String searchInput) throws twitter4j.TwitterException{
 
-//        String tweet = twitterCommunication.getTweetByQuery(searchInput);
         List<String> tweets = twitterCommunication.getTweetByQuery(searchInput);
        // String sentimentScore = sentimentCommunication.getSentiment(tweet);
 
