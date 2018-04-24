@@ -2,6 +2,9 @@ package com.example.sentiment.controller;
 
 import com.example.sentiment.apis.SentimentCommunication;
 import com.example.sentiment.apis.TwitterCommunication;
+import com.example.sentiment.entities.Documents;
+import com.example.sentiment.entities.Sentiment;
+import com.example.sentiment.entities.SentimentQueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +24,8 @@ public class MainController {
     TwitterCommunication twitterCommunication;
     @Autowired
     SentimentCommunication sentimentCommunication;
+
+
 
     @GetMapping("/demo")
     public ModelAndView getDemo() {
@@ -49,20 +54,26 @@ public class MainController {
     @ResponseBody
     public List<String> getTweets(@RequestParam String searchInput) {
         List<String> tweets = new ArrayList<>();
+        Documents sentimentQueryList;
+        List<Sentiment> sentimentResponse = new ArrayList<>();
         try {
             tweets = twitterCommunication.getTweetByQuery(searchInput);
+            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweets);
+            sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList);
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
             return Arrays.asList("No tweets were found.");
         }
+        catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Something went wrong with sentiment query");
+        }
 
+        for (Sentiment sentiment : sentimentResponse) {
+            System.out.println(sentiment.toString());
+        }
 
-        // String sentimentScore = sentimentCommunication.getSentiment(tweet);
-
-//        List<String> result = new ArrayList<>();
-//        result.add(tweet);
-//        result.add(sentimentScore);
         return tweets;
 
     }

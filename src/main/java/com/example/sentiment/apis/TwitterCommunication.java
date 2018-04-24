@@ -1,10 +1,15 @@
 package com.example.sentiment.apis;
 
+import com.example.sentiment.entities.Documents;
+import com.example.sentiment.entities.Sentiment;
+import com.example.sentiment.entities.SentimentQueryBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,6 +50,7 @@ public class TwitterCommunication {
 
 
     }
+
 
     // TODO: 2018-04-24 Method that returns a List of SentimentQuery objects
 //    public List<SentimentQuery> getTweetByQuery(String query) throws twitter4j.TwitterException {
