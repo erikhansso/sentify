@@ -11,8 +11,11 @@ public class Tweet {
     private Long id;
     private String handle;
     private long azureId;
+
+    @Column(length = 500)
     private String tweetText;
     private String language;
+    private String query;
     private Date createdAt;
     private String query;
     private double sentimentScore;

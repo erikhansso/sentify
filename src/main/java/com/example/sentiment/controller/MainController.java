@@ -4,8 +4,6 @@ import com.example.sentiment.apis.SentimentCommunication;
 import com.example.sentiment.apis.TwitterCommunication;
 
 import com.example.sentiment.entities.QueryEntity;
-import com.example.sentiment.entities.TestTweet;
-
 import com.example.sentiment.entities.Tweet;
 import com.example.sentiment.pojos.Documents;
 import com.example.sentiment.pojos.Sentiment;
@@ -54,24 +52,17 @@ public class MainController {
         //checks if query is already in database, commented out because row 79 doesnt work yet
 
 
-
-
-//        if (queryRepository.findByQueryText(searchInput) == null) {
-//            Query query = new Query(searchInput);
-//            queryRepository.save(query);
-//            //Following three lines are just for test purposes, can be removed when method is done
-//            List<Tweet> testTweets = new ArrayList<>();
-//            testTweets.add(new Tweet("Elin", "Hej", LocalDateTime.now(), 1, query));
-//            tweetRepository.saveAll(testTweets);
-//        } else {
-//            //if the query already exists get all tweets associated with that query
-//            Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
-//        }
-
         try {
-            //QueryEntity queryEntity = new QueryEntity(searchInput);
-            //queryRepository.save(queryEntity);
-            tweetObjects = twitterCommunication.getTweetsByQuery(searchInput);
+
+            if (queryRepository.findByQueryText(searchInput) == null) {
+                QueryEntity query = new QueryEntity(searchInput);
+                queryRepository.save(query);
+            } else {
+                //if the query already exists get all tweets associated with that query
+                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+            }
+            tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
+
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
             for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
@@ -82,6 +73,7 @@ public class MainController {
                     }
                 }
             }
+            tweetRepository.saveAll(tweetObjects);
             for (Tweet tweetObject : tweetObjects) {
                 System.out.println(tweetObject.toString());
             }
