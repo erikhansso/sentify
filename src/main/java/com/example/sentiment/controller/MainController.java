@@ -24,6 +24,7 @@ public class MainController {
 
     @GetMapping("/demo")
     public ModelAndView getDemo() {
+
         String testTweet = "";
         try {
             testTweet = twitterCommunication.getTweetByQuery("#jkflaflakl").get(0);
@@ -33,9 +34,10 @@ public class MainController {
             testTweet = "No tweets were found";
         }
         String testSentiment = sentimentCommunication.getSentiment(testTweet);
+
         return new ModelAndView("demo")
-                .addObject("tweet", testTweet)
-                .addObject("sentiment", testSentiment);
+                .addObject("tweet", testTweet);
+                //.addObject("sentiment", testSentiment);
     }
 
     @GetMapping("/")
@@ -55,11 +57,13 @@ public class MainController {
             return Arrays.asList("No tweets were found.");
         }
 
+
         // String sentimentScore = sentimentCommunication.getSentiment(tweet);
 
 //        List<String> result = new ArrayList<>();
 //        result.add(tweet);
 //        result.add(sentimentScore);
         return tweets;
+
     }
 }

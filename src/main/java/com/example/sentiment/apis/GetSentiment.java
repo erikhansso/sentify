@@ -2,39 +2,14 @@ package com.example.sentiment.apis;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import javax.net.ssl.HttpsURLConnection;
 
+import com.example.sentiment.entities.Documents;
+import com.example.sentiment.entities.Sentiment;
+import com.example.sentiment.entities.SentimentResponse;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-class sentimentQuery {
-
-    public String id, language, text;
-
-    public sentimentQuery(String id, String language, String text){
-        this.id = id;
-        this.language = language;
-        this.text = text;
-    }
-}
-
-class Documents {
-
-    public List<sentimentQuery> documents;
-
-    public Documents() {
-        this.documents = new ArrayList<>();
-    }
 
 
-
-    public void add(String id, String language, String text) {
-        this.documents.add (new sentimentQuery (id, language, text));
-    }
-}
 
 public class GetSentiment {
 
@@ -42,12 +17,9 @@ public class GetSentiment {
     static String host = "https://northeurope.api.cognitive.microsoft.com";
     static String path = "/text/analytics/v2.0/sentiment";
 
-    public static String getSentiment (String tweet, String azureKey) throws Exception {
+    public static String getSentiment (Documents docs, String azureKey) throws Exception {
 
-        Documents documents = new Documents();
-        documents.add("1", "sv", tweet);
-
-        String text = new Gson().toJson(documents);
+        String text = new Gson().toJson(docs);
 
         byte[] encoded_text = text.getBytes("UTF-8");
 
@@ -72,17 +44,13 @@ public class GetSentiment {
         }
         in.close();
 
+        SentimentResponse sentresp = new Gson().fromJson(response.toString(), SentimentResponse.class);
+        System.out.println("This shows entire json-string : "+sentresp.toString());
+        System.out.println("This shows score for first document: "+sentresp.getDocuments().get(0).getScore());
+
         return response.toString();
     }
 
-    public static String prettify(String json_text) {
-
-        JsonParser parser = new JsonParser();
-        JsonObject json = parser.parse(json_text).getAsJsonObject();
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-        return gson.toJson(json);
-    }
 
 
 }

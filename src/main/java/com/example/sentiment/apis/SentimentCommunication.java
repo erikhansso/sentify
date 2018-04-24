@@ -1,6 +1,7 @@
 package com.example.sentiment.apis;
 
 
+import com.example.sentiment.entities.Documents;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +14,12 @@ public class SentimentCommunication {
     public SentimentCommunication() {
     }
 
-    public String getSentiment(String tweet) {
+    public String getSentiment(Documents docs) {
 
         String sent = "";
 
         try {
-            sent = GetSentiment.getSentiment(tweet, azureKey);
+            sent = GetSentiment.getSentiment(docs, azureKey);
             return sent;
         } catch (Exception e) {
             e.printStackTrace();
