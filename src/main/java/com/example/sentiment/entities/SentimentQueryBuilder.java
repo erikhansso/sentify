@@ -11,7 +11,7 @@ public class SentimentQueryBuilder {
         Documents docs = new Documents();
 
         for (Tweet tweetObject : tweetObjects) {
-            docs.add(String.valueOf(tweetObject.getAzureId()), tweetObject.getLanguage(), tweetObject.getTweetText());
+            docs.add(String.valueOf(tweetObject.gettweetId()), tweetObject.getLanguage(), tweetObject.getTweetText());
         }
 
         return docs;
