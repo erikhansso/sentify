@@ -45,14 +45,14 @@ public class TwitterCommunication {
 
         Query q = new Query(query);
         q.setLang("sv");
-        q.setCount(10); //Number of tweets to be returned, max 100
+        q.setCount(2); //Number of tweets to be returned, max 100
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
 
 
         Query q2 = new Query(query);
         q2.setLang("en");
-        q2.setCount(10);
+        q2.setCount(2);
         QueryResult result2 = twitter.search(q2);
         List<Status> tweetList2 = result2.getTweets();
 
