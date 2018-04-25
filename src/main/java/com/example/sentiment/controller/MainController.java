@@ -46,6 +46,7 @@ public class MainController {
 
         List<Tweet> tweetObjects = new ArrayList<>();
         List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
+        List<Tweet> tweetObjectsSentimentFiltered = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
@@ -73,8 +74,17 @@ public class MainController {
                 }
             }
             tweetRepository.saveAll(tweetObjectsScrubbed);
-            if(tweetObjectsScrubbed.isEmpty())
+            if(tweetObjectsScrubbed.isEmpty()) {
                 System.out.println("No unique tweets not in db found for this query");
+            }
+            for (Tweet tweetObject : tweetObjects) {
+                if(tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0){
+                    tweetObjectsSentimentFiltered.add(tweetObject);
+                }
+                else{
+                    System.out.println("This tweet did not have a sentiment: "+tweetObject.toString());
+                }
+            }
 
 
         } catch (twitter4j.TwitterException e) {
@@ -87,7 +97,9 @@ public class MainController {
         }
 
 
-        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfFilteredTweets(tweetObjects));
+        System.out.println("Filtered score: "+Statistics.getAverageSentimentOfFilteredTweets(tweetObjects));
+        System.out.println("Unfiltered score: "+Statistics.getAverageSentimentOfTweets(tweetObjects));
+        return new SearchResource(tweetObjectsSentimentFiltered, Statistics.getAverageSentimentOfFilteredTweets(tweetObjects));
 
     }
 
