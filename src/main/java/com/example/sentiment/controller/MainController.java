@@ -15,11 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import twitter4j.TwitterException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class MainController {
@@ -42,25 +43,25 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
-        List<String> dummystring = new ArrayList<>();
-        List<Tweet> tweetObjects = new ArrayList<>();
+
+        List<Tweet> newTweets = new ArrayList<>();
+        List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
+        List<Tweet> tweetObjectsSentimentFiltered = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
+        List<Tweet> tweetsFromDatabase = new ArrayList<>();
 
         try {
-
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
             } else {
-                //if the query already exists get all tweets associated with that query
-//                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+                tweetsFromDatabase = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
-            tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
-
-            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
+            newTweets = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
+            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(newTweets);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
-            for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
+            for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation
                 for (Sentiment sentiment : sentimentResponse) {
                     if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
                         tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
@@ -68,16 +69,24 @@ public class MainController {
                     }
                 }
             }
-            tweetRepository.saveAll(tweetObjects);
-            for (Tweet tweetObject : tweetObjects) {
-                System.out.println(tweetObject.toString());
+            for (Tweet tweetObject : newTweets) {
+                List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
+                if(duplicateTweets.isEmpty()){
+                    tweetObjectsScrubbed.add(tweetObject);
+                }
             }
 
-            //create resource based on returned tweets and their average score to be sent to AJAX somehow
+            if(tweetObjectsScrubbed.isEmpty()) {
+                System.out.println("No unique tweets not in db found for this query");
+            }
+            for (Tweet tweetObject : tweetObjectsScrubbed) {
+                if(tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0){
+                    tweetObjectsSentimentFiltered.add(tweetObject);
+                }
+            }
+            tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
-
-
-        } catch (twitter4j.TwitterException e) {
+        } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
             return new SearchResource();
@@ -86,8 +95,13 @@ public class MainController {
             System.out.println("Something went wrong with sentiment query");
         }
 
+        List<Tweet> allTweets = Stream.concat(tweetObjectsSentimentFiltered.stream(), tweetsFromDatabase.stream())
+                .collect(Collectors.toList());
+        if(allTweets.isEmpty()){
+            return new SearchResource();
+        }
 
-        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
+        return new SearchResource(allTweets, Statistics.getAverageSentimentOfFilteredTweets(allTweets));
 
     }
 

@@ -52,11 +52,7 @@ public class SentimentCommunication {
         }
         in.close();
 
-        System.out.println("Naked response is: "+response.toString());
         SentimentResponse sentresp = new Gson().fromJson(response.toString(), SentimentResponse.class);
-        System.out.println("This shows entire json-string : "+sentresp.toString());
-        System.out.println("This shows score for first document: "+sentresp.getDocuments().get(0).getScore());
-
 
         return sentresp.getDocuments();
     }
