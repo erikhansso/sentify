@@ -7,5 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
 
     Iterable<Tweet> findByQuery(QueryEntity queryEntity);
+    Iterable<Tweet> findByTweetId(long tweetId);
 
 }
