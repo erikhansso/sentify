@@ -39,16 +39,21 @@ public class TwitterCommunication {
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
         Query q = new Query(query);
+        q.setLang("sv");
 
         q.setCount(10); //Number of tweets to be returned, max 100
 
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
         List<Tweet> tweetObjectList = new ArrayList<>();
-      //  QueryEntity queryEntityEntity = new QueryEntity(query);
+        if(tweetList.size() == 0)
+            throw new TwitterException("No tweets were found");
         for (Status status : tweetList) {
             tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
         }
+//        for (Status status : tweetList) {
+//            System.out.println("Tweeted: "+status.getText());
+//        }
         return tweetObjectList;
 
     }

@@ -41,7 +41,9 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
+
         List<Tweet> tweetObjects = new ArrayList<>();
+        List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
@@ -49,12 +51,8 @@ public class MainController {
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
-            } else {
-                //if the query already exists get all tweets associated with that query
-//                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
-            }
+            } 
             tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
-
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
             for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
@@ -65,10 +63,17 @@ public class MainController {
                     }
                 }
             }
-            tweetRepository.saveAll(tweetObjects);
             for (Tweet tweetObject : tweetObjects) {
-                System.out.println(tweetObject.toString());
+                List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
+                if(duplicateTweets.isEmpty()){
+                    tweetObjectsScrubbed.add(tweetObject);
+                }
             }
+
+            tweetRepository.saveAll(tweetObjectsScrubbed);
+            if(tweetObjectsScrubbed.isEmpty())
+                System.out.println("No unique tweets not in db found for this query");
+
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
