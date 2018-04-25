@@ -19,21 +19,36 @@ public class Tweet {
     private double sentimentScore;
 
 
-    //Foreign key to queryEntity-entity
+    //Foreign key to query-entity
     @ManyToOne
     private QueryEntity query; //this class has to contain a variable named query in order to work for some reason
+
 
     public Tweet() {
     }
 
     // Constructors
-    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity queryEntity) {
+    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity query) {
         this.azureId = azureId;
         this.tweetText = tweetText;
         this.language = language;
         this.handle = handle;
         this.createdAt = createdAt;
-        this.query = queryEntity;
+        this.query = query;
+    }
+
+    @Override
+    public String toString() {
+        return "Tweet{" +
+                "id=" + id +
+                ", handle='" + handle + '\'' +
+                ", azureId=" + azureId +
+                ", language='" + language + '\'' +
+                ", createdAt=" + createdAt +
+                ", query='" + query + '\'' +
+                ", sentimentScore=" + sentimentScore +
+                '}';
+
     }
 
     public Long getId() {
@@ -96,7 +111,9 @@ public class Tweet {
         return query;
     }
 
-    public void setQueryEntity(QueryEntity queryEntity) {
-        this.query = queryEntity;
+
+    public void setQueryEntity(QueryEntity query) {
+        this.query = query;
+
     }
 }
