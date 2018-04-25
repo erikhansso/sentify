@@ -87,8 +87,13 @@ public class MainController {
             e.printStackTrace();
             System.out.println("Something went wrong with sentiment query");
         }
+
         List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
+        if(allTweets.isEmpty()){
+            return new SearchResource();
+        }
+
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
     }
 
