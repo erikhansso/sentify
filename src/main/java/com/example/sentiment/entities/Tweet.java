@@ -10,7 +10,7 @@ public class Tweet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String handle;
-    private long azureId;
+    private long tweetId;
 
     @Column(length = 500)
     private String tweetText;
@@ -28,8 +28,8 @@ public class Tweet {
     }
 
     // Constructors
-    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity query) {
-        this.azureId = azureId;
+    public Tweet(long tweetId, String language, String tweetText, String handle, Date createdAt, QueryEntity query) {
+        this.tweetId = tweetId;
         this.tweetText = tweetText;
         this.language = language;
         this.handle = handle;
@@ -42,7 +42,7 @@ public class Tweet {
         return "Tweet{" +
                 "id=" + id +
                 ", handle='" + handle + '\'' +
-                ", azureId=" + azureId +
+                ", tweetId=" + tweetId +
                 ", language='" + language + '\'' +
                 ", createdAt=" + createdAt +
                 ", query='" + query + '\'' +
@@ -67,12 +67,12 @@ public class Tweet {
         this.handle = handle;
     }
 
-    public long getAzureId() {
-        return azureId;
+    public long gettweetId() {
+        return tweetId;
     }
 
-    public void setAzureId(long azureId) {
-        this.azureId = azureId;
+    public void settweetId(long tweetId) {
+        this.tweetId = tweetId;
     }
 
     public String getTweetText() {
