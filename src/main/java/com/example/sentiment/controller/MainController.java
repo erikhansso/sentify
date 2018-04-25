@@ -117,7 +117,6 @@ public class MainController {
             return new SearchResource();
         }
 
-        //TODO: try/catch for exception thrown by statistical method
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
 
     }
