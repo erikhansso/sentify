@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import twitter4j.TwitterException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class MainController {
@@ -42,20 +44,23 @@ public class MainController {
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
 
-        List<Tweet> tweetObjects = new ArrayList<>();
+        List<Tweet> newTweets = new ArrayList<>();
         List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
+        List<Tweet> tweetsFromDatabase = new ArrayList<>();
 
         try {
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
-            } 
-            tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
-            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
+            } else {
+                tweetsFromDatabase = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+            }
+            newTweets = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
+            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(newTweets);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
-            for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
+            for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation
                 for (Sentiment sentiment : sentimentResponse) {
                     if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
                         tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
@@ -63,7 +68,7 @@ public class MainController {
                     }
                 }
             }
-            for (Tweet tweetObject : tweetObjects) {
+            for (Tweet tweetObject : newTweets) {
                 List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
                 if(duplicateTweets.isEmpty()){
                     tweetObjectsScrubbed.add(tweetObject);
@@ -74,7 +79,7 @@ public class MainController {
             if(tweetObjectsScrubbed.isEmpty())
                 System.out.println("No unique tweets not in db found for this query");
 
-        } catch (twitter4j.TwitterException e) {
+        } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
             return new SearchResource();
@@ -82,8 +87,9 @@ public class MainController {
             e.printStackTrace();
             System.out.println("Something went wrong with sentiment query");
         }
-
-        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
+        List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
+                .collect(Collectors.toList());
+        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
     }
 
 
