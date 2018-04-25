@@ -46,12 +46,14 @@ public class TwitterCommunication {
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
         List<Tweet> tweetObjectList = new ArrayList<>();
+        if(tweetList.size() == 0)
+            throw new TwitterException("No tweets were found");
         for (Status status : tweetList) {
             tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
         }
-        for (Status status : tweetList) {
-            System.out.println("Tweeted: "+status.getText());
-        }
+//        for (Status status : tweetList) {
+//            System.out.println("Tweeted: "+status.getText());
+//        }
         return tweetObjectList;
 
     }

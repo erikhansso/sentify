@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,7 @@ public class MainController {
     public List<String> getTweets(@RequestParam String searchInput) {
         List<String> dummystring = new ArrayList<>();
         List<Tweet> tweetObjects;
+        List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
@@ -59,7 +61,6 @@ public class MainController {
 //                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
             tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
-
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(tweetObjects);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
             for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
@@ -70,9 +71,18 @@ public class MainController {
                     }
                 }
             }
-            tweetRepository.saveAll(tweetObjects);
             for (Tweet tweetObject : tweetObjects) {
-                System.out.println(tweetObject.toString());
+                List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
+                if(duplicateTweets.isEmpty()){
+                    tweetObjectsScrubbed.add(tweetObject);
+                }
+            }
+            tweetRepository.saveAll(tweetObjectsScrubbed);
+            for (Tweet tweetObject : tweetObjects) {
+                System.out.println("Original tweet objects: "+tweetObject.toString());
+            }
+            for (Tweet tweet : tweetObjectsScrubbed) {
+                System.out.println("Scrubbed tweet objects: "+tweet.toString());
             }
 
 
