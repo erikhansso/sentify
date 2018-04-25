@@ -52,9 +52,11 @@ public class MainController {
 
         try {
             if (queryRepository.findByQueryText(searchInput) == null) {
+                System.out.println("you reached line 55");
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
             } else {
+                System.out.println("you reached line 59");
                 tweetsFromDatabase = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
             System.out.println("You got to line 60");
