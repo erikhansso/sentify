@@ -46,5 +46,9 @@ var gauge = new FlexGauge({
 
     arcStrokeFg: 80,
     arcStrokeBg: 80,
+
+
+    dialValue: true,
+    dialLabel: true
 });
 
