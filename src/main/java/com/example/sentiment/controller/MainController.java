@@ -49,9 +49,6 @@ public class MainController {
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
-        //checks if query is already in database, commented out because row 79 doesnt work yet
-
-
         try {
 
             if (queryRepository.findByQueryText(searchInput) == null) {
@@ -59,7 +56,7 @@ public class MainController {
                 queryRepository.save(query);
             } else {
                 //if the query already exists get all tweets associated with that query
-                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+//                Iterable<Tweet> tweetsAlreadyInDatabase = tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
             tweetObjects = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
 
@@ -78,9 +75,6 @@ public class MainController {
                 System.out.println(tweetObject.toString());
             }
 
-            // TODO: 2018-04-24 Comment out when we got a list of tweet objects that should be added to the database
-            //Methods that will save tweet objects to database
-//            tweetRepository.saveAll(tweets);
 
 
         } catch (twitter4j.TwitterException e) {
