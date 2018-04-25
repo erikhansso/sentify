@@ -38,7 +38,7 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView getStartPage() {
-        return new ModelAndView("index");
+        return new ModelAndView("demo");
     }
 
     @PostMapping("/searchForTweets")
