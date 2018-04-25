@@ -1,5 +1,6 @@
 package com.example.sentiment.utilities;
 
+import com.example.sentiment.entities.Tweet;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,6 +32,47 @@ public class Statistics {
         }
 
         average = totalScore / objectCount;
+
+        return average;
+    }
+
+    public static double getAverageSentimentOfTweets(List<Tweet> tweets) throws IllegalArgumentException{
+        //This method does not check if tweets have a sentiment score of 0.0
+        //Could return zero if things go wrong
+        double average;
+        double sumOfSentimentScores = 0;
+        if(tweets.size() == 0){
+            throw new IllegalArgumentException("List of tweets can't be empty");
+        }
+
+        for (Tweet tweet : tweets) {
+            sumOfSentimentScores += tweet.getSentimentScore();
+        }
+
+        average = sumOfSentimentScores / tweets.size();
+
+        return average;
+    }
+    public static double getAverageSentimentOfTweetsIgnoringUnsupportLangs(List<Tweet> tweets) throws IllegalArgumentException{
+        //This method does not count tweets with a sentiment score of 0.0
+        //Could return zero if things go wrong
+        double average = 0;
+        double sumOfSentimentScores = 0;
+        int numberOfValidTweets = 0;
+        if(tweets.size() == 0){
+            throw new IllegalArgumentException("List of tweets can't be empty");
+        }
+
+        for (Tweet tweet : tweets) {
+            if(tweet.getSentimentScore() != 0.0){
+                sumOfSentimentScores += tweet.getSentimentScore();
+                numberOfValidTweets++;
+            }
+        }
+
+        if(numberOfValidTweets > 0){
+            average = sumOfSentimentScores / numberOfValidTweets;
+        }
 
         return average;
     }
