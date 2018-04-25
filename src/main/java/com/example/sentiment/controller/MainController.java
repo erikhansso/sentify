@@ -73,13 +73,13 @@ public class MainController {
             System.out.println("you reached line 73");
             for (Tweet tweetObject : newTweets) {
                 List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
-                if(duplicateTweets.isEmpty()){
+                if (duplicateTweets.isEmpty()) {
                     tweetObjectsScrubbed.add(tweetObject);
                 }
             }
             System.out.println("You reached line 80");
             tweetRepository.saveAll(tweetObjectsScrubbed);
-            if(tweetObjectsScrubbed.isEmpty())
+            if (tweetObjectsScrubbed.isEmpty())
                 System.out.println("No unique tweets not in db found for this query");
             System.out.println("you reached line 84");
 
@@ -94,8 +94,13 @@ public class MainController {
         List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
         System.out.println("You reached the last line");
-        System.out.println("allTweets is empty?"+allTweets.isEmpty());
-        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
+        System.out.println("allTweets is empty?" + allTweets.isEmpty());
+        if (allTweets.isEmpty()) {
+            return new SearchResource(allTweets, 0);
+        } else {
+
+            return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
+        }
     }
 
 
