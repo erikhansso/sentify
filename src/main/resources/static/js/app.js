@@ -1,7 +1,6 @@
 var tweetObjects = {};
 
 
-
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
 
@@ -31,6 +30,7 @@ $("#searchButton").on("click", function (e) {
                 }
             );
             $("#gauge").append("<h1>" + averageSentiment + "</h1>");
+            $("#myChart").empty();
             createScatterPlot(searchInput, result.tweets);
 
         }
@@ -92,7 +92,7 @@ var createScatterPlot = function (searchQuery, tweets) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: "+searchQuery,
+                label: "You searched for: " + searchQuery,
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
@@ -177,4 +177,77 @@ var createScatterPlot = function (searchQuery, tweets) {
     scatterChart.update();
 }
 
-createScatterPlot();
+var cleanScatter = function () {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: "You searched for: " ,
+                fill: false, //how to fill the area under the line
+                showLine: false,
+                pointStyle: "circle",
+                pointBorderColor: "#6E8C7B",
+                pointHoverBackgroundColor: "#FFFFFF",
+                backgroundColor: "#FFFFFF",
+                borderColor: "#6E8C7B",
+                pointRadius: 8,
+                pointHoverRadius: 10
+            }]
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    type: 'linear',
+                    position: 'bottom',
+                    ticks: {
+                        min: 0,
+                        max: 50,
+                        stepSize: 5
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Tweet no",
+                        fontSize: 20
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: ["rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "#8FB8A0", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)"],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Sentiment Score",
+                        fontSize: 20
+                    }
+                }],
+            },
+            tooltips: {
+                enabled: true,
+                mode: "nearest",
+                backgroundColor: "#A7D6BB",
+                titleFontFamily: "sans-serif",
+                titleFontSize: 14,
+                titleFontColor: "#6E8C7B",
+                bodyFontFamily: "sans-serif",
+                bodyFontSize: 12,
+                bodyFontColor: "#6E8C7B",
+                displayColors: false, //whether to display colored boxes in tooltip
+            },
+            title: {
+                display: true,
+                text: "Scatterplot of Tweets' Sentiment Scores",
+                fontSize: 24,
+                fontFamily: "sans-serif"
+            },
+        }
+    });
+}
+
+cleanScatter();
