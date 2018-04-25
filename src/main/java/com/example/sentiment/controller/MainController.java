@@ -94,6 +94,7 @@ public class MainController {
         List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
         System.out.println("You reached the last line");
+        System.out.println("allTweets is empty?"+allTweets.isEmpty());
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
     }
 
