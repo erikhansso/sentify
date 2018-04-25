@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
-import com.example.sentiment.entities.SentimentQuery;
 import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.pojos.SentimentResponse;
 import com.google.gson.Gson;
@@ -24,37 +23,68 @@ public class SentimentCommunication {
     static String host = "https://northeurope.api.cognitive.microsoft.com";
     static String path = "/text/analytics/v2.0/sentiment";
 
-    public List<Sentiment> getSentiment (Documents docs) throws Exception {
-
-
+    public List<Sentiment> getSentiment (Documents docs) {
         String text = new Gson().toJson(docs);
 
-        byte[] encoded_text = text.getBytes("UTF-8");
+        byte[] encoded_text = new byte[0];
+        try {
+            encoded_text = text.getBytes("UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            System.out.println("The encoding of the JSON string to query Azure with failed");
+        }
 
-        URL url = new URL(host+path);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
+        URL url = null;
+        try {
+            url = new URL(host+path);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            System.out.println("The URL to the Azure API was malformed");
+        }
+        HttpsURLConnection connection = null;
+        try {
+            connection = (HttpsURLConnection) url.openConnection();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Failed to open connection to Azure");
+        }
+        try {
+            connection.setRequestMethod("POST");
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+            System.out.println("An incorrect request method was used to send query to Azure");
+        }
         connection.setRequestProperty("Content-Type", "text/json");
         connection.setRequestProperty("Ocp-Apim-Subscription-Key", azureKey);
         connection.setDoOutput(true);
 
-        DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
-        wr.write(encoded_text, 0, encoded_text.length);
-        wr.flush();
-        wr.close();
+        try {
+            DataOutputStream wr = new DataOutputStream(connection.getOutputStream());
+            wr.write(encoded_text, 0, encoded_text.length);
+            wr.flush();
+            wr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Azure didn't accept the query");
+        }
 
         StringBuilder response = new StringBuilder ();
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
-        String line;
-        while((line = in.readLine()) != null) {
-            response.append(line);
+        try {
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            String line;
+            while((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("The handling of Azure\'s response failed");
         }
-        in.close();
 
-        SentimentResponse sentresp = new Gson().fromJson(response.toString(), SentimentResponse.class);
+        SentimentResponse sentResp = new Gson().fromJson(response.toString(), SentimentResponse.class);
 
-        return sentresp.getDocuments();
+        return sentResp.getDocuments();
     }
 
 

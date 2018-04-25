@@ -4,8 +4,6 @@ var tweetObjects = {};
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
 
-    console.log(searchInput);
-
     $.ajax({
         type: "POST",
         error: function () {
@@ -20,18 +18,18 @@ $("#searchButton").on("click", function (e) {
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
-            for (var i = 0; i < result.tweets.length; i++) {
-                $("#output").append("<p>" + result.tweets[i].tweetText + "</p>");
-            }
-            var averageSentiment = result.averageSentiment;
+            // for (var i = 0; i < result.tweets.length; i++) {
+            //     $("#output").append("<p>" + result.tweets[i].tweetText + "</p>");
+            // }
             gauge.update(
                 {
-                    arcFillPercent: averageSentiment,
+                    arcFillPercent: result.averageSentiment
                 }
             );
-            $("#gauge").append("<h1>" + averageSentiment + "</h1>");
+            $("#gauge").append("<h1>" + result.averageSentiment + "</h1>");
             $("#myChart").empty();
             createScatterPlot(searchInput, result.tweets);
+
 
         }
     });
@@ -52,7 +50,6 @@ var gauge = new FlexGauge({
 
     arcStrokeFg: 80,
     arcStrokeBg: 80,
-
 
     dialValue: true,
     dialLabel: true

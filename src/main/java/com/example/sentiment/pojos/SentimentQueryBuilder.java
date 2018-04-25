@@ -1,5 +1,6 @@
-package com.example.sentiment.entities;
+package com.example.sentiment.pojos;
 
+import com.example.sentiment.entities.Tweet;
 import com.example.sentiment.pojos.Documents;
 
 import java.util.List;
