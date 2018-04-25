@@ -21,7 +21,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,6 +62,7 @@ public class MainController {
         List<Sentiment> sentimentResponse = new ArrayList<>();
         //Tweets matching searchInput already in DB
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
+        Map<Long, Double> idToSentiment = new HashMap<>();
 
 
             //check if query has been done before and old tweets exist in DB
@@ -84,13 +87,17 @@ public class MainController {
                 //call Azure API
                 sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
                 //Setting sentiment score of all new tweets from the Azure results
-                for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation, maybe hashmap?
-                    for (Sentiment sentiment : sentimentResponse) {
-                        if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
-                            tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
-                            break;
-                        }
-                    }
+
+                for (Tweet uniqueTweet : uniqueTweets) {
+                    idToSentiment.put(uniqueTweet.gettweetId(), 0.0);
+                }
+
+                for (Sentiment sentiment : sentimentResponse) {
+                    idToSentiment.put(Long.parseLong(sentiment.getId()), Double.parseDouble(sentiment.getScore()));
+                }
+
+                for (Tweet uniqueTweet : uniqueTweets) {
+                    uniqueTweet.setSentimentScore(idToSentiment.get(uniqueTweet.gettweetId()));
                 }
                 //remove tweets with invalid sentiment scores
                 for (Tweet tweetObject : uniqueTweets) {
@@ -98,6 +105,9 @@ public class MainController {
                         tweetObjectsSentimentFiltered.add(tweetObject);
                     }
                 }
+
+
+
                 //save all unique tweets with valid sentiment score
                 tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
