@@ -1,57 +1,88 @@
 package com.example.sentiment.entities;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
 public class Tweet {
 
-    // Fields
-    private long id;
-    private String user;
-    private String text;
-    private Date date;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String handle;
+    private long azureId;
+
+    @Column(length = 500)
+    private String tweetText;
+    private String language;
+    private String query;
+    private Date createdAt;
     private double sentimentScore;
 
-    // Constructors
-    public Tweet(long id, String user, String text, Date date, double sentimentScore) {
 
-        this.id = id;
-        this.user = user;
-        this.text = text;
-        this.date = date;
-        this.sentimentScore = sentimentScore;
+    //Foreign key to queryEntity-entity
+    @ManyToOne
+    private QueryEntity queryEntity;
+
+    public Tweet() {
     }
 
-    // Getters & Setters
-    public long getId() {
+    // Constructors
+    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity queryEntity) {
+        this.azureId = azureId;
+        this.tweetText = tweetText;
+        this.language = language;
+        this.handle = handle;
+        this.createdAt = createdAt;
+        this.queryEntity = queryEntity;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getUser() {
-        return user;
+    public String getHandle() {
+        return handle;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setHandle(String handle) {
+        this.handle = handle;
     }
 
-    public String getText() {
-        return text;
+    public long getAzureId() {
+        return azureId;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setAzureId(long azureId) {
+        this.azureId = azureId;
     }
 
-    public Date getDate() {
-        return date;
+    public String getTweetText() {
+        return tweetText;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTweetText(String tweetText) {
+        this.tweetText = tweetText;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public double getSentimentScore() {
@@ -60,5 +91,13 @@ public class Tweet {
 
     public void setSentimentScore(double sentimentScore) {
         this.sentimentScore = sentimentScore;
+    }
+
+    public QueryEntity getQueryEntity() {
+        return queryEntity;
+    }
+
+    public void setQueryEntity(QueryEntity queryEntity) {
+        this.queryEntity = queryEntity;
     }
 }
