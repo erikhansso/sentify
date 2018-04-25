@@ -41,9 +41,9 @@ public class MainController {
 
     @PostMapping("/searchForTweets")
     @ResponseBody
-    public List<String> getTweets(@RequestParam String searchInput) {
+    public SearchResource getTweets(@RequestParam String searchInput) {
         List<String> dummystring = new ArrayList<>();
-        List<Tweet> tweetObjects;
+        List<Tweet> tweetObjects = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
@@ -74,20 +74,20 @@ public class MainController {
             }
 
             //create resource based on returned tweets and their average score to be sent to AJAX somehow
-            SearchResource resource = new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
+
 
 
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
-            return Arrays.asList("No tweets were found.");
+            return new SearchResource();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Something went wrong with sentiment query");
         }
 
 
-        return dummystring;
+        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
 
     }
 
