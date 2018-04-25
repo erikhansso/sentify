@@ -57,9 +57,11 @@ public class MainController {
             } else {
                 tweetsFromDatabase = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
+            System.out.println("You got to line 60");
             newTweets = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(newTweets);
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
+            System.out.println("You reached line 64");
             for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation
                 for (Sentiment sentiment : sentimentResponse) {
                     if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
@@ -68,16 +70,18 @@ public class MainController {
                     }
                 }
             }
+            System.out.println("you reached line 73");
             for (Tweet tweetObject : newTweets) {
                 List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
                 if(duplicateTweets.isEmpty()){
                     tweetObjectsScrubbed.add(tweetObject);
                 }
             }
-
+            System.out.println("You reached line 80");
             tweetRepository.saveAll(tweetObjectsScrubbed);
             if(tweetObjectsScrubbed.isEmpty())
                 System.out.println("No unique tweets not in db found for this query");
+            System.out.println("you reached line 84");
 
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -89,6 +93,7 @@ public class MainController {
         }
         List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
+        System.out.println("You reached the last line");
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
     }
 
