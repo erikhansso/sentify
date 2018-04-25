@@ -61,7 +61,7 @@ public class MainController {
         //Tweets matching searchInput already in DB
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
 
-        try {
+
             //check if query has been done before and old tweets exist in DB
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
@@ -102,12 +102,6 @@ public class MainController {
                 tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
             }
-
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            System.out.println("No tweets were found for query: " + searchInput);
-            return new SearchResource();
-        }
 
 
         //Add lists of tweets from DB and filtered new tweets together
