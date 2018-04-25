@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,13 +41,11 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
-        List<String> dummystring = new ArrayList<>();
         List<Tweet> tweetObjects = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
 
         try {
-
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
@@ -72,11 +69,6 @@ public class MainController {
             for (Tweet tweetObject : tweetObjects) {
                 System.out.println(tweetObject.toString());
             }
-
-            //create resource based on returned tweets and their average score to be sent to AJAX somehow
-
-
-
         } catch (twitter4j.TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
@@ -86,9 +78,7 @@ public class MainController {
             System.out.println("Something went wrong with sentiment query");
         }
 
-
         return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
-
     }
 
 
