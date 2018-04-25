@@ -43,7 +43,6 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
-        List<String> dummystring = new ArrayList<>();
 
         List<Tweet> tweetObjects = new ArrayList<>();
         List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
@@ -88,7 +87,7 @@ public class MainController {
         }
 
 
-        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfTweets(tweetObjects));
+        return new SearchResource(tweetObjects, Statistics.getAverageSentimentOfFilteredTweets(tweetObjects));
 
     }
 

@@ -29,6 +29,10 @@ public class TwitterCommunication {
     }
 
     public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity) throws twitter4j.TwitterException {
+
+
+        List<Tweet> tweetObjectList = new ArrayList<>();
+
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true)
                 .setOAuthConsumerKey(consumerKey)
@@ -38,22 +42,32 @@ public class TwitterCommunication {
                 .setTweetModeExtended(true);
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
+
         Query q = new Query(query);
         q.setLang("sv");
-
-        q.setCount(10); //Number of tweets to be returned, max 100
-
+        q.setCount(100); //Number of tweets to be returned, max 100
         QueryResult result = twitter.search(q);
         List<Status> tweetList = result.getTweets();
-        List<Tweet> tweetObjectList = new ArrayList<>();
-        if(tweetList.size() == 0)
+
+
+        Query q2 = new Query(query);
+        q2.setLang("en");
+        q2.setCount(100);
+        QueryResult result2 = twitter.search(q2);
+        List<Status> tweetList2 = result2.getTweets();
+
+
+        if(tweetList.size() == 0 && tweetList2.size() == 0)
             throw new TwitterException("No tweets were found");
+
         for (Status status : tweetList) {
             tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
         }
-//        for (Status status : tweetList) {
-//            System.out.println("Tweeted: "+status.getText());
-//        }
+
+        for (Status status : tweetList2) {
+            tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
+        }
+
         return tweetObjectList;
 
     }
