@@ -179,7 +179,7 @@ var createScatterPlot = function (searchQuery, tweets) {
 
 var cleanScatter = function () {
     var ctx = document.getElementById('myChart').getContext('2d');
-    new Chart(ctx, {
+    var emptyScatter = new Chart(ctx, {
         type: 'scatter',
         data: {
             datasets: [{
@@ -191,8 +191,8 @@ var cleanScatter = function () {
                 pointHoverBackgroundColor: "#FFFFFF",
                 backgroundColor: "#FFFFFF",
                 borderColor: "#6E8C7B",
-                pointRadius: 8,
-                pointHoverRadius: 10
+                pointRadius: 4,
+                pointHoverRadius: 6
             }]
         },
         options: {

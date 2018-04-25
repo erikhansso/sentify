@@ -18,3 +18,9 @@
     /*margin-bottom: 200px;*/
     /*!*width: 100%;*!*/
 /*}*/
+
+
+#scatterChartContainer {
+    height: 90vh;
+    width: 70vw;
+}
