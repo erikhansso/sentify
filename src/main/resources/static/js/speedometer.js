@@ -25,6 +25,7 @@
             });
         },
         updateGauge: function (el) {
+            var el = 0.75;
             Gauge.prototype.initParams();
             var percentage = el.data('percentage');
             percentage = (percentage > 100) ? 100 : (percentage < 0) ? 0 : percentage;
@@ -44,3 +45,15 @@
     }
 
 })(jQuery, window, document);
+
+$('#gaugeDemo .gauge-arrow').trigger('updateGauge', 25);
+
+
+// $(function () {
+//     $("button").click(function () {
+//         var randomNum = Math.floor((Math.random() * 100));
+//         $('#gaugeDemo .gauge-arrow').trigger('updateGauge', randomNum);
+//     });
+//
+//     $('#gaugeDemo .gauge-arrow').cmGauge();
+// });
