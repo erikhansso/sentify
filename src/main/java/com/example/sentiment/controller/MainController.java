@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import twitter4j.TwitterException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -48,7 +51,7 @@ public class MainController {
         //Tweets from twitter api
         List<Tweet> newTweets = new ArrayList<>();
         //Tweets that are not already in DB
-        List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
+        List<Tweet> uniqueTweets = new ArrayList<>();
         //Tweets with valid sentiment score
         List<Tweet> tweetObjectsSentimentFiltered = new ArrayList<>();
         //Needed by Azure API query
@@ -68,46 +71,44 @@ public class MainController {
             }
             //call twitter API
             newTweets = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
-            sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(newTweets);
-            //call Azure API
-            sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
-            //Setting sentiment score of all new tweets from the Azure results
-            for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation, maybe hashmap?
-                for (Sentiment sentiment : sentimentResponse) {
-                    if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
-                        tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
-                        break;
-                    }
-                }
-            }
             //checks for duplicate tweets in DB, only allows unique tweets
             for (Tweet tweetObject : newTweets) {
                 List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
                 if(duplicateTweets.isEmpty()){
-                    tweetObjectsScrubbed.add(tweetObject);
+                    uniqueTweets.add(tweetObject);
                 }
             }
+            if(!uniqueTweets.isEmpty()) { //Only send unique tweets for sentiment query
 
-            if(tweetObjectsScrubbed.isEmpty()) {
-                System.out.println("No unique tweets not in db found for this query");
-            }
-            //remove tweets with invalid sentiment scores
-            for (Tweet tweetObject : tweetObjectsScrubbed) {
-                if(tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0){
-                    tweetObjectsSentimentFiltered.add(tweetObject);
+                sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(uniqueTweets);
+                //call Azure API
+                sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
+                //Setting sentiment score of all new tweets from the Azure results
+                for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation, maybe hashmap?
+                    for (Sentiment sentiment : sentimentResponse) {
+                        if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
+                            tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
+                            break;
+                        }
+                    }
                 }
+                //remove tweets with invalid sentiment scores
+                for (Tweet tweetObject : uniqueTweets) {
+                    if (tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0) {
+                        tweetObjectsSentimentFiltered.add(tweetObject);
+                    }
+                }
+                //save all unique tweets with valid sentiment score
+                tweetRepository.saveAll(tweetObjectsSentimentFiltered);
+
             }
-            //save all unique tweets with valid sentiment score
-            tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
         } catch (TwitterException e) {
             e.printStackTrace();
             System.out.println("No tweets were found for query: " + searchInput);
             return new SearchResource();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Something went wrong with sentiment query");
         }
+
 
         //Add lists of tweets from DB and filtered new tweets together
         List<Tweet> allTweets = Stream.concat(tweetObjectsSentimentFiltered.stream(), tweetsFromDatabase.stream())
