@@ -27,12 +27,6 @@ public class SentimentCommunication {
     public List<Sentiment> getSentiment (Documents docs) throws Exception {
 
 
-//        for (SentimentQuery query : docs.documents) {
-//            System.out.println("Id is: "+query.id);
-//            System.out.println("Language is: "+query.language);
-//            System.out.println("Text is: "+query.text);
-//        }
-
         String text = new Gson().toJson(docs);
 
         byte[] encoded_text = text.getBytes("UTF-8");
