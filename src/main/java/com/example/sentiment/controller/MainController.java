@@ -46,6 +46,7 @@ public class MainController {
 
         List<Tweet> newTweets = new ArrayList<>();
         List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
+        List<Tweet> tweetObjectsSentimentFiltered = new ArrayList<>();
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
@@ -75,9 +76,15 @@ public class MainController {
                 }
             }
 
-            tweetRepository.saveAll(tweetObjectsScrubbed);
-            if(tweetObjectsScrubbed.isEmpty())
+            if(tweetObjectsScrubbed.isEmpty()) {
                 System.out.println("No unique tweets not in db found for this query");
+            }
+            for (Tweet tweetObject : tweetObjectsScrubbed) {
+                if(tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0){
+                    tweetObjectsSentimentFiltered.add(tweetObject);
+                }
+            }
+            tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
         } catch (TwitterException e) {
             e.printStackTrace();
@@ -88,13 +95,14 @@ public class MainController {
             System.out.println("Something went wrong with sentiment query");
         }
 
-        List<Tweet> allTweets = Stream.concat(newTweets.stream(), tweetsFromDatabase.stream())
+        List<Tweet> allTweets = Stream.concat(tweetObjectsSentimentFiltered.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
         if(allTweets.isEmpty()){
             return new SearchResource();
         }
 
-        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
+        return new SearchResource(allTweets, Statistics.getAverageSentimentOfFilteredTweets(allTweets));
+
     }
 
 

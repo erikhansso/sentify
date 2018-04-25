@@ -53,9 +53,9 @@ public class Statistics {
 
         return average;
     }
-    public static double getAverageSentimentOfTweetsIgnoringUnsupportLangs(List<Tweet> tweets) throws IllegalArgumentException{
-        //This method does not count tweets with a sentiment score of 0.0
-        //Could return zero if things go wrong
+    public static double getAverageSentimentOfFilteredTweets(List<Tweet> tweets) throws IllegalArgumentException{
+        // This method does not count tweets with a sentiment score of 0.0 (errors)
+        // or tweets with a sentiment score of 0.5 (not analyzed for sentiment)
         double average = 0;
         double sumOfSentimentScores = 0;
         int numberOfValidTweets = 0;
@@ -64,7 +64,7 @@ public class Statistics {
         }
 
         for (Tweet tweet : tweets) {
-            if(tweet.getSentimentScore() != 0.0){
+            if(tweet.getSentimentScore() != 0.0 && tweet.getSentimentScore() != 0.5){
                 sumOfSentimentScores += tweet.getSentimentScore();
                 numberOfValidTweets++;
             }
