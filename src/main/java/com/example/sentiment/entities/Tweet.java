@@ -21,7 +21,8 @@ public class Tweet {
 
     //Foreign key to query-entity
     @ManyToOne
-    private QueryEntity query;
+    private QueryEntity query; //this class has to contain a variable named query in order to work for some reason
+
 
     public Tweet() {
     }
@@ -47,6 +48,7 @@ public class Tweet {
                 ", query='" + query + '\'' +
                 ", sentimentScore=" + sentimentScore +
                 '}';
+
     }
 
     public Long getId() {
@@ -109,7 +111,9 @@ public class Tweet {
         return query;
     }
 
+
     public void setQueryEntity(QueryEntity query) {
         this.query = query;
+
     }
 }
