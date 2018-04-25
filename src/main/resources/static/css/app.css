@@ -1,4 +1,13 @@
 /** these classes are pre-generated **/
+:root {
+    /*Use these five color variables, comes from our palette!*/
+    --main-bg-color: white;
+    --main-contrast-color: #87524F;
+    --main-color: #8FB8A0;
+    --main-color-light: #A7D6BB;
+    --main-color-dark: #6E8C7B;
+}
+
 .fg-dial {
     font-size: 200%;
     font-weight: bold;
@@ -30,7 +39,7 @@
 
 .menu-hover-lines li a {
     padding: 0.75rem 0;
-    color: rgba(10, 10, 10, 0.5);
+    color: var(--main-contrast-color);
     position: relative;
     margin-left: 1rem;
 }
@@ -49,7 +58,7 @@
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color: #1779ba;
+    background-color: var(--main-contrast-color);
     width: 0;
 }
 
@@ -74,5 +83,9 @@
 .menu-hover-lines a:hover::after,
 .menu-hover-lines .active a::after {
     width: 100%;
+}
+
+.top-bar, .top-bar li {
+    background-color: var(--main-color-light);
 }
 
