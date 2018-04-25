@@ -1,4 +1,4 @@
-package com.example.sentiment.entities;
+package com.example.sentiment.pojos;
 
 public class SentimentQuery {
 

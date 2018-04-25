@@ -29,7 +29,7 @@ public class TwitterCommunication {
     }
 
     public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity) throws twitter4j.TwitterException {
-
+        //TODO: check if possible to refactor, very long
 
         List<Tweet> tweetObjectList = new ArrayList<>();
 
@@ -57,7 +57,7 @@ public class TwitterCommunication {
         List<Status> tweetList2 = result2.getTweets();
 
 
-        if(tweetList.size() == 0 && tweetList2.size() == 0)
+        if (tweetList.size() == 0 && tweetList2.size() == 0)
             throw new TwitterException("No tweets were found");
 
         for (Status status : tweetList) {

@@ -6,7 +6,7 @@ import com.example.sentiment.apis.TwitterCommunication;
 import com.example.sentiment.entities.*;
 import com.example.sentiment.pojos.*;
 import com.example.sentiment.utilities.*;
-import com.example.sentiment.entities.SentimentQueryBuilder;
+import com.example.sentiment.pojos.SentimentQueryBuilder;
 import com.example.sentiment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,25 +43,36 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
+        //TODO: broken up into helper methods
 
+        //Tweets from twitter api
         List<Tweet> newTweets = new ArrayList<>();
+        //Tweets that are not already in DB
         List<Tweet> tweetObjectsScrubbed = new ArrayList<>();
+        //Tweets with valid sentiment score
         List<Tweet> tweetObjectsSentimentFiltered = new ArrayList<>();
+        //Needed by Azure API query
         Documents sentimentQueryList;
+        //Response from Azure
         List<Sentiment> sentimentResponse = new ArrayList<>();
+        //Tweets matching searchInput already in DB
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
 
         try {
+            //check if query has been done before and old tweets exist in DB
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
                 queryRepository.save(query);
             } else {
                 tweetsFromDatabase = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
             }
+            //call twitter API
             newTweets = twitterCommunication.getTweetsByQuery(searchInput, queryRepository.findByQueryText(searchInput));
             sentimentQueryList = SentimentQueryBuilder.buildSentimentQueries(newTweets);
+            //call Azure API
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
-            for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation
+            //Setting sentiment score of all new tweets from the Azure results
+            for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation, maybe hashmap?
                 for (Sentiment sentiment : sentimentResponse) {
                     if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
                         tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
@@ -69,6 +80,7 @@ public class MainController {
                     }
                 }
             }
+            //checks for duplicate tweets in DB, only allows unique tweets
             for (Tweet tweetObject : newTweets) {
                 List<Tweet> duplicateTweets = (List) tweetRepository.findByTweetId(tweetObject.gettweetId());
                 if(duplicateTweets.isEmpty()){
@@ -79,11 +91,13 @@ public class MainController {
             if(tweetObjectsScrubbed.isEmpty()) {
                 System.out.println("No unique tweets not in db found for this query");
             }
+            //remove tweets with invalid sentiment scores
             for (Tweet tweetObject : tweetObjectsScrubbed) {
                 if(tweetObject.getSentimentScore() != 0.5 && tweetObject.getSentimentScore() != 0.0){
                     tweetObjectsSentimentFiltered.add(tweetObject);
                 }
             }
+            //save all unique tweets with valid sentiment score
             tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
         } catch (TwitterException e) {
@@ -95,13 +109,15 @@ public class MainController {
             System.out.println("Something went wrong with sentiment query");
         }
 
+        //Add lists of tweets from DB and filtered new tweets together
         List<Tweet> allTweets = Stream.concat(tweetObjectsSentimentFiltered.stream(), tweetsFromDatabase.stream())
                 .collect(Collectors.toList());
         if(allTweets.isEmpty()){
             return new SearchResource();
         }
 
-        return new SearchResource(allTweets, Statistics.getAverageSentimentOfFilteredTweets(allTweets));
+        //TODO: try/catch for exception thrown by statistical method
+        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
 
     }
 
