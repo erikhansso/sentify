@@ -6,7 +6,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface TweetRepository extends CrudRepository<Tweet, Long> {
 
-    //Not sure if this works, testing is possible when we have a list of tweet objects in maincontroller
     Iterable<Tweet> findByQuery(QueryEntity queryEntity);
 
 }

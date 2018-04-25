@@ -15,14 +15,13 @@ public class Tweet {
     @Column(length = 500)
     private String tweetText;
     private String language;
-    private String query;
     private Date createdAt;
     private double sentimentScore;
 
 
     //Foreign key to queryEntity-entity
     @ManyToOne
-    private QueryEntity queryEntity;
+    private QueryEntity query; //this class has to contain a variable named query in order to work for some reason
 
     public Tweet() {
     }
@@ -34,7 +33,7 @@ public class Tweet {
         this.language = language;
         this.handle = handle;
         this.createdAt = createdAt;
-        this.queryEntity = queryEntity;
+        this.query = queryEntity;
     }
 
     public Long getId() {
@@ -94,10 +93,10 @@ public class Tweet {
     }
 
     public QueryEntity getQueryEntity() {
-        return queryEntity;
+        return query;
     }
 
     public void setQueryEntity(QueryEntity queryEntity) {
-        this.queryEntity = queryEntity;
+        this.query = queryEntity;
     }
 }
