@@ -64,7 +64,7 @@ public class MainController {
             sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
             for (Tweet tweetObject : tweetObjects) { // TODO: Refactor to more efficient implementation
                 for (Sentiment sentiment : sentimentResponse) {
-                    if(sentiment.getId().equals(String.valueOf(tweetObject.getAzureId()))){
+                    if(sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))){
                         tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
                         break;
                     }
