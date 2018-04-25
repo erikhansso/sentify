@@ -20,3 +20,21 @@ $("#searchButton").on("click", function (e) {
         }
     });
 });
+
+//Creates a new gauge and appends it to the #demo-tag
+var gauge = new FlexGauge({
+    appendTo: '#demo',
+
+    //Sizes of the canvas element
+    elementWidth: 800,
+    elementHeight: 800,
+
+    arcSize: 200,
+    arcFillStart: 90,
+    arcAngleStart: 1,
+    arcAngleEnd: 2,
+
+    arcStrokeFg: 80,
+    arcStrokeBg: 80,
+});
+
