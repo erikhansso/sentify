@@ -28,7 +28,7 @@ public class TwitterCommunication {
     public TwitterCommunication() {
     }
 
-    public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity) throws twitter4j.TwitterException {
+    public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity){
         //TODO: check if possible to refactor, very long
 
         List<Tweet> tweetObjectList = new ArrayList<>();
@@ -46,19 +46,23 @@ public class TwitterCommunication {
         Query q = new Query(query);
         q.setLang("sv");
         q.setCount(10); //Number of tweets to be returned, max 100
-        QueryResult result = twitter.search(q);
-        List<Status> tweetList = result.getTweets();
-
-
         Query q2 = new Query(query);
         q2.setLang("en");
         q2.setCount(10);
-        QueryResult result2 = twitter.search(q2);
+        QueryResult result = null;
+        QueryResult result2 = null;
+        try {
+            result = twitter.search(q);
+            result2 = twitter.search(q2);
+        } catch (TwitterException e) {
+            System.out.println("The query against Twitter API threw an exception");
+            e.printStackTrace();
+        }
+        List<Status> tweetList = result.getTweets();
         List<Status> tweetList2 = result2.getTweets();
 
-
         if (tweetList.size() == 0 && tweetList2.size() == 0)
-            throw new TwitterException("No tweets were found");
+            return tweetObjectList;
 
         for (Status status : tweetList) {
             tweetObjectList.add(new Tweet(status.getId(), status.getLang(), status.getText(), status.getUser().getScreenName(), status.getCreatedAt(), queryEntity));
