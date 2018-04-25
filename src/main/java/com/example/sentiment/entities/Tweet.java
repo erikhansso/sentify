@@ -15,27 +15,25 @@ public class Tweet {
     @Column(length = 500)
     private String tweetText;
     private String language;
-    private String query;
     private Date createdAt;
-    private String query;
     private double sentimentScore;
 
 
-    //Foreign key to queryEntity-entity
+    //Foreign key to query-entity
     @ManyToOne
-    private QueryEntity queryEntity;
+    private QueryEntity query;
 
     public Tweet() {
     }
 
     // Constructors
-    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity queryEntity) {
+    public Tweet(long azureId, String language, String tweetText, String handle, Date createdAt, QueryEntity query) {
         this.azureId = azureId;
         this.tweetText = tweetText;
         this.language = language;
         this.handle = handle;
         this.createdAt = createdAt;
-        this.queryEntity = queryEntity;
+        this.query = query;
     }
 
     @Override
@@ -108,10 +106,10 @@ public class Tweet {
     }
 
     public QueryEntity getQueryEntity() {
-        return queryEntity;
+        return query;
     }
 
-    public void setQueryEntity(QueryEntity queryEntity) {
-        this.queryEntity = queryEntity;
+    public void setQueryEntity(QueryEntity query) {
+        this.query = query;
     }
 }
