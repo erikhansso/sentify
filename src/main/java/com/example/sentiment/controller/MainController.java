@@ -49,7 +49,7 @@ public class MainController {
         Documents sentimentQueryList;
         List<Sentiment> sentimentResponse = new ArrayList<>();
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
-
+        System.out.println("You reached line 52");
         try {
             if (queryRepository.findByQueryText(searchInput) == null) {
                 System.out.println("you reached line 55");
