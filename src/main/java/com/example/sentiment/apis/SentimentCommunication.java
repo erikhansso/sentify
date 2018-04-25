@@ -5,7 +5,6 @@ import java.net.*;
 import java.util.List;
 import javax.net.ssl.HttpsURLConnection;
 
-import com.example.sentiment.entities.SentimentQuery;
 import com.example.sentiment.pojos.Sentiment;
 import com.example.sentiment.pojos.SentimentResponse;
 import com.google.gson.Gson;
@@ -25,8 +24,6 @@ public class SentimentCommunication {
     static String path = "/text/analytics/v2.0/sentiment";
 
     public List<Sentiment> getSentiment (Documents docs) throws Exception {
-
-
         String text = new Gson().toJson(docs);
 
         byte[] encoded_text = text.getBytes("UTF-8");
@@ -52,9 +49,9 @@ public class SentimentCommunication {
         }
         in.close();
 
-        SentimentResponse sentresp = new Gson().fromJson(response.toString(), SentimentResponse.class);
+        SentimentResponse sentResp = new Gson().fromJson(response.toString(), SentimentResponse.class);
 
-        return sentresp.getDocuments();
+        return sentResp.getDocuments();
     }
 
 
