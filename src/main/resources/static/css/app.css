@@ -120,7 +120,8 @@ p, a {
     width: 50%;
 }
 
-canvas {
+
+#gaugeCanvas {
     display: block;
     width: 80vw;
     padding-top: 100%;
