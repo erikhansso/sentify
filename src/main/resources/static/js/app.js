@@ -261,8 +261,7 @@ var cleanScatter = function () {
     });
 }
 
-
-var maxTooltipLength = 50;
+var maxTooltipLength = 50; //possibly refactor this global variable
 
 var wordsToArray = function (words) {
     var lines = [];
@@ -297,4 +296,5 @@ var otherLabels = function (tooltipItem, data) {
 }
 
 cleanScatter();
+
 
