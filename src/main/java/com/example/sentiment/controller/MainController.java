@@ -10,6 +10,7 @@ import com.example.sentiment.pojos.SentimentQueryBuilder;
 import com.example.sentiment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import twitter4j.TwitterException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +43,11 @@ public class MainController {
         return new ModelAndView("demo");
     }
 
+    @GetMapping("/scatter")
+    public ModelAndView getScatterPlot(){
+        return new ModelAndView("scatter");
+    }
+
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
@@ -57,8 +65,9 @@ public class MainController {
         List<Sentiment> sentimentResponse = new ArrayList<>();
         //Tweets matching searchInput already in DB
         List<Tweet> tweetsFromDatabase = new ArrayList<>();
+        Map<Long, Double> idToSentiment = new HashMap<>();
 
-        try {
+
             //check if query has been done before and old tweets exist in DB
             if (queryRepository.findByQueryText(searchInput) == null) {
                 QueryEntity query = new QueryEntity(searchInput);
@@ -81,13 +90,17 @@ public class MainController {
                 //call Azure API
                 sentimentResponse = sentimentCommunication.getSentiment(sentimentQueryList).stream().collect(Collectors.toList());
                 //Setting sentiment score of all new tweets from the Azure results
-                for (Tweet tweetObject : newTweets) { // TODO: Refactor to more efficient implementation, maybe hashmap?
-                    for (Sentiment sentiment : sentimentResponse) {
-                        if (sentiment.getId().equals(String.valueOf(tweetObject.gettweetId()))) {
-                            tweetObject.setSentimentScore(Double.parseDouble(sentiment.getScore()));
-                            break;
-                        }
-                    }
+
+                for (Tweet uniqueTweet : uniqueTweets) {
+                    idToSentiment.put(uniqueTweet.gettweetId(), 0.0);
+                }
+
+                for (Sentiment sentiment : sentimentResponse) {
+                    idToSentiment.put(Long.parseLong(sentiment.getId()), Double.parseDouble(sentiment.getScore()));
+                }
+
+                for (Tweet uniqueTweet : uniqueTweets) {
+                    uniqueTweet.setSentimentScore(idToSentiment.get(uniqueTweet.gettweetId()));
                 }
                 //remove tweets with invalid sentiment scores
                 for (Tweet tweetObject : uniqueTweets) {
@@ -95,16 +108,13 @@ public class MainController {
                         tweetObjectsSentimentFiltered.add(tweetObject);
                     }
                 }
+
+
+
                 //save all unique tweets with valid sentiment score
                 tweetRepository.saveAll(tweetObjectsSentimentFiltered);
 
             }
-
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            System.out.println("No tweets were found for query: " + searchInput);
-            return new SearchResource();
-        }
 
 
         //Add lists of tweets from DB and filtered new tweets together
@@ -114,7 +124,6 @@ public class MainController {
             return new SearchResource();
         }
 
-        //TODO: try/catch for exception thrown by statistical method
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
 
     }
