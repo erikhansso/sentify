@@ -46,7 +46,9 @@
 
 <div class="maindisplay">
     <div class="input-group">
-        <input id="searchTweetInput" class="input-group-field" type="text" name="input"/>
+
+        <input id="searchTweetInput" class="input-group-field" type="text" name="input" placeholder="#Search for tweets"/>
+
         <div class="input-group-button">
             <input id="searchButton" type="submit" class="button" value="Search">
 
@@ -70,7 +72,7 @@
 
                 <div class="tabs-content" data-tabs-content="example-tabs">
                     <div class="tabs-panel is-active" id="panel1">
-                        <h2>Current average sentiment</h2>
+                        <h4>Current average sentiment</h4>
                         <div id="gauge">
                         </div>
                         <div class="statArea">
@@ -86,13 +88,13 @@
                         </div>
                     </div>
                     <div class="tabs-panel" id="panel2">
-                        <h2>Opinion of latest tweets</h2>
+                        <h4>Opinion of latest tweets</h4>
                         <div id="scatterChartContainer">
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
                     <div class="tabs-panel" id="panel3">
-                        <h2>Placeholder</h2>
+                        <h4>Placeholder</h4>
                     </div>
                 </div>
             </div>

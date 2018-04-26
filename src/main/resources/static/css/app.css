@@ -56,6 +56,12 @@
     z-index: 10;
 }
 
+h4 {
+
+    font-size: 2vw;
+    text-align: center;
+}
+
 
 #gauge {
     max-width: 600px;
@@ -174,6 +180,7 @@ p, a {
     margin-bottom: 2vw;
     width: 50vw;
     max-width: 50vw;
+    border-radius: 3px;
 }
 
 .small-6 {
