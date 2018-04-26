@@ -75,7 +75,7 @@ var gauge = new FlexGauge({
         //value from 0 to 1
         value = 0.5;
         var hue=((1-(Math.abs(value-1)))*120).toString(10);
-        return ["hsl(",hue,",100%,50%)"].join("");
+        return ["hsl(",hue,",65%,65%)"].join("");
     },
 
     dialValue: true,
@@ -85,7 +85,7 @@ var gauge = new FlexGauge({
 var getColor = function(value){
     //value from 0 to 1
     var hue=((1-(Math.abs(value-1)))*120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
+    return ["hsl(",hue,",65%,65%)"].join("");
 }
 
 //changes cursor to show that something is loading while waiting for AJAX
