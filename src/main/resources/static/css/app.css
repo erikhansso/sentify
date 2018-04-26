@@ -16,10 +16,12 @@
 
 
 #gauge {
-    /*width: 400px;*/
-    /*height: 300px;*/
     max-width: 600px;
     max-height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .fg-dial {
@@ -37,7 +39,6 @@
     font-size: 200%;
     font-weight: bold;
     left: 100px;
-    position: absolute;
     text-align: center;
     top: 250px;
 }
@@ -169,7 +170,6 @@ p, a {
     height: 90vh;
     width: 55vw;
 }
-
 
 #gaugeCanvas {
     max-width: 40vw;
