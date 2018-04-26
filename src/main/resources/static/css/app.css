@@ -9,10 +9,12 @@
 }
 
 #gauge {
-    position: absolute;
-    width: 400px;
-    height: 300px;
+    /*width: 400px;*/
+    /*height: 300px;*/
+    max-width: 600px;
+    max-height: max-content;
 }
+
 .fg-dial {
     width: inherit;
     font-size: 200%;
@@ -124,6 +126,6 @@ p, a {
 #gaugeCanvas {
     display: block;
     width: 80vw;
-    padding-top: 100%;
 }
 
+html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
