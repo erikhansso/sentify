@@ -58,7 +58,11 @@ var gauge = new FlexGauge({
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    for (var i = 1; i <= tweetObjects.tweets.length; i++) {
+    var numberOfTweets = tweetObjects.tweets.length;
+    if(numberOfTweets > 100){
+        tweetObjects.tweets.splice(0,100);
+    }
+    for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
             y: (tweetObjects.tweets[i - 1].sentimentScore),
             x: i,
