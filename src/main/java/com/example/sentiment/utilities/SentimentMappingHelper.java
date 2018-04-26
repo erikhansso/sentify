@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MappingHelper {
+public class SentimentMappingHelper {
 
     public static List<Tweet> mapSentimentResponseToTweets(List<Sentiment> azureSentimentResponseData, List<Tweet> uniqueTweetsNotInDb) {
 
