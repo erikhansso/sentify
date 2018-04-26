@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Tweet {
+public class Tweet implements Comparable<Tweet>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -116,4 +116,10 @@ public class Tweet {
         this.query = query;
 
     }
+
+    @Override
+    public int compareTo(Tweet tweet) {
+        return createdAt.compareTo(tweet.createdAt);
+    }
+
 }
