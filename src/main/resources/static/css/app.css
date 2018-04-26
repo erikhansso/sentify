@@ -52,6 +52,7 @@
     color: var(--main-contrast-color);
     position: relative;
     margin-left: 1rem;
+    margin-top: 1rem;
 }
 
 .menu-hover-lines li:first-child a {
