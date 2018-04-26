@@ -6,7 +6,6 @@ import com.example.sentiment.apis.TwitterCommunication;
 import com.example.sentiment.entities.*;
 import com.example.sentiment.pojos.*;
 import com.example.sentiment.utilities.*;
-import com.example.sentiment.pojos.SentimentQueryBuilder;
 import com.example.sentiment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,12 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import twitter4j.TwitterException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -58,7 +54,6 @@ public class MainController {
         Documents preparedAzureQuery;
         List<Sentiment> azureSentimentResponseData = new ArrayList<>();
         List<Tweet> matchingTweetsStoredInDb = new ArrayList<>();
-        Map<Long, Double> idToSentiment = new HashMap<>();
 
             //check if query has been done before and old tweets exist in DB
             if (queryRepository.findByQueryText(searchInput) == null) {
@@ -82,7 +77,7 @@ public class MainController {
                 //call Azure API
                 azureSentimentResponseData = sentimentCommunication.getSentiment(preparedAzureQuery).stream().collect(Collectors.toList());
                 //Setting sentiment score of all new tweets from the Azure results
-                uniqueTweetsNotInDb = MappingHelper.mapSentimentResponseToTweets(azureSentimentResponseData, uniqueTweetsNotInDb, idToSentiment);
+                uniqueTweetsNotInDb = MappingHelper.mapSentimentResponseToTweets(azureSentimentResponseData, uniqueTweetsNotInDb);
                 //only keep tweets with valid sentiment scores
                 newTweetsWithValidSentiment = SentimentValidator.sentimentValidator(uniqueTweetsNotInDb, newTweetsWithValidSentiment);
                 //save all unique tweets with valid sentiment score to db
