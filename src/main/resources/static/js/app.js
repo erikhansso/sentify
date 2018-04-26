@@ -40,7 +40,7 @@ var ajaxRequest = function(searchInput){
         success: function (result) {
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-            percentage = result.averageSentiment;
+            percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
