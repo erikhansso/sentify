@@ -45,6 +45,7 @@ var ajaxRequest = function (searchInput) {
             percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
+            gauge.dialValue = true;
             console.log("successfully inserted ", result);
             gauge.update(
                 {
@@ -101,7 +102,7 @@ var gauge = new FlexGauge({
 
     },
 
-    dialValue: true,
+    dialValue: "-%",
     dialLabel: true
 });
 
