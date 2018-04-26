@@ -55,6 +55,15 @@ var gauge = new FlexGauge({
     dialLabel: true
 });
 
+
+//changes cursor to show that something is loading while waiting for AJAX
+$(document).ajaxStart(function() {
+    $(document.body).css({'cursor' : 'wait'});
+}).ajaxStop(function() {
+    $(document.body).css({'cursor' : 'default'});
+});
+
+
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
