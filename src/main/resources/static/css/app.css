@@ -157,6 +157,13 @@ h1, input, span {
     font-family: 'Sura', serif;
 }
 
+#searchButton {
+    background-color: var(--main-color);
+}
+#searchButton:active {
+    background-color: var(--main-color-light);
+}
+
 p, a {
     font-family: 'Rubik', sans-serif;
 }
