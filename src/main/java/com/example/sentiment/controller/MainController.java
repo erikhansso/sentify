@@ -97,10 +97,6 @@ public class MainController {
         Collections.sort(allTweets);
         Collections.reverse(allTweets);
 
-        for(int i = 0; i < allTweets.size(); i++){
-            System.out.println(allTweets.get(i).getCreatedAt());
-        }
-
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
 
     }
