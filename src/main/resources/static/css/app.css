@@ -99,4 +99,12 @@
     background-color: var(--main-color-light);
 }
 
+h1, input, span {
+    font-family: 'Sura', serif;
+}
+
+p, a {
+    font-family: 'Rubik', sans-serif;
+}
+
 
