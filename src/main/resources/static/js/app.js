@@ -1,10 +1,23 @@
 var tweetObjects = {};
 var keywordInput = '';
 
+
+$('#searchTweetInput').keypress(function(event) {
+
+    if (event.which == 13){
+        var searchInput = $("input[name=input]").val();
+        ajaxRequest(searchInput);
+    }
+});
+
+
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = searchInput;
+    ajaxRequest(searchInput);
+});
 
+var ajaxRequest = function(searchInput){
     $.ajax({
         type: "POST",
         error: function () {
@@ -33,7 +46,7 @@ $("#searchButton").on("click", function (e) {
             createScatterPlot(searchInput, result.tweets);
         }
     });
-});
+}
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
