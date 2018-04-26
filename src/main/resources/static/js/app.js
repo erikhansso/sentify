@@ -29,7 +29,7 @@ $("#searchButton").on("click", function (e) {
             $("#gauge").append("<h1>" + result.averageSentiment + "</h1>");
             $("#scatterChartContainer").empty();
             $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
-           createScatterPlot(searchInput, result.tweets);
+            createScatterPlot(searchInput, result.tweets);
         }
     });
 });
@@ -56,10 +56,10 @@ var gauge = new FlexGauge({
 
 
 //changes cursor to show that something is loading while waiting for AJAX
-$(document).ajaxStart(function() {
-    $(document.body).css({'cursor' : 'wait'});
-}).ajaxStop(function() {
-    $(document.body).css({'cursor' : 'default'});
+$(document).ajaxStart(function () {
+    $(document.body).css({'cursor': 'wait'});
+}).ajaxStop(function () {
+    $(document.body).css({'cursor': 'default'});
 });
 
 
@@ -68,8 +68,8 @@ var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
     console.log(dataPoints);
     var numberOfTweets = tweetObjects.tweets.length;
-    if(numberOfTweets > 100){
-        tweetObjects.tweets.splice(0,100);
+    if (numberOfTweets > 100) {
+        tweetObjects.tweets.splice(0, 100);
     }
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
@@ -84,12 +84,14 @@ var createScatterPlot = function (searchQuery, tweets) {
     var tickConfig = {};
     if (dataPoints.length < 50) {
         tickConfig = {
+            display: false,
             min: 0,
             max: 50,
             stepSize: 5
         }
     } else {
         tickConfig = {
+            display: false,
             min: 0,
             max: 100,
             stepSize: 10
@@ -124,7 +126,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                     ticks: tickConfig,
                     scaleLabel: {
                         display: true,
-                        labelString: "Tweet no",
+                        labelString: "Tweets",
                         fontSize: 20
                     }
                 }],
@@ -134,13 +136,24 @@ var createScatterPlot = function (searchQuery, tweets) {
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
                         min: 0,
                         max: 1,
                         stepSize: 0.1
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Sentiment Score",
                         fontSize: 20
                     }
                 }],
@@ -171,7 +184,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             title: {
                 display: true,
-                text: "Scatterplot of Tweets' Sentiment Scores",
+                text: "Opinion of latest Tweets",
                 fontSize: 24,
                 fontFamily: "sans-serif"
             },
@@ -188,7 +201,7 @@ var createScatterPlot = function (searchQuery, tweets) {
     scatterChart.update();
 }
 
-var cleanScatter = function () {
+var returnsCleanScatter = function () {
     var ctx = document.getElementById('myChart').getContext('2d');
     var emptyScatter = new Chart(ctx, {
         type: 'scatter',
@@ -214,11 +227,12 @@ var cleanScatter = function () {
                     ticks: {
                         min: 0,
                         max: 50,
-                        stepSize: 5
+                        stepSize: 5,
+                        display: false
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Tweet no",
+                        labelString: "Tweets",
                         fontSize: 20
                     }
                 }],
@@ -228,13 +242,25 @@ var cleanScatter = function () {
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
                         min: 0,
                         max: 1,
-                        stepSize: 0.1
+                        stepSize: 0.1,
+                        padding: 30
                     },
                     scaleLabel: {
                         display: true,
-                        labelString: "Sentiment Score",
                         fontSize: 20
                     }
                 }],
@@ -253,7 +279,7 @@ var cleanScatter = function () {
             },
             title: {
                 display: true,
-                text: "Scatterplot of Tweets' Sentiment Scores",
+                text: "Opinion of latest Tweets",
                 fontSize: 24,
                 fontFamily: "sans-serif"
             },
@@ -262,6 +288,7 @@ var cleanScatter = function () {
 }
 
 var maxTooltipLength = 50; //possibly refactor this global variable
+
 
 var wordsToArray = function (words) {
     var lines = [];
@@ -295,6 +322,6 @@ var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
 }
 
-cleanScatter();
+returnsCleanScatter();
 
 
