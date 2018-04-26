@@ -171,7 +171,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             title: {
                 display: true,
-                text: "Scatterplot of Tweets' Sentiment Scores",
+                text: "Opinion of 100 latest Tweets",
                 fontSize: 24,
                 fontFamily: "sans-serif"
             },
@@ -188,7 +188,7 @@ var createScatterPlot = function (searchQuery, tweets) {
     scatterChart.update();
 }
 
-var cleanScatter = function () {
+var returnsCleanScatter = function () {
     var ctx = document.getElementById('myChart').getContext('2d');
     var emptyScatter = new Chart(ctx, {
         type: 'scatter',
@@ -253,14 +253,13 @@ var cleanScatter = function () {
             },
             title: {
                 display: true,
-                text: "Scatterplot of Tweets' Sentiment Scores",
+                text: "Opinion of 100 latest Tweets",
                 fontSize: 24,
                 fontFamily: "sans-serif"
             },
         }
     });
 }
-
 
 var maxTooltipLength = 50;
 
@@ -296,5 +295,5 @@ var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
 }
 
-cleanScatter();
+returnsCleanScatter();
 
