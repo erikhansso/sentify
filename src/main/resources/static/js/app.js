@@ -14,6 +14,7 @@ $('#searchTweetInput').keypress(function(event) {
 
     if (event.which == 13){
         var searchInput = $("input[name=input]").val();
+        keywordInput = searchInput;
         ajaxRequest(searchInput);
     }
 });
