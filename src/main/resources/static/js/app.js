@@ -91,8 +91,6 @@ var getColor = function(value){
     return ["hsl(",hue,",65%,65%)"].join("");
 }
 
-
-
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
