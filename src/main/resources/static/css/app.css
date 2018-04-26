@@ -14,38 +14,6 @@
     z-index: 10;
 }
 
-#gauge {
-    /*width: 400px;*/
-    /*height: 300px;*/
-    max-width: max-content;
-    max-height: max-content;
-}
-
-.fg-dial {
-    width: inherit;
-    font-size: 200%;
-    font-weight: bold;
-    left: 100px;
-    position: absolute;
-    text-align: center;
-    top: 215px;
-}
-
-.fg-dial-label {
-    width: inherit;
-    font-size: 200%;
-    font-weight: bold;
-    left: 100px;
-    position: absolute;
-    text-align: center;
-    top: 250px;
-}
-
-
-#scatterChartContainer {
-    height: 90vh;
-    width: 70vw;
-}
 
 .menu-hover-lines {
     text-align: center;
@@ -121,22 +89,88 @@ p, a {
     width: 80%;
 }
 
+.maindisplay {
+}
+
+
 .input-group {
-    margin: 0 auto;
-    margin-top: 2vw;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 10vw;
+    margin-left: 20vw;
+    margin-bottom: 2vw;
+    width: 50%;
+    max-width: 40vw;
+}
+
+#gauge {
+    /*width: 400px;*/
+    /*height: 300px;*/
+    max-width: 600px;
+    max-height: max-content;
+}
+
+.small-6 {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 17vw;
+    margin-left: 10vw;
     margin-bottom: 2vw;
     width: 50%;
 }
 
-
 #gaugeCanvas {
-    display: block;
-    width: 100%;
+    max-width: 40vw;
+}
+
+.fg-dial {
+    width: inherit;
+    font-size: 200%;
+    font-weight: bold;
+    left: 100px;
+    position: absolute;
+    text-align: center;
+    top: 215px;
+}
+
+.fg-dial-label {
+    width: inherit;
+    font-size: 200%;
+    font-weight: bold;
+    left: 100px;
+    position: absolute;
+    text-align: center;
+    top: 250px;
 }
 
 .tabs-content{
     display: flex;
     justify-content: center;
     flex-direction: row;
+    max-width: 50vw;
+    width: 50vw;
 }
+
+#myChart {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    max-width: 50vw;
+    width: 50vw;
+}
+
+
+#scatterChartContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90vh;
+    width: 55vw;
+}
+
+
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
