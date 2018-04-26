@@ -10,7 +10,6 @@ var color = {
 var tweetObjects = {};
 var keywordInput = '';
 
-
 $('#searchTweetInput').keypress(function(event) {
 
     if (event.which == 13){
@@ -27,9 +26,11 @@ $("#searchButton").on("click", function (e) {
 });
 
 var ajaxRequest = function(searchInput){
+    $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
         error: function () {
+            $(document.body).css({'cursor': 'default'});
             console.log("error sending the data");
         },
         data: {
@@ -37,13 +38,16 @@ var ajaxRequest = function(searchInput){
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
+            percentage = result.averageSentiment;
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
             gauge.update(
                 {
-                    arcFillPercent: result.averageSentiment
+                    arcFillPercent: result.averageSentiment,
+                    colorArcFg: getColor(percentage)
                 }
             );
             $("#scatterChartContainer").empty();
@@ -70,17 +74,23 @@ var gauge = new FlexGauge({
     arcStrokeFg: 80,
     arcStrokeBg: 80,
 
+    colorArcFg: function(){
+        //value from 0 to 1
+        value = 0.5;
+        var hue=((1-(Math.abs(value-1)))*120).toString(10);
+        return ["hsl(",hue,",100%,50%)"].join("");
+    },
+
     dialValue: true,
     dialLabel: true
 });
 
+var getColor = function(value){
+    //value from 0 to 1
+    var hue=((1-(Math.abs(value-1)))*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
 
-//changes cursor to show that something is loading while waiting for AJAX
-$(document).ajaxStart(function () {
-    $(document.body).css({'cursor': 'wait'});
-}).ajaxStop(function () {
-    $(document.body).css({'cursor': 'default'});
-});
 
 
 //Scatterplot scripts below
@@ -185,10 +195,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }
             },
             title: {
-                display: true,
-                text: "Opinion of latest Tweets",
-                fontSize: 24,
-                fontFamily: "sans-serif"
+                display: false,
             },
         }
     });
@@ -268,10 +275,7 @@ var returnsCleanScatter = function () {
                 }],
             },
             title: {
-                display: true,
-                text: "Opinion of latest Tweets",
-                fontSize: 24,
-                fontFamily: "sans-serif"
+                display: false,
             },
         }
     });
@@ -310,6 +314,15 @@ var firstLabel = function (tooltipItem, data) {
 
 var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
+}
+
+function htmlEscape(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 returnsCleanScatter();
