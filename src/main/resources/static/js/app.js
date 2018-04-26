@@ -1,8 +1,9 @@
 var tweetObjects = {};
-
+var keywordInput = '';
 
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
+    keywordInput = searchInput;
 
     $.ajax({
         type: "POST",
