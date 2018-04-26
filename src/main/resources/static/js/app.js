@@ -256,4 +256,4 @@ var cleanScatter = function () {
     });
 }
 
-//cleanScatter();
+cleanScatter();
