@@ -23,26 +23,15 @@
     top: 215px;
 }
 
-/*.fg-dial {*/
-    /*font-size: 200%;*/
-    /*font-weight: bold;*/
-    /*left: 0;*/
-    /*position: relative;*/
-    /*text-align: center;*/
-    /*display: inline-block;*/
-    /*float: right;*/
-    /*!*width: 100%;*!*/
+.fg-dial-label {
+    width: inherit;
+    font-size: 200%;
+    font-weight: bold;
+    left: 100px;
+    position: absolute;
+    text-align: center;
+    top: 250px;
 }
-/*.fg-dial-label {*/
-    /*font-size: 200%;*/
-    /*font-weight: bold;*/
-    /*left: 0;*/
-    /*position: relative;*/
-    /*text-align: center;*/
-    /*margin-top: 200px;*/
-    /*margin-bottom: 200px;*/
-    /*!*width: 100%;*!*/
-/*}*/
 
 
 

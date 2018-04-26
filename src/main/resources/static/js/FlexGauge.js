@@ -229,7 +229,7 @@
             }
 
             if (typeof o.dialLabel === 'boolean' && o.dialLabel) {
-                this.dialLabel = 'FlexGauge';
+                this.dialLabel = keywordInput;
             }
 
         },
@@ -317,6 +317,7 @@
                 }
                 dial = $(this.appendTo).find('div.' + this.dialClass);
                 if (typeof this.dialValue === 'boolean') {
+                    this.dialLabel = keywordInput;
                     switch (this.dialUnit) {
                         case '%':
                             dialVal = Math.round(this._animatePerc * 100);
@@ -336,6 +337,7 @@
                     }
                 } else {
                     dialVal = this.dialValue;
+                    this.dialLabel = keywordInput;
                 }
                 dial.html(dialVal)
             }
