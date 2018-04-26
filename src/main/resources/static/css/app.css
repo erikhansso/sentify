@@ -119,3 +119,10 @@ p, a {
     margin-bottom: 2vw;
     width: 50%;
 }
+
+canvas {
+    display: block;
+    width: 80vw;
+    padding-top: 100%;
+}
+
