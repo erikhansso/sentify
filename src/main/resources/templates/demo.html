@@ -15,7 +15,8 @@
 
 <body>
 
-    <nav class="top-bar" data-topbar role="navigation">
+<div id="navbar">
+<nav class="top-bar" data-topbar role="navigation">
         <ul class="menu menu-hover-lines">
             <li>
                 <img src="/images/logotiny.png">
@@ -40,7 +41,10 @@
             </li>
         </ul>
     </nav>
+</div>
 
+
+<div class="maindisplay">
     <div class="input-group">
         <input id="searchTweetInput" class="input-group-field" type="text" />
         <div class="input-group-button">
@@ -66,11 +70,13 @@
 
                 <div class="tabs-content" data-tabs-content="example-tabs">
                     <div class="tabs-panel is-active" id="panel1">
+                        <h2>Current average sentiment</h2>
                         <div id="gauge">
 
                         </div>
                     </div>
                     <div class="tabs-panel" id="panel2">
+                        <h2>Opinion of latest tweets</h2>
                         <div id="scatterChartContainer">
                             <canvas id="myChart"></canvas>
                         </div>
@@ -82,7 +88,7 @@
             </div>
         </div>
     </div>
-    
+</div>
 
 
     <div id="output"></div>

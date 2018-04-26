@@ -236,7 +236,7 @@
 
         _build: function () {
             if (document.getElementById(this.elementId) === null) {
-                $(this.appendTo).append('<canvas id="' + this.elementId + '" width="' + this.elementWidth + '" height="' + this.elementHeight + '"></canvas>');
+                $(this.appendTo).append('<canvas id="' + this.elementId + '" width="' + this.elementWidth + '" height="' + this.elementHeight/2 + '"></canvas>');
             }
 
             this._canvas = document.getElementById(this.elementId);
@@ -281,8 +281,8 @@
             this._ctx.strokeStyle = this.colorArcBg;
             this._ctx.lineWidth = this.arcStrokeBg;
             this._ctx.arc(
-                this.elementWidth / 2,
-                this.elementHeight / 2,
+                this.elementWidth/2 ,
+                this.elementHeight /2,
                 this.arcSize,
                 this.arcAngleStart,
                 this.arcAngleEnd,
