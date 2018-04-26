@@ -217,4 +217,14 @@ p, a {
     max-width: 40vw;
 }
 
+#panelOne{
+    color: var(--main-contrast-color);
+}
+#panelTwo{
+    color: var(--main-contrast-color);
+}
+#panelThree{
+    color: var(--main-contrast-color);
+}
+
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
