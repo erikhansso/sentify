@@ -227,4 +227,28 @@ p, a {
     color: var(--main-contrast-color);
 }
 
+.statArea {
+    display: flex;
+    justify-content: center;
+}
+
+.descrArea {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    flex: 1 1 0;
+    text-align: center;
+}
+
+#numberOfPosTweets {
+    color: #90cd8a;
+}
+
+#numberOfNegTweets {
+    color: #f58368;
+}
+
+
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
