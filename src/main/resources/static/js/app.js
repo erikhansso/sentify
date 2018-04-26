@@ -185,10 +185,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }
             },
             title: {
-                display: true,
-                text: "Opinion of latest Tweets",
-                fontSize: 24,
-                fontFamily: "sans-serif"
+                display: false,
             },
         }
     });
@@ -268,10 +265,7 @@ var returnsCleanScatter = function () {
                 }],
             },
             title: {
-                display: true,
-                text: "Opinion of latest Tweets",
-                fontSize: 24,
-                fontFamily: "sans-serif"
+                display: false,
             },
         }
     });
