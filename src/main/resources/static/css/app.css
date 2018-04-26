@@ -107,4 +107,14 @@ p, a {
     font-family: 'Rubik', sans-serif;
 }
 
+.center-me {
+    margin: 0 auto;
+    width: 80%;
+}
 
+.input-group {
+    margin: 0 auto;
+    margin-top: 2vw;
+    margin-bottom: 2vw;
+    width: 50%;
+}

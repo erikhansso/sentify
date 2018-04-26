@@ -14,42 +14,37 @@
 </head>
 
 <body>
-    <div data-sticky-container>
-        <div class="small-12 sticky" data-sticky data-options="marginTop: 0">
-            <div class="top-bar">
-                <ul class="menu menu-hover-lines">
-                    <li class="active">
-                        <a href="#">Home</a>
-                    </li>
-                    <li>
-                        <a href="#">Demo</a>
-                    </li>
-                    <li>
-                        <a href="#">How it works</a>
-                    </li>
-                    <li>
-                        <a href="#">Pricing</a>
-                    </li>
-                    <li>
-                        <a href="#">About</a>
-                    </li>
-                    <li>
-                        <a href="#">Login</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="menu menu-hover-lines">
+            <li class="active">
+                <a href="#">Home</a>
+            </li>
+            <li>
+                <a href="#">Demo</a>
+            </li>
+            <li>
+                <a href="#">How it works</a>
+            </li>
+            <li>
+                <a href="#">Pricing</a>
+            </li>
+            <li>
+                <a href="#">About</a>
+            </li>
+            <li>
+                <a href="#">Login</a>
+            </li>
+        </ul>
+    </nav>
 
-        <div class="grid-x grid-padding-x align-center">
-            <div class="input-group">
-                <span class="input-group-label">Search</span>
-                <input id="searchTweetInput" class="input-group-field" type="text" />
-                <div class="input-group-button">
-                    <input id="searchButton" type="submit" class="button" value="Search">
-                </div>
-            </div>
+    <div class="input-group">
+        <input id="searchTweetInput" class="input-group-field" type="text" />
+        <div class="input-group-button">
+            <input id="searchButton" type="submit" class="button" value="Search">
         </div>
+    </div>
 
+    <div class="center-me">
         <div class="row">
             <div class="small-6 centered columns">
                 <ul class="tabs" data-tabs id="example-tabs">
@@ -80,6 +75,7 @@
             </div>
         </div>
     </div>
+    
 
 
     <div id="output"></div>
