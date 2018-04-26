@@ -14,7 +14,7 @@
 
 <body>
     <div class="top-bar">
-        <ul class="menu menu-hover-lines">
+        <ul class="menu menu-hover-lines">  
             <li class="active">
                 <a href="#">Home</a>
             </li>
@@ -45,20 +45,29 @@
             </div>
         </div>
     </div>
-
     <div id="output"></div>
     <div id="gauge"></div>
 
-    <script src="js/vendor/jquery.js"></script>
-    <!--Maybe remove one of the jQuery script links-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="js/FlexGauge.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/vendor/what-input.js"></script>
-    <script src="js/vendor/foundation.min.js"></script>
-    <script>
-        $(document).foundation();
-    </script>
+
+</div>
+<div id="scatterChartContainer">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script src="js/vendor/jquery.js"></script>
+<!--Maybe remove one of the jQuery script links-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="js/FlexGauge.js"></script>
+<script src="js/app.js"></script>
+<script src="js/vendor/what-input.js"></script>
+<script src="js/vendor/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
+
+
+
 
 </body>
 

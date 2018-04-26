@@ -45,6 +45,12 @@
 /*}*/
 
 
+
+#scatterChartContainer {
+    height: 90vh;
+    width: 70vw;
+}
+
 .menu-hover-lines {
     text-align: center;
     text-transform: uppercase;
@@ -104,4 +110,5 @@
 .top-bar, .top-bar li {
     background-color: var(--main-color-light);
 }
+
 

@@ -45,10 +45,11 @@ public class TwitterCommunication {
 
         Query q = new Query(query);
         q.setLang("sv");
-        q.setCount(10); //Number of tweets to be returned, max 100
+
+        q.setCount(2); //Number of tweets to be returned, max 100
         Query q2 = new Query(query);
         q2.setLang("en");
-        q2.setCount(10);
+        q2.setCount(2);
         QueryResult result = null;
         QueryResult result2 = null;
         try {
@@ -59,6 +60,7 @@ public class TwitterCommunication {
             e.printStackTrace();
         }
         List<Status> tweetList = result.getTweets();
+
         List<Status> tweetList2 = result2.getTweets();
 
         if (tweetList.size() == 0 && tweetList2.size() == 0)
