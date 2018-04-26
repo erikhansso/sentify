@@ -8,6 +8,48 @@
     --main-color-dark: #6E8C7B;
 }
 
+/* Media queries below, add any CSS rules you want changed when size of viewing device reaches a threshold */
+
+@media only screen and (max-width: 1000px) {
+
+    .input-group{
+        margin-top: 20vw!important;
+    }
+    .small-6 {
+        margin-top: 28vw!important;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    .input-group{
+        margin-top: 26vw!important;
+    }
+    .small-6 {
+        margin-top: 34vw!important;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+
+    .input-group{
+        margin-top: 34vw!important;
+    }
+    .small-6 {
+        margin-top: 42vw!important;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    .input-group{
+        margin-top: 70vw!important;
+    }
+    .small-6 {
+        margin-top: 82vw!important;
+    }
+}
+
 #navbar {
     position: fixed;
     width: 100%;
@@ -16,10 +58,12 @@
 
 
 #gauge {
-    /*width: 400px;*/
-    /*height: 300px;*/
     max-width: 600px;
     max-height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .fg-dial {
@@ -37,7 +81,6 @@
     font-size: 200%;
     font-weight: bold;
     left: 100px;
-    position: absolute;
     text-align: center;
     top: 250px;
 }
@@ -129,8 +172,8 @@ p, a {
     margin-top: 10vw;
     margin-left: 20vw;
     margin-bottom: 2vw;
-    width: 50%;
-    max-width: 40vw;
+    width: 50vw;
+    max-width: 50vw;
 }
 
 .small-6 {
@@ -164,12 +207,11 @@ p, a {
 
 #scatterChartContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     height: 90vh;
     width: 55vw;
 }
-
 
 #gaugeCanvas {
     max-width: 40vw;

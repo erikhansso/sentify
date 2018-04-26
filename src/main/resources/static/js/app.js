@@ -46,7 +46,6 @@ var ajaxRequest = function(searchInput){
                     arcFillPercent: result.averageSentiment
                 }
             );
-            $("#gauge").append("<h1>" + result.averageSentiment + "</h1>");
             $("#scatterChartContainer").empty();
             $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
             createScatterPlot(searchInput, result.tweets);
