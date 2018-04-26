@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -90,6 +91,14 @@ public class MainController {
                 .collect(Collectors.toList());
         if(allTweets.isEmpty()){
             return new SearchResource();
+        }
+
+        //Sorts the tweets by date with most recent ones at index 0
+        Collections.sort(allTweets);
+        Collections.reverse(allTweets);
+
+        for(int i = 0; i < allTweets.size(); i++){
+            System.out.println(allTweets.get(i).getCreatedAt());
         }
 
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
