@@ -17,7 +17,8 @@ public class Tweet implements Comparable<Tweet>{
     private String language;
     private Date createdAt;
     private double sentimentScore;
-
+    private int favoriteCount;
+    private int retweetCount;
 
     //Foreign key to query-entity
     @ManyToOne
@@ -28,13 +29,15 @@ public class Tweet implements Comparable<Tweet>{
     }
 
     // Constructors
-    public Tweet(long tweetId, String language, String tweetText, String handle, Date createdAt, QueryEntity query) {
+    public Tweet(long tweetId, String language, String tweetText, String handle, Date createdAt, QueryEntity query, int retweetCount, int favoriteCount) {
         this.tweetId = tweetId;
         this.tweetText = tweetText;
         this.language = language;
         this.handle = handle;
         this.createdAt = createdAt;
         this.query = query;
+        this.favoriteCount = favoriteCount;
+        this.retweetCount = retweetCount;
     }
 
     @Override
@@ -110,7 +113,6 @@ public class Tweet implements Comparable<Tweet>{
     public QueryEntity getQueryEntity() {
         return query;
     }
-
 
     public void setQueryEntity(QueryEntity query) {
         this.query = query;

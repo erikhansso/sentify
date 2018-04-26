@@ -9,7 +9,6 @@ import com.example.sentiment.utilities.*;
 import com.example.sentiment.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -78,7 +77,7 @@ public class MainController {
                 //call Azure API
                 azureSentimentResponseData = sentimentCommunication.getSentiment(preparedAzureQuery).stream().collect(Collectors.toList());
                 //Setting sentiment score of all new tweets from the Azure results
-                uniqueTweetsNotInDb = MappingHelper.mapSentimentResponseToTweets(azureSentimentResponseData, uniqueTweetsNotInDb);
+                uniqueTweetsNotInDb = SentimentMappingHelper.mapSentimentResponseToTweets(azureSentimentResponseData, uniqueTweetsNotInDb);
                 //only keep tweets with valid sentiment scores
                 newTweetsWithValidSentiment = SentimentValidator.sentimentValidator(uniqueTweetsNotInDb, newTweetsWithValidSentiment);
                 //save all unique tweets with valid sentiment score to db
@@ -96,10 +95,6 @@ public class MainController {
         //Sorts the tweets by date with most recent ones at index 0
         Collections.sort(allTweets);
         Collections.reverse(allTweets);
-
-        for(int i = 0; i < allTweets.size(); i++){
-            System.out.println(allTweets.get(i).getCreatedAt());
-        }
 
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets));
 
