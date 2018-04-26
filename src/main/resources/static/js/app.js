@@ -10,7 +10,6 @@ var color = {
 var tweetObjects = {};
 var keywordInput = '';
 
-
 $('#searchTweetInput').keypress(function(event) {
 
     if (event.which == 13){
@@ -38,12 +37,14 @@ var ajaxRequest = function(searchInput){
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
             tweetObjects = result;
+            percentage = result.averageSentiment;
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
             gauge.update(
                 {
-                    arcFillPercent: result.averageSentiment
+                    arcFillPercent: result.averageSentiment,
+                    colorArcFg: getColor(percentage)
                 }
             );
             $("#gauge").append("<h1>" + result.averageSentiment + "</h1>");
@@ -71,10 +72,22 @@ var gauge = new FlexGauge({
     arcStrokeFg: 80,
     arcStrokeBg: 80,
 
+    colorArcFg: function(){
+        //value from 0 to 1
+        value = 0.5;
+        var hue=((1-(Math.abs(value-1)))*120).toString(10);
+        return ["hsl(",hue,",100%,50%)"].join("");
+    },
+
     dialValue: true,
     dialLabel: true
 });
 
+var getColor = function(value){
+    //value from 0 to 1
+    var hue=((1-(Math.abs(value-1)))*120).toString(10);
+    return ["hsl(",hue,",100%,50%)"].join("");
+}
 
 //changes cursor to show that something is loading while waiting for AJAX
 $(document).ajaxStart(function () {

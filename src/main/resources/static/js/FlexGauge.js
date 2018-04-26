@@ -89,7 +89,7 @@
         /**
          *  {Int} Color saturation: 0 - 100, 0 having no color, 100 is full color
          */
-        arcBgColorSat: 60,
+        arcBgColorSat: 20,
         /**
          *  {Int} Size of the line marking the percentage
          */
@@ -209,7 +209,7 @@
             }
 
             if (typeof o.colorArcBg !== 'undefined') {
-                this.colorArcBg = colorToHex(o.colorArcBg);
+                this.colorArcBg = "#E0E0E0";
             }
 
             // only use the styleArcFg if colorArcFg wasn't specified in the options
@@ -218,14 +218,14 @@
             }
 
             if (typeof o.colorArcBg === 'undefined' && this.colorArcBg === null && this.colorArcFg !== null) {
-                this.colorArcBg = this.colorArcFg;
+                this.colorArcBg = "#E0E0E0";
             }
 
             if (typeof this.colorArcBg !== null && (!update || colorToHex(this.colorArcFg) != colorToHex(color))) {
                 if (colorToHex(this.colorArcFg) != colorToHex(color))
-                    this.colorArcBg = this.colorArcFg;
+                    this.colorArcBg = "#E0E0E0";
 
-                this.colorArcBg = shadeColor(this.colorArcBg, this.arcBgColorLight, this.arcBgColorSat);
+                this.colorArcBg = "#E0E0E0";
             }
 
             if (typeof o.dialLabel === 'boolean' && o.dialLabel) {
