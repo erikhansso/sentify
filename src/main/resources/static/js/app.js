@@ -1,3 +1,12 @@
+/*Use these five color variables, comes from our palette!*/
+var color = {
+    mainBgColor: "#FFFFFF",
+    mainColor: "#8FB8A0",
+    mainContrastColor: "#87524F",
+    mainColorLight: "#E0E0E0",
+    mainColorDark: "#6E8C7B"
+}
+
 var tweetObjects = {};
 var keywordInput = '';
 
@@ -32,9 +41,6 @@ var ajaxRequest = function(searchInput){
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
-            // for (var i = 0; i < result.tweets.length; i++) {
-            //     $("#output").append("<p>" + result.tweets[i].tweetText + "</p>");
-            // }
             gauge.update(
                 {
                     arcFillPercent: result.averageSentiment
@@ -80,11 +86,11 @@ $(document).ajaxStart(function () {
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    console.log(dataPoints);
     var numberOfTweets = tweetObjects.tweets.length;
     if (numberOfTweets > 100) {
         tweetObjects.tweets.splice(0, 100);
     }
+
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
             y: (tweetObjects.tweets[i - 1].sentimentScore),
@@ -93,23 +99,6 @@ var createScatterPlot = function (searchQuery, tweets) {
             tweetText: tweetObjects.tweets[i - 1].tweetText,
             sentimentScore: tweetObjects.tweets[i - 1].sentimentScore.toFixed(2)
         });
-    }
-
-    var tickConfig = {};
-    if (dataPoints.length < 50) {
-        tickConfig = {
-            display: false,
-            min: 0,
-            max: 50,
-            stepSize: 5
-        }
-    } else {
-        tickConfig = {
-            display: false,
-            min: 0,
-            max: 100,
-            stepSize: 10
-        }
     }
 
     var pointBackgroundColors = [];
@@ -123,10 +112,10 @@ var createScatterPlot = function (searchQuery, tweets) {
                 showLine: false,
                 pointStyle: "circle",
                 pointBackgroundColor: pointBackgroundColors,
-                pointBorderColor: "#6E8C7B",
-                pointHoverBackgroundColor: "#FFFFFF",
-                backgroundColor: "#FFFFFF",
-                borderColor: "#6E8C7B",
+                pointBorderColor: color.mainColorDark,
+                pointHoverBackgroundColor: color.mainColorLight,
+                backgroundColor: color.mainBgColor,
+                borderColor: color.mainColorDark,
                 pointRadius: 8,
                 pointHoverRadius: 10,
                 data: dataPoints
@@ -137,7 +126,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
-                    ticks: tickConfig,
+                    ticks: {
+                        display: false
+                    },
                     scaleLabel: {
                         display: true,
                         labelString: "Tweets",
@@ -146,7 +137,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: ["rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "#8FB8A0", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)"],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
@@ -176,13 +167,10 @@ var createScatterPlot = function (searchQuery, tweets) {
                 enabled: true,
                 caretSize: 0,
                 mode: "nearest",
-                backgroundColor: "#A7D6BB",
-                titleFontFamily: "sans-serif",
-                titleFontSize: 14,
-                titleFontColor: "#6E8C7B",
+                backgroundColor: color.mainColor,
                 bodyFontFamily: "sans-serif",
                 bodyFontSize: 12,
-                bodyFontColor: "#6E8C7B",
+                bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
                     label: firstLabel.bind(this),
@@ -225,10 +213,10 @@ var returnsCleanScatter = function () {
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
-                pointBorderColor: "#6E8C7B",
-                pointHoverBackgroundColor: "#FFFFFF",
-                backgroundColor: "#FFFFFF",
-                borderColor: "#6E8C7B",
+                pointBorderColor: color.mainColorDark,
+                pointHoverBackgroundColor: color.mainColorLight,
+                backgroundColor: color.mainBgColor,
+                borderColor: color.mainColorDark,
                 pointRadius: 4,
                 pointHoverRadius: 6
             }]
@@ -252,7 +240,7 @@ var returnsCleanScatter = function () {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: ["rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "#8FB8A0", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)", "rgba(0, 0, 0, 0.1)"],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
@@ -278,18 +266,6 @@ var returnsCleanScatter = function () {
                         fontSize: 20
                     }
                 }],
-            },
-            tooltips: {
-                enabled: true,
-                mode: "nearest",
-                backgroundColor: "#A7D6BB",
-                titleFontFamily: "sans-serif",
-                titleFontSize: 14,
-                titleFontColor: "#6E8C7B",
-                bodyFontFamily: "sans-serif",
-                bodyFontSize: 12,
-                bodyFontColor: "#6E8C7B",
-                displayColors: false, //whether to display colored boxes in tooltip
             },
             title: {
                 display: true,
