@@ -12,10 +12,8 @@ import com.example.sentiment.pojos.Documents;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class SentimentCommunication {
-
 
     @Value("${azureKey}")
     String azureKey;
