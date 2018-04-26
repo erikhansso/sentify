@@ -41,6 +41,7 @@ var ajaxRequest = function(searchInput){
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
             percentage = result.averageSentiment;
+            percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
@@ -79,6 +80,7 @@ var gauge = new FlexGauge({
         value = 0.5;
         var hue=((1-(Math.abs(value-1)))*120).toString(10);
         return ["hsl(",hue,",100%,50%)"].join("");
+        return ["hsl(",hue,",65%,65%)"].join("");
     },
 
     dialValue: true,
@@ -89,6 +91,7 @@ var getColor = function(value){
     //value from 0 to 1
     var hue=((1-(Math.abs(value-1)))*120).toString(10);
     return ["hsl(",hue,",100%,50%)"].join("");
+    return ["hsl(",hue,",65%,65%)"].join("");
 }
 
 
