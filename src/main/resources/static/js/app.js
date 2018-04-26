@@ -26,9 +26,11 @@ $("#searchButton").on("click", function (e) {
 });
 
 var ajaxRequest = function(searchInput){
+    $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
         error: function () {
+            $(document.body).css({'cursor': 'default'});
             console.log("error sending the data");
         },
         data: {
@@ -36,8 +38,9 @@ var ajaxRequest = function(searchInput){
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-            percentage = result.averageSentiment;
+            percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
             console.log("successfully inserted ", result);
@@ -75,7 +78,7 @@ var gauge = new FlexGauge({
         //value from 0 to 1
         value = 0.5;
         var hue=((1-(Math.abs(value-1)))*120).toString(10);
-        return ["hsl(",hue,",100%,50%)"].join("");
+        return ["hsl(",hue,",65%,65%)"].join("");
     },
 
     dialValue: true,
@@ -85,15 +88,9 @@ var gauge = new FlexGauge({
 var getColor = function(value){
     //value from 0 to 1
     var hue=((1-(Math.abs(value-1)))*120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
+    return ["hsl(",hue,",65%,65%)"].join("");
 }
 
-//changes cursor to show that something is loading while waiting for AJAX
-$(document).ajaxStart(function () {
-    $(document.body).css({'cursor': 'wait'});
-}).ajaxStop(function () {
-    $(document.body).css({'cursor': 'default'});
-});
 
 
 //Scatterplot scripts below
@@ -317,6 +314,15 @@ var firstLabel = function (tooltipItem, data) {
 
 var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
+}
+
+function htmlEscape(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }
 
 returnsCleanScatter();
