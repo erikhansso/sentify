@@ -313,6 +313,15 @@ var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
 }
 
+function htmlEscape(str) {
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 returnsCleanScatter();
 
 
