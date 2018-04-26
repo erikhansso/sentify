@@ -45,14 +45,35 @@
             </div>
         </div>
     </div>
+
+    <div class="row">
+        <div class="columns">
+          <ul class="tabs" data-tabs id="example-tabs">
+            <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Gauge</a></li>
+            <li class="tabs-title"><a href="#panel2">Scatter plot</a></li>
+          </ul>
+      
+          <div class="tabs-content" data-tabs-content="example-tabs">
+            <div class="tabs-panel is-active" id="panel1">
+              <h1>Speedometer</h1>
+              <div id="gauge"></div>
+            </div>
+            <div class="tabs-panel" id="panel2">
+              <h1>Scatter plot</h1>
+            </div>
+            <div id="scatterChartContainer">
+                <canvas id="myChart"></canvas>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    
     <div id="output"></div>
-    <div id="gauge"></div>
 
 
-</div>
-<div id="scatterChartContainer">
-    <canvas id="myChart"></canvas>
-</div>
+
 
 <script src="js/vendor/jquery.js"></script>
 <!--Maybe remove one of the jQuery script links-->
