@@ -27,10 +27,9 @@ $("#searchButton").on("click", function (e) {
                 }
             );
             $("#gauge").append("<h1>" + result.averageSentiment + "</h1>");
-            $("#myChart").empty();
-            createScatterPlot(searchInput, result.tweets);
-
-
+            $("#scatterChartContainer").empty();
+            $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
+           createScatterPlot(searchInput, result.tweets);
         }
     });
 });
@@ -58,6 +57,7 @@ var gauge = new FlexGauge({
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
+    console.log(dataPoints);
     var numberOfTweets = tweetObjects.tweets.length;
     if(numberOfTweets > 100){
         tweetObjects.tweets.splice(0,100);
