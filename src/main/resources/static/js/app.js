@@ -39,7 +39,7 @@ var gauge = new FlexGauge({
     appendTo: '#gauge',
 
     //Sizes of the canvas element
-    elementWidth: 800,
+    elementWidth: 600,
     elementHeight: 500,
 
     arcSize: 200,

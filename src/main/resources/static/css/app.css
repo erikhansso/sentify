@@ -8,14 +8,30 @@
     --main-color-dark: #6E8C7B;
 }
 
+#gauge {
+    position: absolute;
+    width: 400px;
+    height: 300px;
+}
 .fg-dial {
+    width: inherit;
     font-size: 200%;
     font-weight: bold;
-    left: 0;
-    position: relative;
+    left: 100px;
+    position: absolute;
     text-align: center;
-    top: 100px;
-    /*width: 100%;*/
+    top: 215px;
+}
+
+/*.fg-dial {*/
+    /*font-size: 200%;*/
+    /*font-weight: bold;*/
+    /*left: 0;*/
+    /*position: relative;*/
+    /*text-align: center;*/
+    /*display: inline-block;*/
+    /*float: right;*/
+    /*!*width: 100%;*!*/
 }
 /*.fg-dial-label {*/
     /*font-size: 200%;*/
