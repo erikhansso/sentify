@@ -134,6 +134,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             tooltips: {
                 enabled: true,
+                caretSize: 0,
                 mode: "nearest",
                 backgroundColor: "#A7D6BB",
                 titleFontFamily: "sans-serif",
@@ -144,15 +145,15 @@ var createScatterPlot = function (searchQuery, tweets) {
                 bodyFontColor: "#6E8C7B",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].tweetText;
+                    label: firstLabel.bind(this),
+                    afterLabel: otherLabels.bind(this),
+                    footer: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].sentimentScore;
                     },
-                    label: function (tooltipItem, data) {
-                        return "Posted: " + data["datasets"][0]["data"][tooltipItem["index"]].createdAt;
-                    },
-                    afterLabel: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][0]["data"][tooltipItem["index"]].sentimentScore;
+                    afterFooter: function (tooltipItem, data) {
+                        return "Posted: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].createdAt;
                     }
+
                 }
             },
             title: {
@@ -180,7 +181,7 @@ var cleanScatter = function () {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: " ,
+                label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
@@ -247,4 +248,40 @@ var cleanScatter = function () {
     });
 }
 
+
+var maxTooltipLength = 50;
+
+var wordsToArray = function (words) {
+    var lines = [];
+    var str = '';
+    words.forEach(function (word) {
+        if ((str.length + word.length + 1) <= maxTooltipLength) {
+            str += word + ' ';
+        } else {
+            lines.push(str);
+            str = word + ' ';
+        }
+    });
+    lines.push(str);
+    return lines;
+}
+
+var breakLabels = function (tooltipItem, data) {
+    var label = data["datasets"][0]["data"][tooltipItem["index"]].tweetText;
+    if (label.length <= maxTooltipLength) {
+        return [label]
+    }
+    var words = label.split(' ');
+    return wordsToArray(words);
+}
+
+var firstLabel = function (tooltipItem, data) {
+    return breakLabels(tooltipItem, data)[0];
+}
+
+var otherLabels = function (tooltipItem, data) {
+    return breakLabels(tooltipItem, data).slice(1);
+}
+
 cleanScatter();
+
