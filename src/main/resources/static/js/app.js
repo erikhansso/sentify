@@ -33,6 +33,7 @@ $("#searchButton").on("click", function (e) {
 });
 
 var ajaxRequest = function (searchInput) {
+    setFocusToTextBox();
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
