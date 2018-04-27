@@ -153,7 +153,7 @@ h4 {
     background-color: var(--main-color-light);
 }
 
-h1, input, span {
+h1, h4, input, span {
     font-family: 'Sura', serif;
 }
 
