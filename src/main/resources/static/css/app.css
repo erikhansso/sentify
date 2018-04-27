@@ -50,6 +50,7 @@
     }
 }
 
+
 #navbar {
     position: fixed;
     width: 100%;
@@ -153,7 +154,7 @@ h4 {
     background-color: var(--main-color-light);
 }
 
-h1, h4, input, span {
+h1, h4, input, span, .fg-dial {
     font-family: 'Sura', serif;
 }
 
@@ -161,10 +162,14 @@ h1, h4, input, span {
     background-color: var(--main-color);
 }
 #searchButton:active {
-    background-color: var(--main-color-light);
+    transform: translateY(1px);
 }
 
-p, a {
+#searchButton:hover {
+    background-color: var(--main-color-dark);
+}
+
+p, a, .fg-dial-label {
     font-family: 'Rubik', sans-serif;
 }
 
@@ -231,6 +236,10 @@ p, a {
     max-width: 40vw;
 }
 
+
+.button {
+    background-color: var(--main-contrast-color);
+}
 #panelOne{
     color: var(--main-contrast-color);
 }
@@ -263,6 +272,5 @@ p, a {
 #numberOfNegTweets {
     color: #f58368;
 }
-
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }

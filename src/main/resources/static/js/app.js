@@ -5,28 +5,34 @@ var color = {
     mainContrastColor: "#87524F",
     mainColorLight: "#E0E0E0",
     mainColorDark: "#6E8C7B"
+};
+
+function setFocusToTextBox(){
+    $("#searchTweetInput").focus();
 }
 
-var tweetObjects = {};
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
 
     if (event.which == 13) {
         var searchInput = $("input[name=input]").val();
-        keywordInput = searchInput;
+        keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
     }
 });
 
 
+
+
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
-    keywordInput = searchInput;
-    ajaxRequest(searchInput);
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequest(htmlEscape(searchInput));
 });
 
 var ajaxRequest = function (searchInput) {
+    var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -39,17 +45,33 @@ var ajaxRequest = function (searchInput) {
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            if (result.tweets === null) {
+                $(document.body).css({'cursor': 'default'});
+                keywordInput = "No tweets were found"; //To update the dialLabel
+                gauge.update(
+                    {
+                        dialValue: "-%",
+                    }
+                );
+                $("#numberOfTweets").text("?");
+                $("#numberOfPosTweets").text("?");
+                $("#numberOfNegTweets").text("?");
+                return;
+            }
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-            percentage = result.averageSentiment;
-            percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
+
+
+            var percentage = result.averageSentiment.toFixed(2);
+   
             $("#output").empty();
             $("#gauge").find("h1").empty();
+            gauge.dialLabel = true;
             gauge.dialValue = true;
             console.log("successfully inserted ", result);
             gauge.update(
                 {
-                    arcFillPercent: result.averageSentiment,
+                    arcFillPercent: percentage,
                     colorArcFg: getColor(percentage)
                 }
             );
@@ -57,7 +79,7 @@ var ajaxRequest = function (searchInput) {
 
             var numberOfPositiveTweets = 0;
             var numberOfNegativeTweets = 0;
-            for(var j = 0; j < tweetObjects.tweets.length; j++) {
+            for (var j = 0; j < tweetObjects.tweets.length; j++) {
                 if (tweetObjects.tweets[j].sentimentScore > 0.5) {
                     numberOfPositiveTweets++;
                 } else {
@@ -74,7 +96,10 @@ var ajaxRequest = function (searchInput) {
             createScatterPlot(searchInput, result.tweets);
         }
     });
-}
+    $("#searchTweetInput").val("");
+};
+
+
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
@@ -99,7 +124,6 @@ var gauge = new FlexGauge({
 
         var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
         return ["hsl(", hue, ",65%,65%)"].join("");
-
     },
 
     dialValue: "-%",
@@ -111,23 +135,23 @@ var getColor = function (value) {
     var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
     return ["hsl(", hue, ",65%,65%)"].join("");
 
-}
+};
 
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var numberOfTweets = tweetObjects.tweets.length;
+    var numberOfTweets = tweets.length;
     if (numberOfTweets > 100) {
-        tweetObjects.tweets.splice(0, 100);
+        tweets.splice(0, 100);
     }
 
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
-            y: (tweetObjects.tweets[i - 1].sentimentScore),
+            y: (tweets[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(tweetObjects.tweets[i - 1].createdAt).toLocaleString(),
-            tweetText: tweetObjects.tweets[i - 1].tweetText,
-            sentimentScore: tweetObjects.tweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(tweets[i - 1].createdAt).toLocaleString(),
+            tweetText: tweets[i - 1].tweetText,
+            sentimentScore: tweets[i - 1].sentimentScore.toFixed(2)
         });
     }
 
@@ -137,7 +161,6 @@ var createScatterPlot = function (searchQuery, tweets) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: " + searchQuery,
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
@@ -146,8 +169,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                 pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 8,
-                pointHoverRadius: 10,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointHitRadius: 6,
                 data: dataPoints
             }]
         },
@@ -159,6 +183,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                     ticks: {
                         display: false
                     },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
                     scaleLabel: {
                         display: true,
                         labelString: "Tweets",
@@ -168,7 +195,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 yAxes: [{
                     gridLines: {
                         color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
                         callback: function (value, index, values) {
@@ -191,7 +218,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         display: true,
                         fontSize: 20
                     }
-                }],
+                }]
             },
             tooltips: {
                 enabled: true,
@@ -215,8 +242,19 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }
             },
             title: {
-                display: false,
+                display: false
             },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
         }
     });
 
@@ -228,7 +266,7 @@ var createScatterPlot = function (searchQuery, tweets) {
         }
     }
     scatterChart.update();
-}
+};
 
 var returnsCleanScatter = function () {
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -239,13 +277,8 @@ var returnsCleanScatter = function () {
                 label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
-                pointStyle: "circle",
-                pointBorderColor: color.mainColorDark,
-                pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 4,
-                pointHoverRadius: 6
             }]
         },
         options: {
@@ -253,10 +286,10 @@ var returnsCleanScatter = function () {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
                     ticks: {
-                        min: 0,
-                        max: 50,
-                        stepSize: 5,
                         display: false
                     },
                     scaleLabel: {
@@ -286,20 +319,30 @@ var returnsCleanScatter = function () {
                         min: 0,
                         max: 1,
                         stepSize: 0.1,
-                        padding: 30
                     },
                     scaleLabel: {
                         display: true,
                         fontSize: 20
                     }
-                }],
+                }]
             },
             title: {
-                display: false,
+                display: false
             },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
         }
     });
-}
+};
 
 var maxTooltipLength = 50; //possibly refactor this global variable
 
@@ -317,7 +360,7 @@ var wordsToArray = function (words) {
     });
     lines.push(str);
     return lines;
-}
+};
 
 var breakLabels = function (tooltipItem, data) {
     var label = data["datasets"][0]["data"][tooltipItem["index"]].tweetText;
@@ -326,15 +369,15 @@ var breakLabels = function (tooltipItem, data) {
     }
     var words = label.split(' ');
     return wordsToArray(words);
-}
+};
 
 var firstLabel = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data)[0];
-}
+};
 
 var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
-}
+};
 
 function htmlEscape(str) {
     return str
