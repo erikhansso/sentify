@@ -258,6 +258,9 @@ p, a, .fg-dial-label {
 #panelThree{
     color: var(--main-contrast-color);
 }
+#panelFour{
+    color: var(--main-contrast-color);
+}
 
 .statArea {
     display: flex;

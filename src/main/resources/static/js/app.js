@@ -103,7 +103,6 @@ var ajaxRequest = function (searchInput) {
             }
 
             $("#numberOfPosTweets").text(numberOfPositiveTweets);
-
             $("#numberOfNegTweets").text(numberOfNegativeTweets);
 
             $("#scatterChartContainer").empty();
@@ -111,6 +110,8 @@ var ajaxRequest = function (searchInput) {
             $("#barChartContainer").empty();
             $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
             createScatterPlot(searchInput, result.tweets);
+            createBarChart();
+
         }
     });
     $("#searchTweetInput").val("");
@@ -401,12 +402,22 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-var testBarData = [0.8, 0.3, 0.5, 0.7, 0.2];
-var barLabels = ["#pancake","cat","#godofwar","#trump","#cake"];
+var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
+
+var convertToBarDataFormat = function(data){
+    var dataArray = [];
+    for (var i = 0; i < data.length; i++) {
+        dataArray.push(data[i] - 0.5);
+    }
+    return dataArray;
+}
+
+
 
 
 //Bar chart scripts below
-var returnsBarChart = function () {
+var createBarChart = function () {
+var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
     var ctx = document.getElementById('barChart').getContext('2d');
     var barChart = new Chart(ctx, {
         type: 'bar',
@@ -414,14 +425,14 @@ var returnsBarChart = function () {
             labels: barLabels,
             datasets: [
                 {
-                    backgroundColor: [colorRGB.mainColorDarker,  colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
-                    data: testBarData,
+                    backgroundColor: [colorRGB.mainColorDarker, colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
+                    data: convertToBarDataFormat(testBarData),
                     borderColor: color.mainColorDark,
                 }
             ]
         },
         options: {
-            legend: { display: false },
+            legend: {display: false},
             title: {
                 display: false,
             },
@@ -449,15 +460,15 @@ var returnsBarChart = function () {
                             }
                             return "";
                         },
-                        min: 0,
-                        max: 1,
+                        min: -0.5,
+                        max: 0.5,
                         stepSize: 0.1,
                     },
                 }]
             },
             layout: {
                 padding: {
-                    left: 20,
+                    left: 50,
                     right: 50,
                     top: 0,
                     bottom: 0
@@ -473,17 +484,17 @@ var returnsCleanBarChart = function () {
     var barChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ["#example","","","",""],
+            labels: ["#example", "", "", "", ""],
             datasets: [
                 {
                     backgroundColor: colorRGB.mainColorDarker,
-                    data: [0.75],
+                    data: [0.25],
                     borderColor: color.mainColorDark,
                 }
             ]
         },
         options: {
-            legend: { display: false },
+            legend: {display: false},
             title: {
                 display: false,
             },
@@ -511,8 +522,8 @@ var returnsCleanBarChart = function () {
                             }
                             return "";
                         },
-                        min: 0,
-                        max: 1,
+                        min: -0.5,
+                        max: 0.5,
                         stepSize: 0.1,
                     },
                 }]
