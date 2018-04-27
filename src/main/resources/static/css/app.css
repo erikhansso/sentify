@@ -50,6 +50,7 @@
     }
 }
 
+
 #navbar {
     position: fixed;
     width: 100%;
@@ -161,7 +162,11 @@ h1, h4, input, span {
     background-color: var(--main-color);
 }
 #searchButton:active {
-    background-color: var(--main-color-light);
+    transform: translateY(1px);
+}
+
+#searchButton:hover {
+    background-color: var(--main-color-dark);
 }
 
 p, a {
