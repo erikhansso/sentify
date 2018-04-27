@@ -56,6 +56,12 @@
     z-index: 10;
 }
 
+h4 {
+
+    font-size: 2vw;
+    text-align: center;
+}
+
 
 #gauge {
     max-width: 600px;
@@ -147,8 +153,15 @@
     background-color: var(--main-color-light);
 }
 
-h1, input, span {
+h1, h4, input, span {
     font-family: 'Sura', serif;
+}
+
+#searchButton {
+    background-color: var(--main-color);
+}
+#searchButton:active {
+    background-color: var(--main-color-light);
 }
 
 p, a {
@@ -174,6 +187,7 @@ p, a {
     margin-bottom: 2vw;
     width: 50vw;
     max-width: 50vw;
+    border-radius: 3px;
 }
 
 .small-6 {
@@ -217,8 +231,41 @@ p, a {
     max-width: 40vw;
 }
 
+
 .button {
     background-color: var(--main-contrast-color);
+}
+#panelOne{
+    color: var(--main-contrast-color);
+}
+#panelTwo{
+    color: var(--main-contrast-color);
+}
+#panelThree{
+    color: var(--main-contrast-color);
+}
+
+.statArea {
+    display: flex;
+    justify-content: center;
+}
+
+.descrArea {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    flex: 1 1 0;
+    text-align: center;
+}
+
+#numberOfPosTweets {
+    color: #90cd8a;
+}
+
+#numberOfNegTweets {
+    color: #f58368;
 }
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
