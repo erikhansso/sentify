@@ -11,7 +11,6 @@ function setFocusToTextBox(){
     $("#searchTweetInput").focus();
 }
 
-var tweetObjects = {};
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
@@ -33,6 +32,7 @@ $("#searchButton").on("click", function (e) {
 });
 
 var ajaxRequest = function (searchInput) {
+    var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -141,18 +141,18 @@ var getColor = function (value) {
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var numberOfTweets = tweetObjects.tweets.length;
+    var numberOfTweets = tweets.length;
     if (numberOfTweets > 100) {
-        tweetObjects.tweets.splice(0, 100);
+        tweets.splice(0, 100);
     }
 
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
-            y: (tweetObjects.tweets[i - 1].sentimentScore),
+            y: (tweets[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(tweetObjects.tweets[i - 1].createdAt).toLocaleString(),
-            tweetText: tweetObjects.tweets[i - 1].tweetText,
-            sentimentScore: tweetObjects.tweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(tweets[i - 1].createdAt).toLocaleString(),
+            tweetText: tweets[i - 1].tweetText,
+            sentimentScore: tweets[i - 1].sentimentScore.toFixed(2)
         });
     }
 
@@ -162,7 +162,6 @@ var createScatterPlot = function (searchQuery, tweets) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: " + searchQuery,
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
@@ -171,8 +170,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                 pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 8,
-                pointHoverRadius: 10,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointHitRadius: 6,
                 data: dataPoints
             }]
         },
@@ -183,6 +183,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                     position: 'bottom',
                     ticks: {
                         display: false
+                    },
+                    gridLines: {
+                        color: color.mainColorLight
                     },
                     scaleLabel: {
                         display: true,
@@ -241,6 +244,17 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             title: {
                 display: false
+            },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
             }
         }
     });
@@ -264,13 +278,8 @@ var returnsCleanScatter = function () {
                 label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
-                pointStyle: "circle",
-                pointBorderColor: color.mainColorDark,
-                pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 4,
-                pointHoverRadius: 6
             }]
         },
         options: {
@@ -278,10 +287,10 @@ var returnsCleanScatter = function () {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
                     ticks: {
-                        min: 0,
-                        max: 50,
-                        stepSize: 5,
                         display: false
                     },
                     scaleLabel: {
@@ -311,7 +320,6 @@ var returnsCleanScatter = function () {
                         min: 0,
                         max: 1,
                         stepSize: 0.1,
-                        padding: 30
                     },
                     scaleLabel: {
                         display: true,
@@ -321,6 +329,17 @@ var returnsCleanScatter = function () {
             },
             title: {
                 display: false
+            },
+            legend: {
+                display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
             }
         }
     });
