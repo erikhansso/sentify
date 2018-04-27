@@ -39,12 +39,28 @@ var ajaxRequest = function (searchInput) {
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            if (result.tweets === null) {
+                $(document.body).css({'cursor': 'default'});
+                console.log("tweets were empty")
+                gauge.update(
+                    {
+                        dialValue: "-%",
+                        dialLabel: "No tweets were found"
+                    }
+                );
+
+                $("#numberOfTweets").text("?");
+                $("#numberOfPosTweets").text("?");
+                $("#numberOfNegTweets").text("?");
+                return;
+            }
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-            percentage = result.averageSentiment;
+
             percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
+            gauge.dialLabel = true;
             gauge.dialValue = true;
             console.log("successfully inserted ", result);
             gauge.update(
@@ -57,7 +73,7 @@ var ajaxRequest = function (searchInput) {
 
             var numberOfPositiveTweets = 0;
             var numberOfNegativeTweets = 0;
-            for(var j = 0; j < tweetObjects.tweets.length; j++) {
+            for (var j = 0; j < tweetObjects.tweets.length; j++) {
                 if (tweetObjects.tweets[j].sentimentScore > 0.5) {
                     numberOfPositiveTweets++;
                 } else {
