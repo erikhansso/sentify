@@ -5,6 +5,10 @@ var color = {
     mainContrastColor: "#87524F",
     mainColorLight: "#E0E0E0",
     mainColorDark: "#6E8C7B"
+};
+
+function setFocusToTextBox(){
+    $("#searchTweetInput").focus();
 }
 
 var tweetObjects = {};
@@ -14,16 +18,18 @@ $('#searchTweetInput').keypress(function (event) {
 
     if (event.which == 13) {
         var searchInput = $("input[name=input]").val();
-        keywordInput = searchInput;
+        keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
     }
 });
 
 
+
+
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
-    keywordInput = searchInput;
-    ajaxRequest(searchInput);
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequest(htmlEscape(searchInput));
 });
 
 var ajaxRequest = function (searchInput) {
@@ -90,7 +96,10 @@ var ajaxRequest = function (searchInput) {
             createScatterPlot(searchInput, result.tweets);
         }
     });
-}
+    $("#searchTweetInput").val("");
+};
+
+
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
@@ -126,7 +135,7 @@ var getColor = function (value) {
     var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
     return ["hsl(", hue, ",65%,65%)"].join("");
 
-}
+};
 
 
 //Scatterplot scripts below
@@ -184,7 +193,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 yAxes: [{
                     gridLines: {
                         color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
                         callback: function (value, index, values) {
@@ -207,7 +216,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         display: true,
                         fontSize: 20
                     }
-                }],
+                }]
             },
             tooltips: {
                 enabled: true,
@@ -231,8 +240,8 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }
             },
             title: {
-                display: false,
-            },
+                display: false
+            }
         }
     });
 
@@ -244,7 +253,7 @@ var createScatterPlot = function (searchQuery, tweets) {
         }
     }
     scatterChart.update();
-}
+};
 
 var returnsCleanScatter = function () {
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -308,14 +317,14 @@ var returnsCleanScatter = function () {
                         display: true,
                         fontSize: 20
                     }
-                }],
+                }]
             },
             title: {
-                display: false,
-            },
+                display: false
+            }
         }
     });
-}
+};
 
 var maxTooltipLength = 50; //possibly refactor this global variable
 
@@ -333,7 +342,7 @@ var wordsToArray = function (words) {
     });
     lines.push(str);
     return lines;
-}
+};
 
 var breakLabels = function (tooltipItem, data) {
     var label = data["datasets"][0]["data"][tooltipItem["index"]].tweetText;
@@ -342,15 +351,15 @@ var breakLabels = function (tooltipItem, data) {
     }
     var words = label.split(' ');
     return wordsToArray(words);
-}
+};
 
 var firstLabel = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data)[0];
-}
+};
 
 var otherLabels = function (tooltipItem, data) {
     return breakLabels(tooltipItem, data).slice(1);
-}
+};
 
 function htmlEscape(str) {
     return str

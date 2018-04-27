@@ -50,6 +50,7 @@
     }
 }
 
+
 #navbar {
     position: fixed;
     width: 100%;
@@ -235,6 +236,10 @@ p, a {
     max-width: 40vw;
 }
 
+
+.button {
+    background-color: var(--main-contrast-color);
+}
 #panelOne{
     color: var(--main-contrast-color);
 }
@@ -267,6 +272,5 @@ p, a {
 #numberOfNegTweets {
     color: #f58368;
 }
-
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
