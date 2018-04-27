@@ -42,10 +42,10 @@ var ajaxRequest = function (searchInput) {
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
                 console.log("tweets were empty")
+                keywordInput = "No tweets were found"; //To update the dialLabel
                 gauge.update(
                     {
                         dialValue: "-%",
-                        dialLabel: "No tweets were found"
                     }
                 );
 
