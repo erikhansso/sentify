@@ -7,6 +7,10 @@ var color = {
     mainColorDark: "#6E8C7B"
 }
 
+function setFocusToTextBox(){
+    $("#searchTweetInput").focus();
+}
+
 var tweetObjects = {};
 var keywordInput = '';
 
@@ -18,6 +22,8 @@ $('#searchTweetInput').keypress(function (event) {
         ajaxRequest(searchInput);
     }
 });
+
+
 
 
 $("#searchButton").on("click", function (e) {
@@ -90,7 +96,9 @@ var ajaxRequest = function (searchInput) {
             createScatterPlot(searchInput, result.tweets);
         }
     });
+    $("#searchTweetInput").val("");
 }
+
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
