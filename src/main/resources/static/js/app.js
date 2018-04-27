@@ -1,3 +1,4 @@
+Chart.defaults.global.defaultFontFamily = "Sura";
 /*Use these five color variables, comes from our palette!*/
 var color = {
     mainBgColor: "#FFFFFF",
