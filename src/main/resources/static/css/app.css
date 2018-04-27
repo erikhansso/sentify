@@ -154,7 +154,7 @@ h4 {
     background-color: var(--main-color-light);
 }
 
-h1, h4, input, span {
+h1, h4, input, span, .fg-dial {
     font-family: 'Sura', serif;
 }
 
@@ -169,7 +169,7 @@ h1, h4, input, span {
     background-color: var(--main-color-dark);
 }
 
-p, a {
+p, a, .fg-dial-label {
     font-family: 'Rubik', sans-serif;
 }
 

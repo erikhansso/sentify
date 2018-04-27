@@ -11,7 +11,6 @@ function setFocusToTextBox(){
     $("#searchTweetInput").focus();
 }
 
-var tweetObjects = {};
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
@@ -33,6 +32,7 @@ $("#searchButton").on("click", function (e) {
 });
 
 var ajaxRequest = function (searchInput) {
+    var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -146,18 +146,18 @@ var getColor = function (value) {
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var numberOfTweets = tweetObjects.tweets.length;
+    var numberOfTweets = tweets.length;
     if (numberOfTweets > 100) {
-        tweetObjects.tweets.splice(0, 100);
+        tweets.splice(0, 100);
     }
 
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
-            y: (tweetObjects.tweets[i - 1].sentimentScore),
+            y: (tweets[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(tweetObjects.tweets[i - 1].createdAt).toLocaleString(),
-            tweetText: tweetObjects.tweets[i - 1].tweetText,
-            sentimentScore: tweetObjects.tweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(tweets[i - 1].createdAt).toLocaleString(),
+            tweetText: tweets[i - 1].tweetText,
+            sentimentScore: tweets[i - 1].sentimentScore.toFixed(2)
         });
     }
 
