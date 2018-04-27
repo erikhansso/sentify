@@ -4961,10 +4961,11 @@ table.hover:not(.unstriped) tr:nth-of-type(even):hover {
     line-height: 1;
     color: #1779ba; }
     .tabs-title > a:hover {
-      background: #fefefe;
+      background: #E0E0E0;
       color: #1468a0; }
     .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
-      background: #e6e6e6;
+      outline: 0;
+      background: #E0E0E0;
       color: #1779ba; }
 
 .tabs-content {
