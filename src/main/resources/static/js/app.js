@@ -14,10 +14,11 @@ function setFocusToTextBox(){
 var tweetObjects = {};
 var keywordInput = '';
 
-$('#searchTweetInput').keypress(function(event) {
+$('#searchTweetInput').keypress(function (event) {
 
-    if (event.which == 13){
+    if (event.which == 13) {
         var searchInput = $("input[name=input]").val();
+        keywordInput = searchInput;
         ajaxRequest(searchInput);
     }
 });
@@ -31,7 +32,7 @@ $("#searchButton").on("click", function (e) {
     ajaxRequest(searchInput);
 });
 
-var ajaxRequest = function(searchInput){
+var ajaxRequest = function (searchInput) {
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -44,12 +45,29 @@ var ajaxRequest = function(searchInput){
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            if (result.tweets === null) {
+                $(document.body).css({'cursor': 'default'});
+                console.log("tweets were empty")
+                gauge.update(
+                    {
+                        dialValue: "-%",
+                        dialLabel: "No tweets were found"
+                    }
+                );
+
+                $("#numberOfTweets").text("?");
+                $("#numberOfPosTweets").text("?");
+                $("#numberOfNegTweets").text("?");
+                return;
+            }
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-            percentage = result.averageSentiment;
+
             percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
             $("#output").empty();
             $("#gauge").find("h1").empty();
+            gauge.dialLabel = true;
+            gauge.dialValue = true;
             console.log("successfully inserted ", result);
             gauge.update(
                 {
@@ -57,6 +75,22 @@ var ajaxRequest = function(searchInput){
                     colorArcFg: getColor(percentage)
                 }
             );
+            $("#numberOfTweets").text(tweetObjects.tweets.length);
+
+            var numberOfPositiveTweets = 0;
+            var numberOfNegativeTweets = 0;
+            for (var j = 0; j < tweetObjects.tweets.length; j++) {
+                if (tweetObjects.tweets[j].sentimentScore > 0.5) {
+                    numberOfPositiveTweets++;
+                } else {
+                    numberOfNegativeTweets++;
+                }
+            }
+
+            $("#numberOfPosTweets").text(numberOfPositiveTweets);
+
+            $("#numberOfNegTweets").text(numberOfNegativeTweets);
+
             $("#scatterChartContainer").empty();
             $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
             createScatterPlot(searchInput, result.tweets);
@@ -83,25 +117,25 @@ var gauge = new FlexGauge({
     arcStrokeFg: 80,
     arcStrokeBg: 80,
 
-    colorArcFg: function(){
+    colorArcFg: function () {
         //value from 0 to 1
         value = 0.5;
-        var hue=((1-(Math.abs(value-1)))*120).toString(10);
-        return ["hsl(",hue,",100%,50%)"].join("");
-        return ["hsl(",hue,",65%,65%)"].join("");
+
+        var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
+        return ["hsl(", hue, ",65%,65%)"].join("");
+
     },
 
-    dialValue: true,
+    dialValue: "-%",
     dialLabel: true
 });
 
-var getColor = function(value){
+var getColor = function (value) {
     //value from 0 to 1
-    var hue=((1-(Math.abs(value-1)))*120).toString(10);
-    return ["hsl(",hue,",100%,50%)"].join("");
-    return ["hsl(",hue,",65%,65%)"].join("");
-}
+    var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
+    return ["hsl(", hue, ",65%,65%)"].join("");
 
+}
 
 
 //Scatterplot scripts below

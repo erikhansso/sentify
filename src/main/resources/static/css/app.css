@@ -153,8 +153,19 @@ h4 {
     background-color: var(--main-color-light);
 }
 
-h1, input, span {
+h1, h4, input, span {
     font-family: 'Sura', serif;
+}
+
+#searchButton {
+    background-color: var(--main-color);
+}
+#searchButton:active {
+    transform: translateY(1px);
+}
+
+#searchButton:hover {
+    background-color: var(--main-color-dark);
 }
 
 p, a {
@@ -223,5 +234,39 @@ p, a {
 #gaugeCanvas {
     max-width: 40vw;
 }
+
+#panelOne{
+    color: var(--main-contrast-color);
+}
+#panelTwo{
+    color: var(--main-contrast-color);
+}
+#panelThree{
+    color: var(--main-contrast-color);
+}
+
+.statArea {
+    display: flex;
+    justify-content: center;
+}
+
+.descrArea {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    flex: 1 1 0;
+    text-align: center;
+}
+
+#numberOfPosTweets {
+    color: #90cd8a;
+}
+
+#numberOfNegTweets {
+    color: #f58368;
+}
+
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
