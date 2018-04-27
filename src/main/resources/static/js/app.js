@@ -48,7 +48,9 @@ var ajaxRequest = function (searchInput) {
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
-                $("#scatterTitle").text("Latest opinions of: -");
+                $("#scatterTitle").text("No tweets were found");
+                $("#output").empty();
+                returnsCleanScatter();
                 gauge.update(
                     {
                         dialValue: "-%",
