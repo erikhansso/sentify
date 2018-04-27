@@ -184,6 +184,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                     ticks: {
                         display: false
                     },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
                     scaleLabel: {
                         display: true,
                         labelString: "Tweets",
@@ -244,6 +247,14 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             legend: {
                 display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
             }
         }
     });
@@ -276,10 +287,10 @@ var returnsCleanScatter = function () {
                 xAxes: [{
                     type: 'linear',
                     position: 'bottom',
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
                     ticks: {
-                        min: 0,
-                        max: 50,
-                        stepSize: 5,
                         display: false
                     },
                     scaleLabel: {
@@ -309,7 +320,6 @@ var returnsCleanScatter = function () {
                         min: 0,
                         max: 1,
                         stepSize: 0.1,
-                        padding: 30
                     },
                     scaleLabel: {
                         display: true,
@@ -322,6 +332,14 @@ var returnsCleanScatter = function () {
             },
             legend: {
                 display: false
+            },
+            layout: {
+                padding: {
+                    left: 0,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
             }
         }
     });
