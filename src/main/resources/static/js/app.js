@@ -8,7 +8,18 @@ var color = {
     mainColorDark: "#6E8C7B"
 };
 
-function setFocusToTextBox(){
+var colorRGB = {
+    mainBgColor: "rgba(255,255,255,0.1)",
+    mainColor: "rgba(206,237,241,0.7)",
+    mainContrastColor: "rgba(135,82,79,0.7)",
+    mainColorLight: "rgba(224,224,224,0.7)",
+    mainColorDark: "rgba(110,140,123,0.7)",
+    mainColorDarker: "rgba(161,186,189,0.7",
+    mainColorDarkLighter: "rgba(135,173,152,0.7"
+
+}
+
+function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
@@ -22,8 +33,6 @@ $('#searchTweetInput').keypress(function (event) {
         ajaxRequest(searchInput);
     }
 });
-
-
 
 
 $("#searchButton").on("click", function (e) {
@@ -66,10 +75,10 @@ var ajaxRequest = function (searchInput) {
             tweetObjects = result;
 
 
-            $("#scatterTitle").text("Latest opinions of: "+searchInput);
+            $("#scatterTitle").text("Latest opinions of: " + searchInput);
 
             var percentage = result.averageSentiment.toFixed(2);
-   
+
             $("#output").empty();
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
@@ -98,13 +107,14 @@ var ajaxRequest = function (searchInput) {
             $("#numberOfNegTweets").text(numberOfNegativeTweets);
 
             $("#scatterChartContainer").empty();
-            $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
+            $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+            $("#barChartContainer").empty();
+            $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
             createScatterPlot(searchInput, result.tweets);
         }
     });
     $("#searchTweetInput").val("");
 };
-
 
 
 // //Creates a new gauge and appends it to the #demo-tag
@@ -162,7 +172,7 @@ var createScatterPlot = function (searchQuery, tweets) {
     }
 
     var pointBackgroundColors = [];
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('scatterChart').getContext('2d');
     var scatterChart = new Chart(ctx, {
         type: 'scatter',
         data: {
@@ -187,7 +197,10 @@ var createScatterPlot = function (searchQuery, tweets) {
                     type: 'linear',
                     position: 'bottom',
                     ticks: {
-                        display: false
+                        display: false,
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
                     },
                     gridLines: {
                         color: color.mainColorLight
@@ -200,7 +213,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
@@ -220,10 +233,6 @@ var createScatterPlot = function (searchQuery, tweets) {
                         max: 1,
                         stepSize: 0.1
                     },
-                    scaleLabel: {
-                        display: true,
-                        fontSize: 20
-                    }
                 }]
             },
             tooltips: {
@@ -255,7 +264,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             layout: {
                 padding: {
-                    left: 0,
+                    left: 50,
                     right: 50,
                     top: 0,
                     bottom: 0
@@ -266,21 +275,20 @@ var createScatterPlot = function (searchQuery, tweets) {
 
     for (i = 0; i < scatterChart.data.datasets[0].data.length; i++) {
         if (scatterChart.data.datasets[0].data[i].y > 0.5) {
-            pointBackgroundColors.push("#90cd8a");
+            pointBackgroundColors.push("rgba(110,140,123,0.8)");
         } else {
-            pointBackgroundColors.push("#f58368");
+            pointBackgroundColors.push("rgba(135,82,79,0.8)");
         }
     }
     scatterChart.update();
 };
 
 var returnsCleanScatter = function () {
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('scatterChart').getContext('2d');
     var emptyScatter = new Chart(ctx, {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 backgroundColor: color.mainBgColor,
@@ -296,7 +304,10 @@ var returnsCleanScatter = function () {
                         color: color.mainColorLight
                     },
                     ticks: {
-                        display: false
+                        display: false,
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
                     },
                     scaleLabel: {
                         display: true,
@@ -306,7 +317,7 @@ var returnsCleanScatter = function () {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
@@ -326,10 +337,6 @@ var returnsCleanScatter = function () {
                         max: 1,
                         stepSize: 0.1,
                     },
-                    scaleLabel: {
-                        display: true,
-                        fontSize: 20
-                    }
                 }]
             },
             title: {
@@ -340,7 +347,7 @@ var returnsCleanScatter = function () {
             },
             layout: {
                 padding: {
-                    left: 0,
+                    left: 20,
                     right: 50,
                     top: 0,
                     bottom: 0
@@ -394,6 +401,136 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
+var testBarData = [0.8, 0.3, 0.5, 0.7, 0.2];
+var barLabels = ["#pancake","cat","#godofwar","#trump","#cake"];
+
+
+//Bar chart scripts below
+var returnsBarChart = function () {
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: barLabels,
+            datasets: [
+                {
+                    backgroundColor: [colorRGB.mainColorDarker,  colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
+                    data: testBarData,
+                    borderColor: color.mainColorDark,
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+}
+
+var returnsCleanBarChart = function () {
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["#example","","","",""],
+            datasets: [
+                {
+                    backgroundColor: colorRGB.mainColorDarker,
+                    data: [0.75],
+                    borderColor: color.mainColorDark,
+                }
+            ]
+        },
+        options: {
+            legend: { display: false },
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+}
+
 returnsCleanScatter();
+returnsCleanBarChart();
 
 

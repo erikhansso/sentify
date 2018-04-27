@@ -215,7 +215,7 @@ p, a, .fg-dial-label {
     width: 50vw;
 }
 
-#myChart {
+.jsChart {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -224,13 +224,15 @@ p, a, .fg-dial-label {
     height: 100%;
 }
 
+
+
 #panel2 panel1{
     height: 100%;
 }
 
 
 
-#scatterChartContainer {
+.chartContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -273,11 +275,11 @@ p, a, .fg-dial-label {
 }
 
 #numberOfPosTweets {
-    color: #90cd8a;
+    color: var(--main-color-dark);
 }
 
 #numberOfNegTweets {
-    color: #f58368;
+    color: var(--main-contrast-color);
 }
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
