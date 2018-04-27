@@ -142,7 +142,6 @@ var getColor = function (value) {
 
 };
 
-
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
