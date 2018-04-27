@@ -162,7 +162,6 @@ var createScatterPlot = function (searchQuery, tweets) {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: " + searchQuery,
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 pointStyle: "circle",
@@ -171,8 +170,9 @@ var createScatterPlot = function (searchQuery, tweets) {
                 pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 8,
-                pointHoverRadius: 10,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointHitRadius: 6,
                 data: dataPoints
             }]
         },
@@ -241,6 +241,9 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             title: {
                 display: false
+            },
+            legend: {
+                display: false
             }
         }
     });
@@ -264,13 +267,8 @@ var returnsCleanScatter = function () {
                 label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
-                pointStyle: "circle",
-                pointBorderColor: color.mainColorDark,
-                pointHoverBackgroundColor: color.mainColorLight,
                 backgroundColor: color.mainBgColor,
                 borderColor: color.mainColorDark,
-                pointRadius: 4,
-                pointHoverRadius: 6
             }]
         },
         options: {
@@ -320,6 +318,9 @@ var returnsCleanScatter = function () {
                 }]
             },
             title: {
+                display: false
+            },
+            legend: {
                 display: false
             }
         }
