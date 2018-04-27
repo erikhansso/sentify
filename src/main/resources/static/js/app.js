@@ -41,14 +41,12 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
-                console.log("tweets were empty")
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 gauge.update(
                     {
                         dialValue: "-%",
                     }
                 );
-
                 $("#numberOfTweets").text("?");
                 $("#numberOfPosTweets").text("?");
                 $("#numberOfNegTweets").text("?");
@@ -57,7 +55,9 @@ var ajaxRequest = function (searchInput) {
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
 
-            percentage = result.averageSentiment;   // getColor function couldnt take result.averagesentiment as parameter directly
+
+            var percentage = result.averageSentiment.toFixed(2);
+   
             $("#output").empty();
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
@@ -65,7 +65,7 @@ var ajaxRequest = function (searchInput) {
             console.log("successfully inserted ", result);
             gauge.update(
                 {
-                    arcFillPercent: result.averageSentiment,
+                    arcFillPercent: percentage,
                     colorArcFg: getColor(percentage)
                 }
             );
@@ -115,7 +115,6 @@ var gauge = new FlexGauge({
 
         var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
         return ["hsl(", hue, ",65%,65%)"].join("");
-
     },
 
     dialValue: "-%",
