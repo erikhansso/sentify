@@ -23,11 +23,10 @@ $('#searchTweetInput').keypress(function (event) {
 $("#searchButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
-    ajaxRequest(searchInput);
+    ajaxRequest(htmlEscape(searchInput));
 });
 
 var ajaxRequest = function (searchInput) {
-    searchInput = htmlEscape(searchInput);
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
