@@ -8,7 +8,17 @@ var color = {
     mainColorDark: "#6E8C7B"
 };
 
-function setFocusToTextBox(){
+var colorRGB = {
+    mainBgColor: "rgba(255,255,255,0.1)",
+    mainColor: "rgba(206,237,241,0.7)",
+    mainContrastColor: "rgba(135,82,79,0.7)",
+    mainColorLight: "rgba(224,224,224,0.7)",
+    mainColorDark: "rgba(110,140,123,0.7)",
+    mainColorDarker: "rgba(161,186,189,0.7)",
+    mainColorDarkLighter: "rgba(135,173,152,0.7)"
+}
+
+function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
@@ -22,8 +32,6 @@ $('#searchTweetInput').keypress(function (event) {
         ajaxRequest(searchInput);
     }
 });
-
-
 
 
 $("#searchButton").on("click", function (e) {
@@ -46,12 +54,16 @@ var ajaxRequest = function (searchInput) {
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
+                $("#lineChartTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
+                returnsCleanBarChart()
+                returnsCleanLineChart()
                 gauge.update(
                     {
                         dialValue: "-%",
@@ -65,16 +77,15 @@ var ajaxRequest = function (searchInput) {
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
 
-
-            $("#scatterTitle").text("Latest opinions of: "+searchInput);
+            $("#scatterTitle").text("Latest opinions of: " + searchInput);
+            $("#lineChartTitle").text("Opinions of " + searchInput + " over time");
 
             var percentage = result.averageSentiment.toFixed(2);
-   
+
             $("#output").empty();
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
             gauge.dialValue = true;
-            console.log("successfully inserted ", result);
             gauge.update(
                 {
                     arcFillPercent: percentage,
@@ -94,17 +105,27 @@ var ajaxRequest = function (searchInput) {
             }
 
             $("#numberOfPosTweets").text(numberOfPositiveTweets);
-
             $("#numberOfNegTweets").text(numberOfNegativeTweets);
 
             $("#scatterChartContainer").empty();
-            $("#scatterChartContainer").append(" <canvas id=\"myChart\"></canvas>");
+            $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+            $("#barChartContainer").empty();
+            $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+            $("#lineChartContainer").empty();
+            $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+
+            state.tweetsSearchedFor.push({
+                searchinput: searchInput,
+                tweets: result
+            });
+
             createScatterPlot(searchInput, result.tweets);
+            createBarChart();
+            createLineChart(searchInput, state);
         }
     });
     $("#searchTweetInput").val("");
 };
-
 
 
 // //Creates a new gauge and appends it to the #demo-tag
@@ -143,26 +164,30 @@ var getColor = function (value) {
 
 };
 
+//Beginning of state object
+var state = {
+    tweetsSearchedFor: [] //contains the result of all tweets searched for in this session
+};
+
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var numberOfTweets = tweets.length;
-    if (numberOfTweets > 100) {
-        tweets.splice(0, 100);
-    }
+    var tweetsToBeAnalyzed = tweets;
 
-    for (var i = 1; i <= numberOfTweets; i++) {
+    var latestTweets = generateNewArrayFromOldObjectArrayWithMax100Items(tweetsToBeAnalyzed, 100);
+
+    for (var i = 1; i <= latestTweets.length; i++) {
         dataPoints.push({
-            y: (tweets[i - 1].sentimentScore),
+            y: (latestTweets[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(tweets[i - 1].createdAt).toLocaleString(),
-            tweetText: tweets[i - 1].tweetText,
-            sentimentScore: tweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(latestTweets[i - 1].createdAt).toLocaleString(),
+            tweetText: latestTweets[i - 1].tweetText,
+            sentimentScore: latestTweets[i - 1].sentimentScore.toFixed(2)
         });
     }
 
     var pointBackgroundColors = [];
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('scatterChart').getContext('2d');
     var scatterChart = new Chart(ctx, {
         type: 'scatter',
         data: {
@@ -187,7 +212,10 @@ var createScatterPlot = function (searchQuery, tweets) {
                     type: 'linear',
                     position: 'bottom',
                     ticks: {
-                        display: false
+                        display: false,
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
                     },
                     gridLines: {
                         color: color.mainColorLight
@@ -200,7 +228,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
@@ -220,10 +248,6 @@ var createScatterPlot = function (searchQuery, tweets) {
                         max: 1,
                         stepSize: 0.1
                     },
-                    scaleLabel: {
-                        display: true,
-                        fontSize: 20
-                    }
                 }]
             },
             tooltips: {
@@ -255,7 +279,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             layout: {
                 padding: {
-                    left: 0,
+                    left: 50,
                     right: 50,
                     top: 0,
                     bottom: 0
@@ -266,21 +290,20 @@ var createScatterPlot = function (searchQuery, tweets) {
 
     for (i = 0; i < scatterChart.data.datasets[0].data.length; i++) {
         if (scatterChart.data.datasets[0].data[i].y > 0.5) {
-            pointBackgroundColors.push("#90cd8a");
+            pointBackgroundColors.push("rgba(110,140,123,0.8)");
         } else {
-            pointBackgroundColors.push("#f58368");
+            pointBackgroundColors.push("rgba(135,82,79,0.8)");
         }
     }
     scatterChart.update();
 };
 
 var returnsCleanScatter = function () {
-    var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('scatterChart').getContext('2d');
     var emptyScatter = new Chart(ctx, {
         type: 'scatter',
         data: {
             datasets: [{
-                label: "You searched for: ",
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 backgroundColor: color.mainBgColor,
@@ -296,7 +319,10 @@ var returnsCleanScatter = function () {
                         color: color.mainColorLight
                     },
                     ticks: {
-                        display: false
+                        display: false,
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
                     },
                     scaleLabel: {
                         display: true,
@@ -306,7 +332,7 @@ var returnsCleanScatter = function () {
                 }],
                 yAxes: [{
                     gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainContrastColor, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
                         lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
                     },
                     ticks: {
@@ -326,10 +352,6 @@ var returnsCleanScatter = function () {
                         max: 1,
                         stepSize: 0.1,
                     },
-                    scaleLabel: {
-                        display: true,
-                        fontSize: 20
-                    }
                 }]
             },
             title: {
@@ -340,7 +362,7 @@ var returnsCleanScatter = function () {
             },
             layout: {
                 padding: {
-                    left: 0,
+                    left: 20,
                     right: 50,
                     top: 0,
                     bottom: 0
@@ -394,6 +416,351 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
+//Bar chart scripts below
+var createBarChart = function () {
+    var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
+
+    var convertToBarDataFormat = function (data) {
+        var dataArray = [];
+        for (var i = 0; i < data.length; i++) {
+            dataArray.push(data[i] - 0.5);
+        }
+        return dataArray;
+    }
+    var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: barLabels,
+            datasets: [
+                {
+                    backgroundColor: [colorRGB.mainColorDarker, colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
+                    data: convertToBarDataFormat(testBarData),
+                    borderColor: color.mainColorDark,
+                }
+            ]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: -0.5,
+                        max: 0.5,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 50,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+    barChart.update();
+};
+
+var returnsCleanBarChart = function () {
+    var ctx = document.getElementById('barChart').getContext('2d');
+    var barChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["#example", "", "", "", ""],
+            datasets: [
+                {
+                    backgroundColor: colorRGB.mainColorDarker,
+                    data: [0.25],
+                    borderColor: color.mainColorDark,
+                }
+            ]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: -0.5,
+                        max: 0.5,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+}
+
+//Line chart scripts below
+var createLineChart = function (searchInput) {
+
+    var dataPoints = addDataPointsToLineChart();
+    var dataSets = generateDatasetsFromLineChartDataPoints(dataPoints, searchInput);
+
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: dataSets
+        },
+        options: {
+            tooltips: {
+                enabled: true,
+                caretSize: 0,
+                mode: "nearest",
+                backgroundColor: color.mainColor,
+                bodyFontFamily: "sans-serif",
+                bodyFontSize: 12,
+                bodyFontColor: "#000000",
+                displayColors: false, //whether to display colored boxes in tooltip
+                callbacks: {
+                    title: function (tooltipItem, data) {
+                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].x.format("ddd MMM D YYYY");
+                    },
+                    label: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][0]["data"][tooltipItem["index"]].y;
+                    },
+                    afterFooter: function (tooltipItem, data) {
+                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].numberOfTweets + " tweet(s) analyzed this day";
+                    }
+                }
+            },
+            legend: {display: true},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    time: {
+                        displayFormats: {},
+                        unit: "day"
+                    },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Date'
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+    lineChart.update();
+};
+
+
+var addDataPointsToLineChart = function () {
+    var dataPointsArray = [];
+
+   var tweetsSearchedFor = generateNewArrayFromOldObjectArrayWithMax100Items(state.tweetsSearchedFor, 10);
+
+    //For every result in state object create an array of datapoints
+    for (var i = 0; i < tweetsSearchedFor.length; i++) {
+        var datesToBeAnalyzed = tweetsSearchedFor[i]["tweets"]["avgSentimentGroupedByDate"];
+        var dataPoints = [];
+
+        for (var j = 0; j < datesToBeAnalyzed.length; j++) {
+            dataPoints.push({
+                x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
+                y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
+                numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay,
+            });
+        }
+        dataPointsArray.push({
+            dataPoints: dataPoints,
+            searchQuery: tweetsSearchedFor[i]["searchinput"]
+        });
+    }
+    return dataPointsArray;
+};
+
+var generateNewArrayFromOldObjectArrayWithMax100Items = function(oldObjectArray, numberOfWantedItems){
+    var newArray = [];
+    for(var i = 0; i < oldObjectArray.length; i++){
+        if(i === numberOfWantedItems){
+            return newArray;
+        }
+        newArray.push(oldObjectArray[i]);
+    }
+    return newArray;
+}
+
+var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
+
+    var dataset = [];
+    //Generates a dataset from every datapoints-array
+    for (var i = 0; i < dataPointsArray.length; i++) {
+        dataset.push({
+            label: [dataPointsArray[i]["searchQuery"]],
+            data: dataPointsArray[i]["dataPoints"],
+            lineTension: 0
+        });
+    }
+    return dataset;
+};
+
+
+var returnsCleanLineChart = function () {
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {},
+        options: {
+            legend: {display: true},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    distribution: "linear",
+                    time: {
+                        displayFormats: {},
+                        unit: "day"
+                    },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+}
+
 returnsCleanScatter();
+returnsCleanBarChart();
+returnsCleanLineChart();
 
 
