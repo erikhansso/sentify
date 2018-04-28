@@ -9,13 +9,38 @@ var color = {
 };
 
 var colorRGB = {
-    mainBgColor: "rgba(255,255,255,0.1)",
+    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
     mainColorDark: "rgba(110,140,123,0.7)",
     mainColorDarker: "rgba(161,186,189,0.7)",
     mainColorDarkLighter: "rgba(135,173,152,0.7)"
+}
+
+var colorRGBDarker = {
+    // mainBgColor: "rgba(255,255,255,0.1)",
+    mainColor: "rgba(206,237,241)",
+    mainContrastColor: "rgba(135,82,79)",
+    mainColorLight: "rgba(224,224,224)",
+    mainColorDark: "rgba(110,140,123)",
+    mainColorDarker: "rgba(161,186,189)",
+    mainColorDarkLighter: "rgba(135,173,152)"
+}
+
+var getColorBasedOnIndex = function(index){
+    var color = "";
+    var counter = 0;
+    var size = 0;
+    for(var col in colorRGBDarker){size++;}
+
+    for(var col in colorRGBDarker){
+        if(index%size === counter){
+            return colorRGBDarker[col];
+        }
+        counter++;
+    }
+    return color;
 }
 
 function setFocusToTextBox() {
@@ -710,11 +735,20 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
         dataset.push({
             label: [dataPointsArray[i]["searchQuery"]],
             data: dataPointsArray[i]["dataPoints"],
-            lineTension: 0
+            lineTension: 0,
+            fill: false,
+            backgroundColor: getColorBasedOnIndex(i),
+            borderColor: getColorBasedOnIndex(i),
+            pointBackgroundColor: getColorBasedOnIndex(i),
+            pointBorderColor: getColorBasedOnIndex(i)
         });
     }
+
+
     return dataset;
 };
+
+
 
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
