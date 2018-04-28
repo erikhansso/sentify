@@ -59,7 +59,6 @@ var ajaxRequest = function (searchInput) {
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
-                $("#lineChartTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
                 returnsCleanBarChart()
@@ -78,7 +77,6 @@ var ajaxRequest = function (searchInput) {
             tweetObjects = result;
 
             $("#scatterTitle").text("Latest opinions of: " + searchInput);
-            $("#lineChartTitle").text("Opinions of " + searchInput + " over time");
 
             var percentage = result.averageSentiment.toFixed(2);
 
