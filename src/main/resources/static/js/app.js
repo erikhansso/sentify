@@ -589,6 +589,12 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
+                    title: function(tooltipItem, data){
+                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].x.format("ddd MMM D YYYY");
+                    },
+                    label: function (tooltipItem, data) {
+                        return "SentScore: " +data["datasets"][0]["data"][tooltipItem["index"]].y;
+                    },
                     // afterFooter: function (tooltipItem, data) {
                     //     return "Posted: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].createdAt;
                     // }
