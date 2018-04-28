@@ -102,18 +102,18 @@ public class MainController {
                     return localDate;
                 }));
 
-        Map<Date, Double> tweetsGroupedByDateWithAvgSentScore = new HashMap<>();
+        Map<Date, TweetAverage> tweetsGroupedByDateWithAvgSentScore = new HashMap<>();
 
         //Converts back to date object because js wants date object
         tweetsGroupedByLocalDate.forEach((key, value) -> {
-            tweetsGroupedByDateWithAvgSentScore.put(Date.from(key.atStartOfDay(ZoneId.systemDefault()).toInstant()), Statistics.getAverageSentimentOfTweets(value));
+            tweetsGroupedByDateWithAvgSentScore.put(Date.from(key.atStartOfDay(ZoneId.systemDefault()).toInstant()), new TweetAverage(value.size(),Statistics.getAverageSentimentOfTweets(value)));
         });
 
         //Convert map into DateSentimentScore List
 
         List<DateSentimentScore> dateSentimentScores = new ArrayList<>();
         tweetsGroupedByDateWithAvgSentScore.forEach((key, value) -> {
-            dateSentimentScores.add(new DateSentimentScore(key,value));
+            dateSentimentScores.add(new DateSentimentScore(key,value.getAverageSentimentScore(), value.getNumberOfTweets()));
         });
 
         Collections.sort(dateSentimentScores);

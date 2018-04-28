@@ -560,7 +560,8 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
     for (var i = 0; i < latestDates.length; i++) {
         dataPoints.push({
             x: moment(latestDates[i].date, "YYYY-MM-DD"),
-            y: latestDates[i].avgSentScore.toFixed(2)
+            y: latestDates[i].avgSentScore.toFixed(2),
+            numberOfTweets: latestDates[i].numberOfTweetsThisDay
         });
     }
     console.log(dataPoints);
@@ -595,10 +596,11 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
                     label: function (tooltipItem, data) {
                         return "SentScore: " +data["datasets"][0]["data"][tooltipItem["index"]].y;
                     },
-                    // afterFooter: function (tooltipItem, data) {
-                    //     return "Posted: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].createdAt;
-                    // }
-
+                    afterFooter: function (tooltipItem, data) {
+                        console.log("tooltipitem",tooltipItem)
+                        console.log("data",data)
+                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].numberOfTweets+" tweet(s) analyzed this day";
+                    }
                 }
             },
             legend: {display: true},

@@ -5,10 +5,12 @@ import java.util.Date;
 public class DateSentimentScore implements Comparable<DateSentimentScore>{
     private Date date;
     private double avgSentScore;
+    private int numberOfTweetsThisDay;
 
-    public DateSentimentScore(Date date, double avgSentScore) {
+    public DateSentimentScore(Date date, double avgSentScore, int numberOfTweetsThisDay) {
         this.date = date;
         this.avgSentScore = avgSentScore;
+        this.numberOfTweetsThisDay = numberOfTweetsThisDay;
     }
 
     public Date getDate() {
@@ -25,6 +27,14 @@ public class DateSentimentScore implements Comparable<DateSentimentScore>{
 
     public void setAvgSentScore(double avgSentScore) {
         this.avgSentScore = avgSentScore;
+    }
+
+    public int getNumberOfTweetsThisDay() {
+        return numberOfTweetsThisDay;
+    }
+
+    public void setNumberOfTweetsThisDay(int numberOfTweetsThisDay) {
+        this.numberOfTweetsThisDay = numberOfTweetsThisDay;
     }
 
     @Override
