@@ -94,10 +94,8 @@ public class MainController {
             return new SearchResource();
         }
 
-        List<Tweet> copyOfAllTweets = allTweets;
-
         //Group the tweets based on date
-        Map<LocalDate, List<Tweet>> tweetsGroupedByLocalDate = copyOfAllTweets.stream().collect(
+        Map<LocalDate, List<Tweet>> tweetsGroupedByLocalDate = allTweets.stream().collect(
                 Collectors.groupingBy(tweet -> {
                     Date date = tweet.getCreatedAt();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();

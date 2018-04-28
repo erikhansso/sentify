@@ -55,10 +55,12 @@ var ajaxRequest = function (searchInput) {
         },
         url: "/searchForTweets", //which is mapped to its partner function on our controller class
         success: function (result) {
+            console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
+                $("#lineChartTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
                 returnsCleanBarChart()
@@ -73,11 +75,11 @@ var ajaxRequest = function (searchInput) {
                 $("#numberOfNegTweets").text("?");
                 return;
             }
-            console.log("successfully inserted ", result);
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
 
             $("#scatterTitle").text("Latest opinions of: " + searchInput);
+            $("#lineChartTitle").text("Opinions of " + searchInput+" over time");
 
             var percentage = result.averageSentiment.toFixed(2);
 
@@ -112,9 +114,9 @@ var ajaxRequest = function (searchInput) {
             $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
             $("#lineChartContainer").empty();
             $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
-            createLineChart(result.avgSentimentGroupedByDate)
             createScatterPlot(searchInput, result.tweets);
             createBarChart();
+            createLineChart(searchInput, result.avgSentimentGroupedByDate);
 
         }
     });
@@ -478,7 +480,8 @@ var createBarChart = function () {
 
         }
     });
-}
+    barChart.update();
+};
 
 var returnsCleanBarChart = function () {
     var ctx = document.getElementById('barChart').getContext('2d');
@@ -543,27 +546,31 @@ var returnsCleanBarChart = function () {
 }
 
 //Line chart scripts below
-var createLineChart = function (avgSentimentGroupedByDate) {
-    console.log(avgSentimentGroupedByDate);
-    var dataPoints = [];
-    var numberOfTweets = avgSentimentGroupedByDate.length;
-    if (numberOfTweets > 100) {
-        tweets.splice(0, 100);
-    }
+var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
 
-    for (var i = 1; i <= numberOfTweets; i++) {
+    var dataPoints = [];
+    var datesToBeAnalyzed = avgSentimentGroupedByDate;
+
+    var latestDates = datesToBeAnalyzed.splice(0, 100);
+    var numberOfDates = latestDates.length;
+    console.log(latestDates);
+
+
+
+    for (var i = 0; i < latestDates.length; i++) {
         dataPoints.push({
-            y: (avgSentimentGroupedByDate[i - 1].avgSentScore),
-            t: avgSentimentGroupedByDate[i-1].date,
+            x: moment(latestDates[i].date, "YYYY-MM-DD"),
+            y: latestDates[i].avgSentScore.toFixed(2)
         });
     }
-
+    console.log(dataPoints);
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
             datasets: [
                 {
+                    label: [searchInput],
                     backgroundColor: colorRGB.mainColorDarker,
                     data: dataPoints,
                     borderColor: color.mainColorDark,
@@ -572,6 +579,22 @@ var createLineChart = function (avgSentimentGroupedByDate) {
             ]
         },
         options: {
+            tooltips: {
+                enabled: true,
+                caretSize: 0,
+                mode: "nearest",
+                backgroundColor: color.mainColor,
+                bodyFontFamily: "sans-serif",
+                bodyFontSize: 12,
+                bodyFontColor: "#000000",
+                displayColors: false, //whether to display colored boxes in tooltip
+                callbacks: {
+                    // afterFooter: function (tooltipItem, data) {
+                    //     return "Posted: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].createdAt;
+                    // }
+
+                }
+            },
             legend: {display: true},
             title: {
                 display: false,
@@ -579,7 +602,6 @@ var createLineChart = function (avgSentimentGroupedByDate) {
             scales: {
                 xAxes: [{
                     type: "time",
-                    distribution: "linear",
                     time: {
                         displayFormats: {},
                         unit: "day"
@@ -587,10 +609,9 @@ var createLineChart = function (avgSentimentGroupedByDate) {
                     gridLines: {
                         color: color.mainColorLight
                     },
-                    ticks: {
-                        min: 0,
-                        max: 100,
-                        stepSize: 10,
+                    scaleLabel: {
+                        display:     true,
+                        labelString: 'Date'
                     }
                 }],
                 yAxes: [{
@@ -628,37 +649,14 @@ var createLineChart = function (avgSentimentGroupedByDate) {
 
         }
     });
-
-
-}
+    lineChart.update();
+};
 
 var returnsCleanLineChart = function () {
-
-
-    var testLineData = [];
-
-    for (var i = 0; i < 100; i++) {
-
-        var date = new Date();
-        date.setDate(date.getDate() - i);
-        testLineData.push({
-            t: date,
-            y: Math.random().toFixed(2)
-        })
-    }
-
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            datasets: [
-                {
-                    backgroundColor: colorRGB.mainColorDarker,
-                    data: testLineData,
-                    borderColor: color.mainColorDark,
-                    lineTension: 0
-                }
-            ]
         },
         options: {
             legend: {display: true},
