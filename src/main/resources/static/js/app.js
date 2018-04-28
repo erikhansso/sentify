@@ -16,7 +16,6 @@ var colorRGB = {
     mainColorDark: "rgba(110,140,123,0.7)",
     mainColorDarker: "rgba(161,186,189,0.7)",
     mainColorDarkLighter: "rgba(135,173,152,0.7)"
-
 }
 
 function setFocusToTextBox() {
@@ -79,7 +78,7 @@ var ajaxRequest = function (searchInput) {
             tweetObjects = result;
 
             $("#scatterTitle").text("Latest opinions of: " + searchInput);
-            $("#lineChartTitle").text("Opinions of " + searchInput+" over time");
+            $("#lineChartTitle").text("Opinions of " + searchInput + " over time");
 
             var percentage = result.averageSentiment.toFixed(2);
 
@@ -114,10 +113,15 @@ var ajaxRequest = function (searchInput) {
             $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
             $("#lineChartContainer").empty();
             $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+
+            state.tweetsSearchedFor.push({
+                searchinput: searchInput,
+                tweets: result
+            });
+
             createScatterPlot(searchInput, result.tweets);
             createBarChart();
-            createLineChart(searchInput, result.avgSentimentGroupedByDate);
-
+            createLineChart(searchInput, state);
         }
     });
     $("#searchTweetInput").val("");
@@ -160,16 +164,19 @@ var getColor = function (value) {
 
 };
 
+//Beginning of state object
+var state = {
+    tweetsSearchedFor: [] //contains the result of all tweets searched for in this session
+};
+
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
     var tweetsToBeAnalyzed = tweets;
 
-    var latestTweets = tweetsToBeAnalyzed.splice(0, 100);
-    var numberOfTweets = latestTweets.length;
+    var latestTweets = generateNewArrayFromOldObjectArrayWithMax100Items(tweetsToBeAnalyzed, 100);
 
-
-    for (var i = 1; i <= numberOfTweets; i++) {
+    for (var i = 1; i <= latestTweets.length; i++) {
         dataPoints.push({
             y: (latestTweets[i - 1].sentimentScore),
             x: i,
@@ -546,38 +553,16 @@ var returnsCleanBarChart = function () {
 }
 
 //Line chart scripts below
-var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
+var createLineChart = function (searchInput) {
 
-    var dataPoints = [];
-    var datesToBeAnalyzed = avgSentimentGroupedByDate;
+    var dataPoints = addDataPointsToLineChart();
+    var dataSets = generateDatasetsFromLineChartDataPoints(dataPoints, searchInput);
 
-    var latestDates = datesToBeAnalyzed.splice(0, 100);
-    var numberOfDates = latestDates.length;
-    console.log(latestDates);
-
-
-
-    for (var i = 0; i < latestDates.length; i++) {
-        dataPoints.push({
-            x: moment(latestDates[i].date, "YYYY-MM-DD"),
-            y: latestDates[i].avgSentScore.toFixed(2),
-            numberOfTweets: latestDates[i].numberOfTweetsThisDay
-        });
-    }
-    console.log(dataPoints);
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            datasets: [
-                {
-                    label: [searchInput],
-                    backgroundColor: colorRGB.mainColorDarker,
-                    data: dataPoints,
-                    borderColor: color.mainColorDark,
-                    lineTension: 0
-                }
-            ]
+            datasets: dataSets
         },
         options: {
             tooltips: {
@@ -590,16 +575,14 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function(tooltipItem, data){
+                    title: function (tooltipItem, data) {
                         return data["datasets"][0]["data"][tooltipItem[0]["index"]].x.format("ddd MMM D YYYY");
                     },
                     label: function (tooltipItem, data) {
-                        return "SentScore: " +data["datasets"][0]["data"][tooltipItem["index"]].y;
+                        return "SentScore: " + data["datasets"][0]["data"][tooltipItem["index"]].y;
                     },
                     afterFooter: function (tooltipItem, data) {
-                        console.log("tooltipitem",tooltipItem)
-                        console.log("data",data)
-                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].numberOfTweets+" tweet(s) analyzed this day";
+                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].numberOfTweets + " tweet(s) analyzed this day";
                     }
                 }
             },
@@ -618,7 +601,7 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
                         color: color.mainColorLight
                     },
                     scaleLabel: {
-                        display:     true,
+                        display: true,
                         labelString: 'Date'
                     }
                 }],
@@ -660,12 +643,63 @@ var createLineChart = function (searchInput, avgSentimentGroupedByDate) {
     lineChart.update();
 };
 
+
+var addDataPointsToLineChart = function () {
+    var dataPointsArray = [];
+
+   var tweetsSearchedFor = generateNewArrayFromOldObjectArrayWithMax100Items(state.tweetsSearchedFor, 10);
+
+    //For every result in state object create an array of datapoints
+    for (var i = 0; i < tweetsSearchedFor.length; i++) {
+        var datesToBeAnalyzed = tweetsSearchedFor[i]["tweets"]["avgSentimentGroupedByDate"];
+        var dataPoints = [];
+
+        for (var j = 0; j < datesToBeAnalyzed.length; j++) {
+            dataPoints.push({
+                x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
+                y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
+                numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay,
+            });
+        }
+        dataPointsArray.push({
+            dataPoints: dataPoints,
+            searchQuery: tweetsSearchedFor[i]["searchinput"]
+        });
+    }
+    return dataPointsArray;
+};
+
+var generateNewArrayFromOldObjectArrayWithMax100Items = function(oldObjectArray, numberOfWantedItems){
+    var newArray = [];
+    for(var i = 0; i < oldObjectArray.length; i++){
+        if(i === numberOfWantedItems){
+            return newArray;
+        }
+        newArray.push(oldObjectArray[i]);
+    }
+    return newArray;
+}
+
+var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
+
+    var dataset = [];
+    //Generates a dataset from every datapoints-array
+    for (var i = 0; i < dataPointsArray.length; i++) {
+        dataset.push({
+            label: [dataPointsArray[i]["searchQuery"]],
+            data: dataPointsArray[i]["dataPoints"],
+            lineTension: 0
+        });
+    }
+    return dataset;
+};
+
+
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
         type: 'line',
-        data: {
-        },
+        data: {},
         options: {
             legend: {display: true},
             title: {
