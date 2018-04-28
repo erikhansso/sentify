@@ -14,8 +14,8 @@ var colorRGB = {
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
     mainColorDark: "rgba(110,140,123,0.7)",
-    mainColorDarker: "rgba(161,186,189,0.7",
-    mainColorDarkLighter: "rgba(135,173,152,0.7"
+    mainColorDarker: "rgba(161,186,189,0.7)",
+    mainColorDarkLighter: "rgba(135,173,152,0.7)"
 
 }
 
@@ -61,6 +61,8 @@ var ajaxRequest = function (searchInput) {
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
+                returnsCleanBarChart()
+                returnsCleanLineChart()
                 gauge.update(
                     {
                         dialValue: "-%",
@@ -71,9 +73,9 @@ var ajaxRequest = function (searchInput) {
                 $("#numberOfNegTweets").text("?");
                 return;
             }
+            console.log("successfully inserted ", result);
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
-
 
             $("#scatterTitle").text("Latest opinions of: " + searchInput);
 
@@ -83,7 +85,6 @@ var ajaxRequest = function (searchInput) {
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
             gauge.dialValue = true;
-            console.log("successfully inserted ", result);
             gauge.update(
                 {
                     arcFillPercent: percentage,
@@ -109,6 +110,9 @@ var ajaxRequest = function (searchInput) {
             $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
             $("#barChartContainer").empty();
             $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+            $("#lineChartContainer").empty();
+            $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+            createLineChart(result.avgSentimentGroupedByDate)
             createScatterPlot(searchInput, result.tweets);
             createBarChart();
 
@@ -157,18 +161,19 @@ var getColor = function (value) {
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var numberOfTweets = tweets.length;
-    if (numberOfTweets > 100) {
-        tweets.splice(0, 100);
-    }
+    var tweetsToBeAnalyzed = tweets;
+
+    var latestTweets = tweetsToBeAnalyzed.splice(0, 100);
+    var numberOfTweets = latestTweets.length;
+
 
     for (var i = 1; i <= numberOfTweets; i++) {
         dataPoints.push({
-            y: (tweets[i - 1].sentimentScore),
+            y: (latestTweets[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(tweets[i - 1].createdAt).toLocaleString(),
-            tweetText: tweets[i - 1].tweetText,
-            sentimentScore: tweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(latestTweets[i - 1].createdAt).toLocaleString(),
+            tweetText: latestTweets[i - 1].tweetText,
+            sentimentScore: latestTweets[i - 1].sentimentScore.toFixed(2)
         });
     }
 
@@ -402,22 +407,18 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
-
-var convertToBarDataFormat = function(data){
-    var dataArray = [];
-    for (var i = 0; i < data.length; i++) {
-        dataArray.push(data[i] - 0.5);
-    }
-    return dataArray;
-}
-
-
-
-
 //Bar chart scripts below
 var createBarChart = function () {
-var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
+    var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
+
+    var convertToBarDataFormat = function (data) {
+        var dataArray = [];
+        for (var i = 0; i < data.length; i++) {
+            dataArray.push(data[i] - 0.5);
+        }
+        return dataArray;
+    }
+    var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
     var ctx = document.getElementById('barChart').getContext('2d');
     var barChart = new Chart(ctx, {
         type: 'bar',
@@ -541,7 +542,185 @@ var returnsCleanBarChart = function () {
     });
 }
 
+//Line chart scripts below
+var createLineChart = function (avgSentimentGroupedByDate) {
+    console.log(avgSentimentGroupedByDate);
+    var dataPoints = [];
+    var numberOfTweets = avgSentimentGroupedByDate.length;
+    if (numberOfTweets > 100) {
+        tweets.splice(0, 100);
+    }
+
+    for (var i = 1; i <= numberOfTweets; i++) {
+        dataPoints.push({
+            y: (avgSentimentGroupedByDate[i - 1].avgSentScore),
+            t: avgSentimentGroupedByDate[i-1].date,
+        });
+    }
+
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    backgroundColor: colorRGB.mainColorDarker,
+                    data: dataPoints,
+                    borderColor: color.mainColorDark,
+                    lineTension: 0
+                }
+            ]
+        },
+        options: {
+            legend: {display: true},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    distribution: "linear",
+                    time: {
+                        displayFormats: {},
+                        unit: "day"
+                    },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+
+
+}
+
+var returnsCleanLineChart = function () {
+
+
+    var testLineData = [];
+
+    for (var i = 0; i < 100; i++) {
+
+        var date = new Date();
+        date.setDate(date.getDate() - i);
+        testLineData.push({
+            t: date,
+            y: Math.random().toFixed(2)
+        })
+    }
+
+    var ctx = document.getElementById('lineChart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            datasets: [
+                {
+                    backgroundColor: colorRGB.mainColorDarker,
+                    data: testLineData,
+                    borderColor: color.mainColorDark,
+                    lineTension: 0
+                }
+            ]
+        },
+        options: {
+            legend: {display: true},
+            title: {
+                display: false,
+            },
+            scales: {
+                xAxes: [{
+                    type: "time",
+                    distribution: "linear",
+                    time: {
+                        displayFormats: {},
+                        unit: "day"
+                    },
+                    gridLines: {
+                        color: color.mainColorLight
+                    },
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                    },
+                    ticks: {
+                        callback: function (value, index, values) {
+                            if (index === 10) {
+                                return 'Negative';
+                            }
+                            if (index === 5) {
+                                return 'Neutral';
+                            }
+                            if (index === 0) {
+                                return 'Positive';
+                            }
+                            return "";
+                        },
+                        min: 0,
+                        max: 1,
+                        stepSize: 0.1,
+                    },
+                }]
+            },
+            layout: {
+                padding: {
+                    left: 20,
+                    right: 50,
+                    top: 0,
+                    bottom: 0
+                }
+            }
+
+        }
+    });
+}
+
 returnsCleanScatter();
 returnsCleanBarChart();
+returnsCleanLineChart();
 
 
