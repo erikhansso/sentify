@@ -9,13 +9,38 @@ var color = {
 };
 
 var colorRGB = {
-    mainBgColor: "rgba(255,255,255,0.1)",
+    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
     mainColorDark: "rgba(110,140,123,0.7)",
     mainColorDarker: "rgba(161,186,189,0.7)",
     mainColorDarkLighter: "rgba(135,173,152,0.7)"
+};
+
+var colorRGBDarker = {
+    // mainBgColor: "rgba(255,255,255,0.1)",
+    mainColor: "rgba(206,237,241)",
+    mainContrastColor: "rgba(135,82,79)",
+    mainColorLight: "rgba(224,224,224)",
+    mainColorDark: "rgba(110,140,123)",
+    mainColorDarker: "rgba(161,186,189)",
+    mainColorDarkLighter: "rgba(135,173,152)"
+};
+
+var getColorBasedOnIndex = function(index){
+    var color = "";
+    var counter = 0;
+    var size = 0;
+    for(var col in colorRGBDarker){size++;}
+
+    for(var col in colorRGBDarker){
+        if(index%size === counter){
+            return colorRGBDarker[col];
+        }
+        counter++;
+    }
+    return color;
 };
 
 function setFocusToTextBox() {
@@ -59,7 +84,6 @@ var ajaxRequest = function (searchInput) {
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
-                $("#lineChartTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
                 returnsCleanBarChart();
@@ -78,7 +102,6 @@ var ajaxRequest = function (searchInput) {
             tweetObjects = result;
 
             $("#scatterTitle").text("Latest opinions of: " + searchInput);
-            $("#lineChartTitle").text("Opinions of " + searchInput + " over time");
 
             var percentage = result.averageSentiment.toFixed(2);
 
@@ -114,10 +137,12 @@ var ajaxRequest = function (searchInput) {
             $("#lineChartContainer").empty();
             $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
-            state.tweetsSearchedFor.push({
-                searchinput: searchInput,
-                tweets: result
-            });
+
+            if (searchInput in state.tweetsSearchedFor) {
+                state.tweetsSearchedFor[searchInput].tweets = result;
+            } else {
+                state.tweetsSearchedFor[searchInput] = {tweets: result};
+            }
 
             createScatterPlot(searchInput, result.tweets);
             createBarChart();
@@ -166,23 +191,31 @@ var getColor = function (value) {
 
 //Beginning of state object
 var state = {
-    tweetsSearchedFor: [] //contains the result of all tweets searched for in this session
+    tweetsSearchedFor: {} //contains the result of all tweets searched for in this session
 };
 
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
     var dataPoints = [];
-    var tweetsToBeAnalyzed = tweets;
+    var arrayOfTweets = tweets;
+    var tweetsToBeAnalyzed = [];
 
-    var latestTweets = generateNewArrayFromOldObjectArrayWithMax100Items(tweetsToBeAnalyzed, 100);
+    //om listan är längre än 100, gör bara 100 första
+    if (arrayOfTweets.length > 100) {
+        for (var k = 0; k < 100; k++) {
+            tweetsToBeAnalyzed.push(arrayOfTweets[k]);
+        }
+    } else {
+        tweetsToBeAnalyzed = arrayOfTweets;
+    }
 
-    for (var i = 1; i <= latestTweets.length; i++) {
+    for (var i = 1; i <= tweetsToBeAnalyzed.length; i++) {
         dataPoints.push({
-            y: (latestTweets[i - 1].sentimentScore),
+            y: (tweetsToBeAnalyzed[i - 1].sentimentScore),
             x: i,
-            createdAt: new Date(latestTweets[i - 1].createdAt).toLocaleString(),
-            tweetText: latestTweets[i - 1].tweetText,
-            sentimentScore: latestTweets[i - 1].sentimentScore.toFixed(2)
+            createdAt: new Date(tweetsToBeAnalyzed[i - 1].createdAt).toLocaleString(),
+            tweetText: tweetsToBeAnalyzed[i - 1].tweetText,
+            sentimentScore: tweetsToBeAnalyzed[i - 1].sentimentScore.toFixed(2)
         });
     }
 
@@ -374,7 +407,6 @@ var returnsCleanScatter = function () {
 
 var maxTooltipLength = 50; //possibly refactor this global variable
 
-
 var wordsToArray = function (words) {
     var lines = [];
     var str = '';
@@ -556,7 +588,9 @@ var returnsCleanBarChart = function () {
 var createLineChart = function (searchInput) {
 
     var dataPoints = addDataPointsToLineChart();
+
     var dataSets = generateDatasetsFromLineChartDataPoints(dataPoints, searchInput);
+
 
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
@@ -576,13 +610,13 @@ var createLineChart = function (searchInput) {
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
                     title: function (tooltipItem, data) {
-                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].x.format("ddd MMM D YYYY");
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
                     },
                     label: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][0]["data"][tooltipItem["index"]].y;
+                        return "SentScore: " + data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["y"];
                     },
                     afterFooter: function (tooltipItem, data) {
-                        return data["datasets"][0]["data"][tooltipItem[0]["index"]].numberOfTweets + " tweet(s) analyzed this day";
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
                     }
                 }
             },
@@ -643,39 +677,52 @@ var createLineChart = function (searchInput) {
     lineChart.update();
 };
 
-
+//For every result in state object create an array of datapoints
 var addDataPointsToLineChart = function () {
     var dataPointsArray = [];
+    var maxNumberOfDates = 10;
 
-   var tweetsSearchedFor = generateNewArrayFromOldObjectArrayWithMax100Items(state.tweetsSearchedFor, 10);
+    //Array with objects containing searchinput and tweets
+    var allTweetsSearchedFor = generateArrayFromHashmap(state.tweetsSearchedFor);
 
-    //For every result in state object create an array of datapoints
-    for (var i = 0; i < tweetsSearchedFor.length; i++) {
-        var datesToBeAnalyzed = tweetsSearchedFor[i]["tweets"]["avgSentimentGroupedByDate"];
+
+    for (var i = 0; i < allTweetsSearchedFor.length; i++) {
+        var datesToBeAnalyzed = allTweetsSearchedFor[i]["tweets"]["tweets"]["avgSentimentGroupedByDate"];
+
         var dataPoints = [];
-
-        for (var j = 0; j < datesToBeAnalyzed.length; j++) {
-            dataPoints.push({
-                x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
-                y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
-                numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
-            });
+        if (datesToBeAnalyzed.length < maxNumberOfDates) {
+            for (var j = 0; j < datesToBeAnalyzed.length; j++) {
+                dataPoints.push({
+                    x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
+                    y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
+                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
+                });
+            }
+        } else {
+            for (var k = 0; k < maxNumberOfDates; k++) {
+                dataPoints.push({
+                    x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
+                    y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
+                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
+                });
+            }
         }
+
         dataPointsArray.push({
             dataPoints: dataPoints,
-            searchQuery: tweetsSearchedFor[i]["searchinput"]
+            searchQuery: allTweetsSearchedFor[i]["searchInput"]
         });
     }
     return dataPointsArray;
 };
 
-var generateNewArrayFromOldObjectArrayWithMax100Items = function(oldObjectArray, numberOfWantedItems){
+var generateArrayFromHashmap = function (tweetmap) {
     var newArray = [];
-    for(var i = 0; i < oldObjectArray.length; i++){
-        if(i === numberOfWantedItems){
-            return newArray;
-        }
-        newArray.push(oldObjectArray[i]);
+    for (var key in tweetmap) {
+        newArray.push({
+            searchInput: key,
+            tweets: tweetmap[key]
+        });
     }
     return newArray;
 };
@@ -688,11 +735,19 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
         dataset.push({
             label: [dataPointsArray[i]["searchQuery"]],
             data: dataPointsArray[i]["dataPoints"],
-            lineTension: 0
+            lineTension: 0,
+            fill: false,
+            backgroundColor: getColorBasedOnIndex(i),
+            borderColor: getColorBasedOnIndex(i),
+            pointBackgroundColor: getColorBasedOnIndex(i),
+            pointBorderColor: getColorBasedOnIndex(i)
         });
     }
+
+
     return dataset;
 };
+
 
 
 var returnsCleanLineChart = function () {
