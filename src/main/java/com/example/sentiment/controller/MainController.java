@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +43,11 @@ public class MainController {
     SentUserRepository sentUserRepository;
 
 
+    @GetMapping("/")
+    public ModelAndView getStartPage() {
+        return new ModelAndView("index");
+    }
+
     @GetMapping("/demo")
     public ModelAndView getDemoPage() {
         return new ModelAndView("demo");
@@ -48,12 +56,6 @@ public class MainController {
     @GetMapping("/premium")
     public ModelAndView getPremiumPage() {
         return new ModelAndView("premium");
-    }
-
-
-    @GetMapping("/")
-    public String homePage(){
-        return "introSite";
     }
 
     @GetMapping("/scatter")

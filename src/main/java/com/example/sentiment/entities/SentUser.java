@@ -1,13 +1,12 @@
 package com.example.sentiment.entities;
 
-
-
-
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class SentUser {
 
     @Id
@@ -20,7 +19,18 @@ public class SentUser {
     private String email;
     private String password;
     @ElementCollection
+
     private List<String> savedKeywords = new ArrayList<String>();
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
+
 
     public SentUser() {
     }
@@ -30,6 +40,14 @@ public class SentUser {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public SentUser(String firstName, String lastName, String email, String password, Collection<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -72,6 +90,14 @@ public class SentUser {
         this.password = password;
     }
 
+    public Collection<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
+    }
+
     public List<String> getSavedKeywords() {
         return savedKeywords;
     }
@@ -80,4 +106,15 @@ public class SentUser {
         this.savedKeywords = savedKeywords;
     }
 
+    @Override
+    public String toString() {
+        return "SentUser{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + "*********" + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 }
