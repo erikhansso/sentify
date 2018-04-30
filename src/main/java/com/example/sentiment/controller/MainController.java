@@ -37,12 +37,12 @@ public class MainController {
 
 
     @GetMapping("/demo")
-    public ModelAndView getDemoPage(){
+    public ModelAndView getDemoPage() {
         return new ModelAndView("demo");
     }
 
     @GetMapping("/premium")
-    public ModelAndView getPremiumPage(){
+    public ModelAndView getPremiumPage() {
         return new ModelAndView("premium");
     }
 
@@ -116,18 +116,17 @@ public class MainController {
 
         //Converts back to date object because js wants date object
         tweetsGroupedByLocalDate.forEach((key, value) -> {
-            tweetsGroupedByDateWithAvgSentScore.put(Date.from(key.atStartOfDay(ZoneId.systemDefault()).toInstant()), new TweetAverage(value.size(),Statistics.getAverageSentimentOfTweets(value)));
+            tweetsGroupedByDateWithAvgSentScore.put(Date.from(key.atStartOfDay(ZoneId.systemDefault()).toInstant()), new TweetAverage(value.size(), Statistics.getAverageSentimentOfTweets(value)));
         });
 
         //Convert map into DateSentimentScore List
 
         List<DateSentimentScore> dateSentimentScores = new ArrayList<>();
         tweetsGroupedByDateWithAvgSentScore.forEach((key, value) -> {
-            dateSentimentScores.add(new DateSentimentScore(key,value.getAverageSentimentScore(), value.getNumberOfTweets()));
+            dateSentimentScores.add(new DateSentimentScore(key, value.getAverageSentimentScore(), value.getNumberOfTweets()));
         });
 
         Collections.sort(dateSentimentScores);
-
 
 
         //Sorts the tweets by date with most recent ones at index 0
@@ -138,4 +137,55 @@ public class MainController {
 
     }
 
+    @PostMapping("/searchForDemoTweets")
+    @ResponseBody
+    public SearchResource getTweetsForDemo(@RequestParam String searchInput) {
+
+        List<Tweet> matchingTweetsStoredInDb = new ArrayList<>();
+
+        //check if query has been done before and old tweets exist in DB
+        if (queryRepository.findByQueryText(searchInput) == null) {
+            QueryEntity query = new QueryEntity(searchInput);
+            queryRepository.save(query);
+        } else {
+            matchingTweetsStoredInDb = (List<Tweet>) tweetRepository.findByQuery(queryRepository.findByQueryText(searchInput));
+        }
+
+        //Group the tweets based on date
+        Map<LocalDate, List<Tweet>> tweetsGroupedByLocalDate = matchingTweetsStoredInDb.stream().collect(
+                Collectors.groupingBy(tweet -> {
+                    Date date = tweet.getCreatedAt();
+                    LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    return localDate;
+                }));
+
+        Map<Date, TweetAverage> tweetsGroupedByDateWithAvgSentScore = new HashMap<>();
+
+        //Converts back to date object because js wants date object
+        tweetsGroupedByLocalDate.forEach((key, value) -> {
+            tweetsGroupedByDateWithAvgSentScore.put(Date.from(key.atStartOfDay(ZoneId.systemDefault()).toInstant()), new TweetAverage(value.size(), Statistics.getAverageSentimentOfTweets(value)));
+        });
+
+        //Convert map into DateSentimentScore List
+
+        List<DateSentimentScore> dateSentimentScores = new ArrayList<>();
+        tweetsGroupedByDateWithAvgSentScore.forEach((key, value) -> {
+            dateSentimentScores.add(new DateSentimentScore(key, value.getAverageSentimentScore(), value.getNumberOfTweets()));
+        });
+
+        Collections.sort(dateSentimentScores);
+
+        //Sorts the tweets by date with most recent ones at index 0
+        Collections.sort(matchingTweetsStoredInDb);
+        Collections.reverse(matchingTweetsStoredInDb);
+
+
+        if (matchingTweetsStoredInDb.isEmpty()) {
+            return new SearchResource();
+        }
+
+
+        return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb), dateSentimentScores);
+
+    }
 }
