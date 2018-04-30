@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +37,17 @@ public class MainController {
 
     @GetMapping("/")
     public ModelAndView getStartPage() {
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/demo")
+    public ModelAndView getDemoPage() {
         return new ModelAndView("demo");
+    }
+
+    @GetMapping("/premium")
+    public ModelAndView getPremiumPage() {
+        return new ModelAndView("premium");
     }
 
     @GetMapping("/scatter")
@@ -47,6 +58,9 @@ public class MainController {
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
+
+//        Parameter: , HttpServletRequest request
+//        String email = request.getRemoteUser();
 
         List<Tweet> newTweetsFromApiQuery = new ArrayList<>();
         List<Tweet> uniqueTweetsNotInDb = new ArrayList<>();

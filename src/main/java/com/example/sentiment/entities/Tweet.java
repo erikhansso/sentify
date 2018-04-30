@@ -119,6 +119,22 @@ public class Tweet implements Comparable<Tweet>{
 
     }
 
+    public int getFavoriteCount() {
+        return favoriteCount;
+    }
+
+    public void setFavoriteCount(int favoriteCount) {
+        this.favoriteCount = favoriteCount;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public void setRetweetCount(int retweetCount) {
+        this.retweetCount = retweetCount;
+    }
+
     @Override
     public int compareTo(Tweet tweet) {
         return createdAt.compareTo(tweet.createdAt);

@@ -1,21 +1,73 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Demo</title>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Sentify - Track social media sentiment</title>
+    <link rel="stylesheet" href="css/foundation.css"/>
     <link rel="stylesheet" href="css/app.css"/>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Rubik|Sura" rel="stylesheet">
 </head>
+
 <body>
-<p th:text="${tweet}"></p>
-<p th:text="${sentiment}"></p>
+
+
+<div id="navbar">
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="menu menu-hover-lines">
+            <li>
+                <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+            </li>
+            <li class="active">
+                <a href="/">Home</a>
+            </li>
+            <li>
+                <a href="/demo">Demo</a>
+            </li>
+            <li>
+                <a href="#">How it works</a>
+            </li>
+            <li>
+                <a href="#">Pricing</a>
+            </li>
+            <li>
+                <a href="/premium">Premium</a>
+            </li>
+        </ul>
+        <span>
+            <ul class="menu menu-hover-lines">
+            <li sec:authorize="isAnonymous()">
+                <a href="/login">Login</a>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a href="/registration">Sign up</a>
+            </li>
+                </ul>
+                </span>
+
+        <span sec:authorize="isAuthenticated()"> Logged in as <span
+                sec:authentication="name"></span>
+        </span>
+        <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+
+    </nav>
+</div>
+
+
+
 <script src="js/vendor/jquery.js"></script>
+<!--Maybe remove one of the jQuery script links-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="js/FlexGauge.js"></script>
-<script src="js/app.js"></script>
-<script src="js/vendor/what-input.js"></script>
 <script src="js/vendor/foundation.min.js"></script>
 <script>
     $(document).foundation();
 </script>
+
+
 </body>
+
 </html>
