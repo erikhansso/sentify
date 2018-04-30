@@ -168,6 +168,11 @@ h1, h4, input, span, .fg-dial {
 .searchButton:hover {
     background-color: var(--main-color-light);
 }
+
+.searchButton:focus {
+    background-color: var(--main-contrast-color);
+}
+
 .buttonMargin {
     margin: 5px;
 }
