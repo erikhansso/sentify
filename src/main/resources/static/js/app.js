@@ -12,6 +12,17 @@ function setFocusToTextBox(){
     $("#searchTweetInput").focus();
 }
 
+$(document).ready(function () {
+    $('#searchTweetInput').on('input change', function () {
+        if ($(this).val() != '') {
+            $('#searchButton').prop('disabled', false);
+        }
+        else {
+            $('#searchButton').prop('disabled', true);
+        }
+    });
+});
+
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
@@ -22,8 +33,6 @@ $('#searchTweetInput').keypress(function (event) {
         ajaxRequest(searchInput);
     }
 });
-
-
 
 
 $("#searchButton").on("click", function (e) {

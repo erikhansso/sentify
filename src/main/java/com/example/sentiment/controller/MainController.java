@@ -34,9 +34,14 @@ public class MainController {
     QueryRepository queryRepository;
 
 
-    @GetMapping("/")
+    @GetMapping("/demo")
     public ModelAndView getStartPage() {
         return new ModelAndView("demo");
+    }
+
+    @GetMapping("/")
+    public String homePage(){
+        return "introSite";
     }
 
     @GetMapping("/scatter")
