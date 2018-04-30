@@ -132,7 +132,13 @@
                 </div>
 
                 <button id="addKeyWordButton" type="submit" class="searchButton button" value="">Track this keyword</button>
-
+                <div id="savedKeywords">
+                    <ul>
+                        <li th:each="item : ${keywords}">
+                            <button type="submit" class="searchButton button" th:text="${item}">Keyword</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </div>
