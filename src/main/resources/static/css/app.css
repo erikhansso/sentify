@@ -158,7 +158,7 @@ h4 {
     background-color: var(--main-color-light);
 }
 
-h1, h4, input, span, .fg-dial {
+h1, h4, input, h3, span, .fg-dial {
     font-family: 'Sura', serif;
 }
 
@@ -334,11 +334,17 @@ p, a, .fg-dial-label {
     color: var(--main-contrast-color);
 }
 
-html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
+html, body {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
 
 .carousel-inner > .item > img {
     width:1780px;
     height:758px;
+    opacity: 0.9;
 }
 
 
@@ -366,15 +372,15 @@ html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
 
 .buttonToSite{
     font-family: 'Rubik', sans-serif;
-    color: var(--main-color-light);
-    font-size: 30px;
-    size: 20px;
+    color: rgba(0, 0, 0, 1);
+    font-size: 16px;
+    size: 16px;
     text-decoration: none;
 
 }
 .buttonToSite:hover{
     text-decoration: none;
-    color: #0a0a0a;
+    color: rgba(0, 0, 0, 1);
 }
 .container-fluid{
     padding: 0;
@@ -385,6 +391,26 @@ html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
     display: inline;
 }
 
-ul#savedKeywords{
+ul#savedKeywords {
     margin: 0px;
+}
+#textbox{
+    color: rgba(0, 0, 0, 1);
+    margin: 10px;
+}
+
+.carousel-caption {
+    position:absolute;
+    font-family: 'Rubik', sans-serif;
+    width: 300px;
+    color: #0a0a0a;
+    background-color: rgba(224, 224, 224, 0.5);
+    max-height: 200px;
+    max-width: 300px;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.6);
+    padding: 0px;
+    margin-top: 100px;
+    margin-left: 700px;
+    margin-bottom: 400px;
+    font-size: 16px;
 }
