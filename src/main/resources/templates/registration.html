@@ -65,7 +65,8 @@
            th:each="error : ${#fields.errors('global')}"
            th:text="${error}">Validation error</p>
 
-        <div class="input-group"
+        <span><h2 style="text-align: center">Registration</h2></span>
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('firstName')}? 'has-error':''">
                     <span class="input-group-label">
                     <i class="fa fa-user"></i>
@@ -79,7 +80,7 @@
                th:each="error: ${#fields.errors('firstName')}"
                th:text="${error}">Validation error</p>
         </div>
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('lastName')}? 'has-error':''">
             <input id="lastName"
                    class="input-group-field"
@@ -91,7 +92,7 @@
                th:text="${error}">Validation error</p>
         </div>
 
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('email')}? 'has-error':''">
                      <span class="input-group-label">
                     <i class="fa fa-envelope"></i>
@@ -105,7 +106,7 @@
                th:each="error : ${#fields.errors('email')}"
                th:text="${error}">Validation error</p>
         </div>
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('confirmEmail')}? 'has-error':''">
             <input id="confirmEmail"
                    class="input-group-field"
@@ -118,7 +119,7 @@
         </div>
 
 
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('password')}? 'has-error':''">
                         <span class="input-group-label">
                         <i class="fa fa-key"></i>
@@ -132,7 +133,7 @@
                th:each="error : ${#fields.errors('password')}"
                th:text="${error}">Validation error</p>
         </div>
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('confirmPassword')}? 'has-error':''">
             <input id="confirmPassword"
                    class="input-group-field"
@@ -148,7 +149,7 @@
                 <h4>You've successfully registered a Sentify account!</h4>
             </div>
         </div>
-        <div class="input-group"
+        <div class="input-group registration-group"
              th:classappend="${#fields.hasErrors('terms')}? 'has-error':''">
             <input id="terms"
                    type="checkbox"
@@ -160,7 +161,7 @@
                th:each="error : ${#fields.errors('terms')}"
                th:text="${error}">Validation error</p>
         </div>
-        <div class="input-group">
+        <div class="input-group registration-group">
             <button type="submit" class="button expanded">Sign up!</button>
             <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
         </div>
