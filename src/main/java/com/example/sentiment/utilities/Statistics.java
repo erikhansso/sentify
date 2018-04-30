@@ -22,6 +22,8 @@ public class Statistics {
     }
 
     public static double getStandardDeviation(List<Tweet> tweets) {
+        if(tweets.size() == 1)
+            return 0.0;
         return Math.sqrt(getVariance(tweets));
     }
 
