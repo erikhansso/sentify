@@ -36,6 +36,16 @@ public class MainController {
     QueryRepository queryRepository;
 
 
+    @GetMapping("/demo")
+    public ModelAndView getDemoPage(){
+        return new ModelAndView("demo");
+    }
+
+    @GetMapping("/premium")
+    public ModelAndView getPremiumPage(){
+        return new ModelAndView("premium");
+    }
+
     @GetMapping("/")
     public ModelAndView getStartPage() {
         return new ModelAndView("demo");
