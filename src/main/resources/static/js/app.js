@@ -108,8 +108,7 @@ $(".keywordButton").on("click", function (e) {
     var searchInput = $(this).html();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(searchInput);
-})
-;
+});
 
 
 $("#searchTweetButton").on("click", function (e) {
