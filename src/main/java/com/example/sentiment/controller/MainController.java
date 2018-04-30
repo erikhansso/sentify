@@ -54,8 +54,14 @@ public class MainController {
     }
 
     @GetMapping("/premium")
-    public ModelAndView getPremiumPage() {
-        return new ModelAndView("premium");
+    public ModelAndView getPremiumPage(HttpServletRequest request) {
+        String email = request.getRemoteUser();
+
+        SentUser loggedInUser = sentUserRepository.findByEmail(email);
+        List<String> keywords = loggedInUser.getSavedKeywords();
+
+        return new ModelAndView("premium")
+                .addObject("keywords", keywords);
     }
 
     @GetMapping("/scatter")
