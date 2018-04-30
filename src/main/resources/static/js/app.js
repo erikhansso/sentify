@@ -51,7 +51,7 @@ function setFocusToTextBox() {
 
 $(document).ready(function () {
     $('#searchTweetInput').on('input change', function () {
-        if ($(this).val() != '') {
+        if ($("#searchTweetInput").val() != '') {
             $('#searchTweetButton').prop('disabled', false);
         }
         else {
@@ -203,7 +203,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             createLineChart(searchInput, state);
         }
     });
-    $("#searchTweetInput").val("");
+    $("#searchTweetInput").val('');
 };
 
 var ajaxForSavingKeywords = function (searchInput) {
@@ -335,7 +335,7 @@ var ajaxRequest = function (searchInput) {
             createLineChart(searchInput, state);
         }
     });
-    $("#searchTweetInput").val("");
+    $("#searchTweetInput").val('');
 };
 
 var updateAddKeywordButton = function (keyword) {
