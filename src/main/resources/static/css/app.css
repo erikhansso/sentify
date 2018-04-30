@@ -251,6 +251,24 @@ p, a, .fg-dial-label {
     width: 50vw;
 }
 
+.tabs-info {
+    margin-top: 15px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction:row-reverse;
+}
+
+#chartHelper {
+    opacity: 0.75;
+    filter: alpha(opacity=75); /* For IE8 and earlier */
+    /*width: auto;*/
+}
+
+#chartHelper:hover {
+    opacity: 1;
+    filter: alpha(opacity=100); /* For IE8 and earlier */
+}
+
 .jsChart {
     display: flex;
     justify-content: center;
