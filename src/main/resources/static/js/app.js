@@ -16,7 +16,7 @@ var colorRGB = {
     mainColorDark: "rgba(110,140,123,0.7)",
     mainColorDarker: "rgba(161,186,189,0.7)",
     mainColorDarkLighter: "rgba(135,173,152,0.7)"
-}
+};
 
 var colorRGBDarker = {
     // mainBgColor: "rgba(255,255,255,0.1)",
@@ -26,7 +26,7 @@ var colorRGBDarker = {
     mainColorDark: "rgba(110,140,123)",
     mainColorDarker: "rgba(161,186,189)",
     mainColorDarkLighter: "rgba(135,173,152)"
-}
+};
 
 var getColorBasedOnIndex = function(index){
     var color = "";
@@ -41,7 +41,7 @@ var getColorBasedOnIndex = function(index){
         counter++;
     }
     return color;
-}
+};
 
 function setFocusToTextBox() {
     $("#searchTweetInput").focus();
@@ -51,7 +51,7 @@ var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
 
-    if (event.which == 13) {
+    if (event.which === 13) {
         var searchInput = $("input[name=input]").val();
         keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
@@ -86,8 +86,8 @@ var ajaxRequest = function (searchInput) {
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
                 returnsCleanScatter();
-                returnsCleanBarChart()
-                returnsCleanLineChart()
+                returnsCleanBarChart();
+                returnsCleanLineChart();
                 gauge.update(
                     {
                         dialValue: "-%",
@@ -248,7 +248,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         display: false,
                         min: 0,
                         max: 100,
-                        stepSize: 10,
+                        stepSize: 10
                     },
                     gridLines: {
                         color: color.mainColorLight
@@ -340,7 +340,7 @@ var returnsCleanScatter = function () {
                 fill: false, //how to fill the area under the line
                 showLine: false,
                 backgroundColor: color.mainBgColor,
-                borderColor: color.mainColorDark,
+                borderColor: color.mainColorDark
             }]
         },
         options: {
@@ -458,7 +458,7 @@ var createBarChart = function () {
             dataArray.push(data[i] - 0.5);
         }
         return dataArray;
-    }
+    };
     var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
     var ctx = document.getElementById('barChart').getContext('2d');
     var barChart = new Chart(ctx, {
@@ -476,18 +476,18 @@ var createBarChart = function () {
         options: {
             legend: {display: false},
             title: {
-                display: false,
+                display: false
             },
             scales: {
                 xAxes: [{
                     gridLines: {
                         color: color.mainColorLight
-                    },
+                    }
                 }],
                 yAxes: [{
                     gridLines: {
                         color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
                         callback: function (value, index, values) {
@@ -504,8 +504,8 @@ var createBarChart = function () {
                         },
                         min: -0.5,
                         max: 0.5,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             layout: {
@@ -532,20 +532,20 @@ var returnsCleanBarChart = function () {
                 {
                     backgroundColor: colorRGB.mainColorDarker,
                     data: [0.25],
-                    borderColor: color.mainColorDark,
+                    borderColor: color.mainColorDark
                 }
             ]
         },
         options: {
             legend: {display: false},
             title: {
-                display: false,
+                display: false
             },
             scales: {
                 xAxes: [{
                     gridLines: {
                         color: color.mainColorLight
-                    },
+                    }
                 }],
                 yAxes: [{
                     gridLines: {
@@ -567,8 +567,8 @@ var returnsCleanBarChart = function () {
                         },
                         min: -0.5,
                         max: 0.5,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             layout: {
@@ -582,7 +582,7 @@ var returnsCleanBarChart = function () {
 
         }
     });
-}
+};
 
 //Line chart scripts below
 var createLineChart = function (searchInput) {
@@ -622,7 +622,7 @@ var createLineChart = function (searchInput) {
             },
             legend: {display: true},
             title: {
-                display: false,
+                display: false
             },
             scales: {
                 xAxes: [{
@@ -659,8 +659,8 @@ var createLineChart = function (searchInput) {
                         },
                         min: 0,
                         max: 1,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             layout: {
@@ -695,7 +695,7 @@ var addDataPointsToLineChart = function () {
                 dataPoints.push({
                     x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
                     y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
-                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay,
+                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
                 });
             }
         } else {
@@ -703,7 +703,7 @@ var addDataPointsToLineChart = function () {
                 dataPoints.push({
                     x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
                     y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
-                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay,
+                    numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
                 });
             }
         }
@@ -725,7 +725,7 @@ var generateArrayFromHashmap = function (tweetmap) {
         });
     }
     return newArray;
-}
+};
 
 var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
 
@@ -758,7 +758,7 @@ var returnsCleanLineChart = function () {
         options: {
             legend: {display: true},
             title: {
-                display: false,
+                display: false
             },
             scales: {
                 xAxes: [{
@@ -774,13 +774,13 @@ var returnsCleanLineChart = function () {
                     ticks: {
                         min: 0,
                         max: 100,
-                        stepSize: 10,
+                        stepSize: 10
                     }
                 }],
                 yAxes: [{
                     gridLines: {
                         color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
                     },
                     ticks: {
                         callback: function (value, index, values) {
@@ -797,8 +797,8 @@ var returnsCleanLineChart = function () {
                         },
                         min: 0,
                         max: 1,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             layout: {
@@ -812,7 +812,7 @@ var returnsCleanLineChart = function () {
 
         }
     });
-}
+};
 
 returnsCleanScatter();
 returnsCleanBarChart();
