@@ -50,9 +50,10 @@ public class MainController {
         return new ModelAndView("premium");
     }
 
+
     @GetMapping("/")
-    public ModelAndView getStartPage() {
-        return new ModelAndView("demo");
+    public String homePage(){
+        return "introSite";
     }
 
     @GetMapping("/scatter")
@@ -136,7 +137,8 @@ public class MainController {
         Collections.sort(allTweets);
         Collections.reverse(allTweets);
 
-        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets), dateSentimentScores);
+        return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets), dateSentimentScores,
+                Statistics.getStandardDeviation(allTweets));
 
     }
 

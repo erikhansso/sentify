@@ -49,6 +49,17 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
+$(document).ready(function () {
+    $('#searchTweetInput').on('input change', function () {
+        if ($(this).val() != '') {
+            $('#searchTweetButton').prop('disabled', false);
+        }
+        else {
+            $('#searchTweetButton').prop('disabled', true);
+        }
+    });
+});
+
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
