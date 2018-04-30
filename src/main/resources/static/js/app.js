@@ -59,7 +59,7 @@ $('#searchTweetInput').keypress(function (event) {
 });
 
 
-$("#searchButton").on("click", function (e) {
+$("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(htmlEscape(searchInput));
