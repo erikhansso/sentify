@@ -5031,7 +5031,7 @@ a.thumbnail {
 .has-tip {
   position: relative;
   display: inline-block;
-  border-bottom: dotted 1px #8a8a8a;
+  /*border-bottom: dotted 1px #8a8a8a;*/
   font-weight: bold;
   cursor: help; }
 
