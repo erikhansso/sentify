@@ -58,12 +58,125 @@ $('#searchTweetInput').keypress(function (event) {
     }
 });
 
+//Demo buttons
+$("#godofwar").on("click", function (e) {
+    var searchInput = $("#godofwar").val()
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
+});
 
-$("#searchButton").on("click", function (e) {
+$("#infinitywar").on("click", function (e) {
+    var searchInput = $("#infinitywar").val()
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
+});
+
+$("#academicwork").on("click", function (e) {
+    var searchInput = $("#academicwork").val()
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
+});
+
+$("#val2018").on("click", function (e) {
+    var searchInput = $("#val2018").val()
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
+});
+
+$("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(htmlEscape(searchInput));
 });
+
+
+var ajaxRequestForDemoPurposes = function (searchInput) {
+    var tweetObjects = {};
+    $(document.body).css({'cursor': 'wait'});
+    $.ajax({
+        type: "POST",
+        error: function () {
+            $(document.body).css({'cursor': 'default'});
+            console.log("error sending the data");
+        },
+        data: {
+            searchInput: searchInput
+        },
+        url: "/searchForDemoTweets", //which is mapped to its partner function on our controller class
+        success: function (result) {
+            console.log("successfully inserted ", result);
+            if (result.tweets === null) {
+                $(document.body).css({'cursor': 'default'});
+                keywordInput = "No tweets were found"; //To update the dialLabel
+                $("#scatterTitle").text("No tweets were found");
+                $("#output").empty();
+                returnsCleanScatter();
+                returnsCleanBarChart();
+                returnsCleanLineChart();
+                gauge.update(
+                    {
+                        dialValue: "-%",
+                    }
+                );
+                $("#numberOfTweets").text("?");
+                $("#numberOfPosTweets").text("?");
+                $("#numberOfNegTweets").text("?");
+                return;
+            }
+            $(document.body).css({'cursor': 'default'});
+            tweetObjects = result;
+
+            $("#scatterTitle").text("Latest opinions of: " + searchInput);
+
+            var percentage = result.averageSentiment.toFixed(2);
+
+            $("#output").empty();
+            $("#gauge").find("h1").empty();
+            gauge.dialLabel = true;
+            gauge.dialValue = true;
+            gauge.update(
+                {
+                    arcFillPercent: percentage,
+                    colorArcFg: getColor(percentage)
+                }
+            );
+            $("#numberOfTweets").text(tweetObjects.tweets.length);
+
+            var numberOfPositiveTweets = 0;
+            var numberOfNegativeTweets = 0;
+            for (var j = 0; j < tweetObjects.tweets.length; j++) {
+                if (tweetObjects.tweets[j].sentimentScore > 0.5) {
+                    numberOfPositiveTweets++;
+                } else {
+                    numberOfNegativeTweets++;
+                }
+            }
+
+            $("#numberOfPosTweets").text(numberOfPositiveTweets);
+            $("#numberOfNegTweets").text(numberOfNegativeTweets);
+
+            $("#scatterChartContainer").empty();
+            $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+            $("#barChartContainer").empty();
+            $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+            $("#lineChartContainer").empty();
+            $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+
+
+            if (searchInput in state.tweetsSearchedFor) {
+                state.tweetsSearchedFor[searchInput].tweets = result;
+            } else {
+                state.tweetsSearchedFor[searchInput] = {tweets: result};
+            }
+
+            createScatterPlot(searchInput, result.tweets);
+            createBarChart();
+            createLineChart(searchInput, state);
+        }
+    });
+    $("#searchTweetInput").val("");
+};
+
 
 var ajaxRequest = function (searchInput) {
     var tweetObjects = {};
