@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -191,14 +192,18 @@ public class MainController {
 
     }
 
-    @GetMapping("/saveKeywordToUser")
+    @PostMapping("/saveKeywordToUser")
     @ResponseBody
-    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpSession session) {
+    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput) {
+        System.out.println("Entered ajax method");
+        System.out.println(searchInput);
+        //add this to in parameters later
+//        , HttpServletRequest request
 
         //Maps the user who's logged in, email's unique
-//        String email = (String) session.getAttribute("email");
+//        String email = request.getRemoteUser();
 
-            //For testing purposes the following three rows
+        //For testing purposes the following three rows
         String email = "simonp@hotmail.com";
 //        SentUser newUser = new SentUser("Simon","P",email,"hejsan");
 //        sentUserRepository.save(newUser);
@@ -220,7 +225,10 @@ public class MainController {
 
         SentUser sentUser = sentUserRepository.findByEmail(email);
 
-        return sentUserRepository.findByEmail(email).getSavedKeywords();
+        List<String> savedKeywords = sentUserRepository.findByEmail(email).getSavedKeywords();
+        System.out.println(savedKeywords.toString());
+
+        return savedKeywords;
     }
 
 

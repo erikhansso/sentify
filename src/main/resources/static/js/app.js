@@ -28,14 +28,16 @@ var colorRGBDarker = {
     mainColorDarkLighter: "rgba(135,173,152)"
 };
 
-var getColorBasedOnIndex = function(index){
+var getColorBasedOnIndex = function (index) {
     var color = "";
     var counter = 0;
     var size = 0;
-    for(var col in colorRGBDarker){size++;}
+    for (var col in colorRGBDarker) {
+        size++;
+    }
 
-    for(var col in colorRGBDarker){
-        if(index%size === counter){
+    for (var col in colorRGBDarker) {
+        if (index % size === counter) {
             return colorRGBDarker[col];
         }
         counter++;
@@ -86,10 +88,9 @@ $("#val2018").on("click", function (e) {
 //Premium: add keyword to saved keywords
 $("#addKeyWordButton").on("click", function (e) {
     var searchInput = $("#addKeyWordButton").val();
-    console.log(searchInput);
     keywordInput = htmlEscape(searchInput);
+    ajaxForSavingKeywords(searchInput);
 });
-
 
 
 $("#searchTweetButton").on("click", function (e) {
@@ -186,6 +187,31 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
     $("#searchTweetInput").val("");
 };
 
+var ajaxForSavingKeywords = function (searchInput) {
+
+    $(document.body).css({'cursor': 'wait'});
+    $.ajax({
+        type: "POST",
+        error: function () {
+            $(document.body).css({'cursor': 'default'});
+            console.log("error sending the data");
+        },
+        data: {
+            searchInput: searchInput
+        },
+        url: "/saveKeywordToUser", //which is mapped to its partner function on our controller class
+        success: function (savedKeywords) {
+            console.log("successfully inserted ", savedKeywords);
+            if (savedKeywords !== null) {
+                $(document.body).css({'cursor': 'default'});
+
+            }
+            $(document.body).css({'cursor': 'default'});
+
+        }
+    });
+};
+
 
 var ajaxRequest = function (searchInput) {
     var tweetObjects = {};
@@ -276,8 +302,8 @@ var ajaxRequest = function (searchInput) {
     $("#searchTweetInput").val("");
 };
 
-var updateAddKeywordButton = function(keyword){
-  $("#addKeyWordButton").val(keyword);
+var updateAddKeywordButton = function (keyword) {
+    $("#addKeyWordButton").val(keyword);
 };
 
 // //Creates a new gauge and appends it to the #demo-tag
@@ -874,7 +900,6 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
 
     return dataset;
 };
-
 
 
 var returnsCleanLineChart = function () {
