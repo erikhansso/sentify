@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -34,6 +35,8 @@ public class MainController {
     TweetRepository tweetRepository;
     @Autowired
     QueryRepository queryRepository;
+    @Autowired
+    SentUserRepository sentUserRepository;
 
 
     @GetMapping("/demo")
@@ -128,7 +131,6 @@ public class MainController {
 
         Collections.sort(dateSentimentScores);
 
-
         //Sorts the tweets by date with most recent ones at index 0
         Collections.sort(allTweets);
         Collections.reverse(allTweets);
@@ -188,4 +190,38 @@ public class MainController {
         return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb), dateSentimentScores);
 
     }
+
+    @GetMapping("/saveKeywordToUser")
+    @ResponseBody
+    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpSession session) {
+
+        //Maps the user who's logged in, email's unique
+//        String email = (String) session.getAttribute("email");
+
+            //For testing purposes the following three rows
+        String email = "simonp@hotmail.com";
+//        SentUser newUser = new SentUser("Simon","P",email,"hejsan");
+//        sentUserRepository.save(newUser);
+
+        SentUser loggedInUser = sentUserRepository.findByEmail(email);
+
+        List<String> savedQueries = new ArrayList<>();
+        if (loggedInUser.getSavedKeywords() != null) {
+            savedQueries = loggedInUser.getSavedKeywords();
+        }
+
+        if (!savedQueries.contains(searchInput)) {
+            savedQueries.add(searchInput);
+        }
+
+        //Updates the list of saved keywords in db
+        loggedInUser.setSavedKeywords(savedQueries);
+        sentUserRepository.save(loggedInUser);
+
+        SentUser sentUser = sentUserRepository.findByEmail(email);
+
+        return sentUserRepository.findByEmail(email).getSavedKeywords();
+    }
+
+
 }

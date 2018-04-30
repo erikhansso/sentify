@@ -83,6 +83,15 @@ $("#val2018").on("click", function (e) {
     ajaxRequestForDemoPurposes(htmlEscape(searchInput));
 });
 
+//Premium: add keyword to saved keywords
+$("#addKeyWordButton").on("click", function (e) {
+    var searchInput = $("#addKeyWordButton").val();
+    console.log(searchInput);
+    keywordInput = htmlEscape(searchInput);
+});
+
+
+
 $("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
@@ -257,6 +266,8 @@ var ajaxRequest = function (searchInput) {
                 state.tweetsSearchedFor[searchInput] = {tweets: result};
             }
 
+            updateAddKeywordButton(searchInput);
+
             createScatterPlot(searchInput, result.tweets);
             createBarChart();
             createLineChart(searchInput, state);
@@ -265,6 +276,9 @@ var ajaxRequest = function (searchInput) {
     $("#searchTweetInput").val("");
 };
 
+var updateAddKeywordButton = function(keyword){
+  $("#addKeyWordButton").val(keyword);
+};
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
