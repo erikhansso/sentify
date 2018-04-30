@@ -201,10 +201,8 @@ public class MainController {
     public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
 
         //Maps the user who's logged in, email's unique
-//        String email = request.getRemoteUser();
+        String email = request.getRemoteUser();
 
-        //For testing purposes the following three rows
-        String email = "simonp@hotmail.com";
         //if there were no tweets associated with that search query or on page load
         if (searchInput.equals("")) {
             List<String> savedKeywords = new ArrayList<>();
@@ -217,8 +215,6 @@ public class MainController {
                 return null;
             }
         }
-//        SentUser newUser = new SentUser("Simon","P",email,"hejsan");
-//        sentUserRepository.save(newUser);
 
         SentUser loggedInUser = sentUserRepository.findByEmail(email);
 
