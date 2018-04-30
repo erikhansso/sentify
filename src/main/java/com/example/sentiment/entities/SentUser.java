@@ -31,6 +31,7 @@ public class SentUser {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
+
     public SentUser() {
     }
 

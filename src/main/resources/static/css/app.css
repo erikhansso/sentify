@@ -146,6 +146,7 @@ h4 {
     transition: all 0.35s ease;
 }
 
+
 .menu-hover-lines a:hover::before,
 .menu-hover-lines .active a::before,
 .menu-hover-lines a:hover::after,
@@ -161,15 +162,23 @@ h1, h4, input, span, .fg-dial {
     font-family: 'Sura', serif;
 }
 
-#searchButton {
-    background-color: var(--main-color);
+.searchButton {
+    background-color: var(--main-contrast-color);
 }
-#searchButton:active {
+.searchButton:active {
     transform: translateY(1px);
 }
 
-#searchButton:hover {
-    background-color: var(--main-color-dark);
+.searchButton:hover {
+    background-color: var(--main-color-light);
+}
+
+.searchButton:focus {
+    background-color: var(--main-contrast-color);
+}
+
+.buttonMargin {
+    margin: 5px;
 }
 
 p, a, .fg-dial-label {
@@ -231,7 +240,7 @@ p, a, .fg-dial-label {
     width: 50vw;
 }
 
-#myChart {
+.jsChart {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -244,9 +253,7 @@ p, a, .fg-dial-label {
     height: 100%;
 }
 
-
-
-#scatterChartContainer {
+.chartContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -272,6 +279,9 @@ p, a, .fg-dial-label {
 #panelThree{
     color: var(--main-contrast-color);
 }
+#panelFour{
+    color: var(--main-contrast-color);
+}
 
 .statArea {
     display: flex;
@@ -289,12 +299,28 @@ p, a, .fg-dial-label {
 }
 
 #numberOfPosTweets {
-    color: #90cd8a;
+    color: var(--main-color-dark);
 }
 
 #numberOfNegTweets {
-    color: #f58368;
+    color: var(--main-contrast-color);
 }
+
+html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
+
+/*img {*/
+    /*display: block;*/
+    /*width: 1000px;*/
+    /*margin: 0 auto;*/
+/*}*/
+
+
+
+.carousel-inner > .item > img {
+    width:1780px;
+    height:758px;
+}
+
 
 #registrationForm {
     display: flex;
@@ -315,10 +341,21 @@ input[type="checkbox"]{
     display: inline-block;
 }
 
-.footer {
-    margin-top: 30vw;
-    display:inline-block;
-    position: relative;
-}
 
 html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
+
+.buttonToSite{
+    font-family: 'Rubik', sans-serif;
+    color: var(--main-color-light);
+    font-size: 30px;
+    size: 20px;
+    text-decoration: none;
+
+}
+.buttonToSite:hover{
+    text-decoration: none;
+    color: #0a0a0a;
+}
+.container-fluid{
+    padding: 0;
+}
