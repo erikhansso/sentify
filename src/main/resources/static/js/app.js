@@ -199,7 +199,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
 };
 
 var ajaxForSavingKeywords = function (searchInput) {
-
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -215,12 +214,26 @@ var ajaxForSavingKeywords = function (searchInput) {
             console.log("successfully inserted ", savedKeywords);
             if (savedKeywords !== null) {
                 $(document.body).css({'cursor': 'default'});
-
             }
             $(document.body).css({'cursor': 'default'});
-
+            updateKeywordsButtons(savedKeywords);
         }
     });
+};
+
+var updateKeywordsButtons = function (savedKeywords) {
+    var listOfKeywords = [];
+    $("#savedKeywords").empty();
+    for (var i = 0; i < savedKeywords.length; i++) {
+        listOfKeywords.push(savedKeywords[i]);
+    }
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    for(var j = 0; j < listOfKeywords.length; j++){
+        $("#savedKeywords").append(" <li >\n" +
+            "                            <button type=\"submit\" class=\"searchButton button\">"+listOfKeywords[j]+"</button>\n" +
+            "                        </li>")
+    }
+
 };
 
 
