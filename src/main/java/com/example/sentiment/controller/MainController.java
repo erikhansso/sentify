@@ -46,9 +46,10 @@ public class MainController {
         return new ModelAndView("premium");
     }
 
+
     @GetMapping("/")
-    public ModelAndView getStartPage() {
-        return new ModelAndView("demo");
+    public String homePage(){
+        return "introSite";
     }
 
     @GetMapping("/scatter")
