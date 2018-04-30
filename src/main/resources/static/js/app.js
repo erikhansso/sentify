@@ -103,6 +103,14 @@ $("#addKeyWordButton").on("click", function (e) {
     ajaxForSavingKeywords(searchInput);
 });
 
+//Keyword buttons
+$(".keywordButton").on("click", function (e) {
+    var searchInput = $(this).html();
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequest(searchInput);
+})
+;
+
 
 $("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
@@ -222,18 +230,19 @@ var ajaxForSavingKeywords = function (searchInput) {
 };
 
 var updateKeywordsButtons = function (savedKeywords) {
+    keywordsArray = [];
     var listOfKeywords = [];
     $("#savedKeywords").empty();
     for (var i = 0; i < savedKeywords.length; i++) {
         listOfKeywords.push(savedKeywords[i]);
     }
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-    for(var j = 0; j < listOfKeywords.length; j++){
+    for (var j = 0; j < listOfKeywords.length; j++) {
         $("#savedKeywords").append(" <li >\n" +
-            "                            <button type=\"submit\" class=\"searchButton button\">"+listOfKeywords[j]+"</button>\n" +
-            "                        </li>")
+            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "                        </li>");
+        keywordsArray.push(listOfKeywords[j]);
     }
-
 };
 
 
@@ -371,6 +380,9 @@ var getColor = function (value) {
 var state = {
     tweetsSearchedFor: {} //contains the result of all tweets searched for in this session
 };
+
+var keywordsArray = [];
+
 
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
