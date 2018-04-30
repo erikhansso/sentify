@@ -194,17 +194,25 @@ public class MainController {
 
     @PostMapping("/saveKeywordToUser")
     @ResponseBody
-    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput) {
-        System.out.println("Entered ajax method");
-        System.out.println(searchInput);
-        //add this to in parameters later
-//        , HttpServletRequest request
+    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
 
         //Maps the user who's logged in, email's unique
 //        String email = request.getRemoteUser();
 
         //For testing purposes the following three rows
         String email = "simonp@hotmail.com";
+        //if there were no tweets associated with that search query or on page load
+        if (searchInput.equals("")) {
+            List<String> savedKeywords = new ArrayList<>();
+            SentUser loggedInUser = sentUserRepository.findByEmail(email);
+            if (loggedInUser.getSavedKeywords() != null) {
+                loggedInUser.getSavedKeywords();
+                return loggedInUser.getSavedKeywords();
+            } else {
+                //user hasnt saved anything yet
+                return null;
+            }
+        }
 //        SentUser newUser = new SentUser("Simon","P",email,"hejsan");
 //        sentUserRepository.save(newUser);
 
@@ -226,7 +234,6 @@ public class MainController {
         SentUser sentUser = sentUserRepository.findByEmail(email);
 
         List<String> savedKeywords = sentUserRepository.findByEmail(email).getSavedKeywords();
-        System.out.println(savedKeywords.toString());
 
         return savedKeywords;
     }

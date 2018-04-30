@@ -244,6 +244,7 @@ var ajaxRequest = function (searchInput) {
                 $("#numberOfTweets").text("?");
                 $("#numberOfPosTweets").text("?");
                 $("#numberOfNegTweets").text("?");
+                updateAddKeywordButton("");
                 return;
             }
             $(document.body).css({'cursor': 'default'});
