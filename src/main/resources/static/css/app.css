@@ -159,15 +159,23 @@ h1, h4, input, span, .fg-dial {
     font-family: 'Sura', serif;
 }
 
-#searchButton {
-    background-color: var(--main-color);
+.searchButton {
+    background-color: var(--main-contrast-color);
 }
-#searchButton:active {
+.searchButton:active {
     transform: translateY(1px);
 }
 
-#searchButton:hover {
-    background-color: var(--main-color-dark);
+.searchButton:hover {
+    background-color: var(--main-color-light);
+}
+
+.searchButton:focus {
+    background-color: var(--main-contrast-color);
+}
+
+.buttonMargin {
+    margin: 5px;
 }
 
 p, a, .fg-dial-label {
