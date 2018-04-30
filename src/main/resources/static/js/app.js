@@ -250,6 +250,8 @@ var ajaxRequest = function (searchInput) {
                 gauge.update(
                     {
                         dialValue: "-%",
+                        arcFillPercent: 0,
+                        colorArcFg: getColor(0)
                     }
                 );
                 $("#numberOfTweets").text("?");
