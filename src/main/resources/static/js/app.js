@@ -49,7 +49,7 @@ function setFocusToTextBox() {
 
 $(document).ready(function () {
     $('#searchTweetInput').on('input change', function () {
-        if ($(this).val() != '') {
+        if ($("#searchTweetInput").val() != '') {
             $('#searchTweetButton').prop('disabled', false);
         }
         else {
@@ -185,7 +185,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             createLineChart(searchInput, state);
         }
     });
-    $("#searchTweetInput").val("");
+    $("#searchTweetInput").val('');
 };
 
 
@@ -273,7 +273,7 @@ var ajaxRequest = function (searchInput) {
             createLineChart(searchInput, state);
         }
     });
-    $("#searchTweetInput").val("");
+    $("#searchTweetInput").val('');
 };
 
 
