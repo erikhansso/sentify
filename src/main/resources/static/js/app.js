@@ -116,6 +116,7 @@ var ajaxRequest = function (searchInput) {
                 }
             );
             $("#numberOfTweets").text(tweetObjects.tweets.length);
+            $("#standardDeviation").text(tweetObjects.standardDeviation.toFixed(3));
 
             var numberOfPositiveTweets = 0;
             var numberOfNegativeTweets = 0;
