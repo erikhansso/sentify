@@ -15,7 +15,6 @@
 
 <body>
 
-<section id="superwrapper">
     <div id="navbar">
         <nav class="top-bar" data-topbar role="navigation">
             <ul class="menu menu-hover-lines" id="navbarlinks">
@@ -61,17 +60,23 @@
         </nav>
     </div>
 
-<div class="maindisplay">
-    <div class="input-group">
+
+    <section id="maindisplay">
+        <section id="searchbar">
+            <div class="input-group">
         <input  type="submit" id="godofwar" class="button searchButton buttonMargin demoButton" value="#godofwar">
         <input type="submit" id="infinitywar" class="button searchButton buttonMargin demoButton" value="#infinitywar">
         <input type="submit" id="pepsi" class="button searchButton buttonMargin demoButton" value="pepsi">
         <input  type="submit" id="coca-cola" class="button searchButton buttonMargin demoButton" value="coca-cola">
     </div>
+        </section>
+    </section>
 
-    <div class="center-me">
-        <div class="row">
-            <div class="small-6 centered columns">
+    <section id="tabsandcharts">
+        <section class="tabsandchartsinterior">
+            <!-- <div class="row"> -->
+            <section id="tabwrapper">
+                <div class="small-6 centered columns">
                 <ul class="tabs" data-tabs id="example-tabs">
                     <li class="tabs-title is-active">
                         <a id="panelOne" href="#panel1" aria-selected="true">Gauge</a>
@@ -167,9 +172,9 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            </section>
+            </section>
+    </section>
 
 
 <div id="output"></div>
