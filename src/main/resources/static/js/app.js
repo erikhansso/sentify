@@ -60,6 +60,11 @@ $(document).ready(function () {
     });
 });
 
+var toggleDisableTrackKeywordsButton = function(isDisabled){
+    $("#addKeyWordButton").prop('disabled', isDisabled);
+};
+
+
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
@@ -244,7 +249,6 @@ var updateKeywordsButtons = function (savedKeywords) {
     }
 };
 
-
 var ajaxRequest = function (searchInput) {
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
@@ -261,6 +265,7 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
+                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
@@ -281,6 +286,7 @@ var ajaxRequest = function (searchInput) {
                 updateAddKeywordButton("");
                 return;
             }
+            toggleDisableTrackKeywordsButton(false);
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
 
@@ -383,7 +389,6 @@ var state = {
 };
 
 var keywordsArray = [];
-
 
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
@@ -1004,6 +1009,7 @@ var returnsCleanLineChart = function () {
     });
 };
 
+toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
 returnsCleanBarChart();
 returnsCleanLineChart();
