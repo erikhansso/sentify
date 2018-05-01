@@ -90,6 +90,9 @@
                     <li class="tabs-title">
                         <a id="panelFour" href="#panel4">Line chart</a>
                     </li>
+                    <li class="tabs-title">
+                        <a id="panelFive" href="#panel5">Statistics</a>
+                    </li>
                     <li class="tabs-info">
                         <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper" title="To calculate
                         the average sentiment the sentiment scores for all tweets are summed up and divided by the number of tweets">
@@ -137,6 +140,44 @@
                             <canvas id="lineChart" class="jsChart"></canvas>
                         </div>
                     </div>
+                    <div class="tabs-panel" id="panel5">
+                        <h4 id="statisticsTitle">Statistics</h4>
+                        <div id="statisticsContainer" class="chartContainer">
+                            <table id="statisticsTable" class="hover">
+                                <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Keyword</td>
+                                    <td id="tableKeyword"></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of tweets</td>
+                                    <td id="tableNumTweets"></td>
+                                </tr>
+                                <tr>
+                                    <td>Average sentiment score</td>
+                                    <td id="tableAvgSentiment"></td>
+                                </tr>
+                                <tr>
+                                    <td>Standard deviation</td>
+                                    <td id="tableSD"></td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td id="tableMedian"></td>
+                                </tr>
+                                <tr>
+                                    <td>Time span</td>
+                                    <td id="tableTimeSpan"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                 </div>
 
                 <button id="addKeyWordButton" type="submit" class="searchButton button" value="">Track this keyword</button>
