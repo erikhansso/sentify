@@ -295,7 +295,6 @@ p, a, .fg-dial-label {
     max-width: 40vw;
 }
 
-
 .button {
     background-color: var(--main-contrast-color);
 }
@@ -342,13 +341,6 @@ html, body {
     height: 100%;
 }
 
-/*img {*/
-    /*display: block;*/
-    /*width: 1000px;*/
-    /*margin: 0 auto;*/
-/*}*/
-
-
 .carousel-inner > .item > img {
     width:1780px;
     height:758px;
@@ -394,6 +386,14 @@ html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
     padding: 0;
 }
 
+#savedKeywords>li {
+    list-style: none;
+    display: inline;
+}
+
+ul#savedKeywords {
+    margin: 0px;
+}
 #textbox{
     color: rgba(0, 0, 0, 1);
     margin: 10px;
