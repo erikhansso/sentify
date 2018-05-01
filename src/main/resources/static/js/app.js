@@ -108,13 +108,21 @@ $("#addKeyWordButton").on("click", function (e) {
     ajaxForSavingKeywords(searchInput);
 });
 
-//Keyword buttons
-$(".keywordButton").on("click", function (e) {
+//Keyword buttons are set on document because all buttons are not created on page load
+$(document).on("click", ".keywordButton", function(e) {
     var searchInput = $(this).html();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(searchInput);
 });
 
+$(document).on("click", ".removeKeyword", function(e) {
+    console.log("clicked remove button")
+    var pos = $(this).closest("li").attr("data-pos");
+    console.log("pos",pos)
+    var keyword =  $("#"+pos).val();
+    console.log("keyword",keyword);
+    ajaxForUpdatingKeywords(keyword);
+});
 
 $("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
@@ -233,19 +241,48 @@ var ajaxForSavingKeywords = function (searchInput) {
     });
 };
 
+var ajaxForUpdatingKeywords = function (keyword) {
+    $(document.body).css({'cursor': 'wait'});
+    $.ajax({
+        type: "POST",
+        error: function () {
+            $(document.body).css({'cursor': 'default'});
+            console.log("error sending the data");
+        },
+        data: {
+            searchInput: keyword
+        },
+        url: "/updateKeywordToUser", //which is mapped to its partner function on our controller class
+        success: function (savedKeywords) {
+            console.log("successfully inserted ", savedKeywords);
+            if (savedKeywords !== null) {
+                $(document.body).css({'cursor': 'default'});
+            }
+            $(document.body).css({'cursor': 'default'});
+            updateKeywordsButtons(savedKeywords);
+        }
+    });
+};
+
+
+
 var updateKeywordsButtons = function (savedKeywords) {
     keywordsArray = [];
     var listOfKeywords = [];
+    var iterator = 0;
     $("#savedKeywords").empty();
     for (var i = 0; i < savedKeywords.length; i++) {
         listOfKeywords.push(savedKeywords[i]);
     }
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
-        $("#savedKeywords").append(" <li >\n" +
-            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
+        $("#savedKeywords").append(" <li data-pos=\""+iterator+"\" >\n" +
+            "                            <button id=\""+iterator+"\" type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "<button type=\"submit\" class=\"searchButton button removeKeyword\">X</button>" +
+
             "                        </li>");
         keywordsArray.push(listOfKeywords[j]);
+        iterator++;
     }
 };
 
