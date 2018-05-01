@@ -1011,25 +1011,28 @@ var returnsCleanLineChart = function () {
 
 $("#panelOne").click(function(){
     element = $("has-tip").index($("#chartHelper"));
-    content = "info for the speed gauge"; 
+    content = "To calculate the average sentiment the sentiment scores for all tweets are summed up and divided by the " +
+        "number of tweets";
     $(".tooltip").eq(element).html(content);
 });
 
 $("#panelTwo").click(function(){
     element = $("has-tip").index($("#chartHelper"));
-    content = "info for the scatter plot";
+    content = "Tweets are plotted based on their individual sentiment scores. Mouse over a point to see the content of " +
+        "the tweet, when it was posted, and who posted it";
     $(".tooltip").eq(element).html(content);
 });
 
 $("#panelThree").click(function(){
     element = $("has-tip").index($("#chartHelper"));
-    content = "bar chart info";
+    content = "Compare the average sentiment related to different keywords";
     $(".tooltip").eq(element).html(content);
 });
 
 $("#panelFour").click(function(){
     element = $("has-tip").index($("#chartHelper"));
-    content = "line chart info goes here";
+    content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
+        " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
     $(".tooltip").eq(element).html(content);
 });
 
