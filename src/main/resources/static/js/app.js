@@ -208,6 +208,7 @@ var ajaxForSavingKeywords = function (searchInput) {
             }
             $(document.body).css({'cursor': 'default'});
             updateKeywordsButtons(savedKeywords);
+            updateOverview(savedKeywords);
         }
     });
 };
@@ -231,6 +232,7 @@ var ajaxForUpdatingKeywords = function (keyword) {
             }
             $(document.body).css({'cursor': 'default'});
             updateKeywordsButtons(savedKeywords);
+            updateOverview(savedKeywords);
         }
     });
 };
@@ -925,6 +927,14 @@ $("#panelFour").click(function () {
         " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
     $(".tooltip").eq(element).html(content);
 });
+
+
+var updateOverview = function(listOfKeywords){
+    $("#numberOfKeywordsTracked").text("You are tracking "+listOfKeywords.length+" keyword(s).");
+    $("#keywordHighestAvgSS").text(" has the highest average SentScore with ");
+    $("#keywordLowestAvgSS").text(" has the lowest average SentScore with ");
+    $("#totalTweetsForAllKW").text("Total number of tweets analyzed for your keywords combined: ");
+};
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();

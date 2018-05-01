@@ -83,10 +83,10 @@
                     <li class="tabs-title">
                         <a id="panelTwo" href="#panel2">Scatter plot</a>
                     </li>
-                    <!--<li class="tabs-title">-->
+                    <li class="tabs-title">
+                        <a id="panelThree" href="#panel3">Overview</a>
 
-                        <!--<a id="panelThree" href="#panel3">Bar chart</a>-->
-                    <!--</li>-->
+                    </li>
                     <li class="tabs-title">
                         <a id="panelFour" href="#panel4">Line chart</a>
                     </li>
@@ -123,11 +123,13 @@
                         </div>
                     </div>
                     <div class="tabs-panel" id="panel3">
-                        <h4>Placeholder</h4>
+                        <h4 th:text="'Welcome back '+${username}+'!'"></h4>
+                        <p th:text="'Today it is '+${#calendars.format(#calendars.createNow(), 'dd MMM yyyy')}"></p>
+                        <p id="numberOfKeywordsTracked" th:text="'You are tracking '+${keywordsSize}+' keyword(s).'"></p>
+                        <p id="keywordHighestAvgSS" th:text="${highestKeyword}+' has the highest average SentScore with '+${maxAvgSentScore}+'%'"></p>
+                        <p id="keywordLowestAvgSS" th:text="${lowestKeyword}+' has the lowest average SentScore with '+${minAvgSentScore}+'%'"></p>
+                        <p id="totalTweetsForAllKW" th:text="'Total number of tweets analyzed for your keywords combined: '+${totalTweets}"></p>
 
-                        <div id="barChartContainer" class="chartContainer">
-                            <canvas id="barChart" class="jsChart"></canvas>
-                        </div>
                     </div>
                     <div class="tabs-panel" id="panel4">
                         <h4 id="lineChartTitle">Opinion of tweets over time</h4>
