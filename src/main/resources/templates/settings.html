@@ -86,9 +86,9 @@
 
             <section id="accountoptions">
 
-                <a href="#"><img src="/images/grid-world.svg">Overview</img></a>
+                <a href="/premium/overview"><img src="/images/grid-world.svg">Overview</img></a>
                 <a href="/premium"><img src="/images/line-chart.svg">Sentiments</img></a>
-                <a href="/premium/settings"><img src="/images/settings.svg">Account</img></a>
+                <a href="#"><img src="/images/settings.svg">Account</img></a>
 
             </section>
 
@@ -99,7 +99,7 @@
                         <div class="small-6 centered columns">
                             <ul class="tabs" data-tabs id="example-tabs">
                                 <li class="tabs-title is-active">
-                                    <a id="panelThree" href="#panel3" aria-selected="true">Overview</a>
+                                    <a id="panelSix" href="#panel6" aria-selected="true">Settings</a>
                                 </li>
                                 <li class="tabs-info">
                                     <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper"
@@ -110,17 +110,8 @@
                     </section>
                     <section id="actualcharts">
                         <div class="tabs-content" data-tabs-content="example-tabs">
-                            <div class="tabs-panel is-active" id="panel3">
-                                <h4 th:text="'Welcome back '+${username}+'!'"></h4>
-                                <p th:text="'Today it is '+${#calendars.format(#calendars.createNow(), 'dd MMM yyyy')}"></p>
-                                <p id="numberOfKeywordsTracked"
-                                   th:text="'You are tracking '+${keywordsSize}+' keyword(s).'"></p>
-                                <p id="keywordHighestAvgSS"
-                                   th:text="${highestKeyword}+' has the highest average SentScore with '+${maxAvgSentScore}+'%'"></p>
-                                <p id="keywordLowestAvgSS"
-                                   th:text="${lowestKeyword}+' has the lowest average SentScore with '+${minAvgSentScore}+'%'"></p>
-                                <p id="totalTweetsForAllKW"
-                                   th:text="'Total number of tweets analyzed for your keywords combined: '+${totalTweets}"></p>
+                            <div class="tabs-panel is-active" id="panel6">
+                                <h4>Your account settings</h4>
                             </div>
                         </div>
                     </section>
