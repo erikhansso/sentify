@@ -11,7 +11,7 @@ public class SearchResource {
     private double averageSentiment;
     private List<DateSentimentScore> avgSentimentGroupedByDate;
     private double standardDeviation;
-
+    private double median;
 
     public SearchResource() {
     }
@@ -28,11 +28,12 @@ public class SearchResource {
     }
 
     public SearchResource(List<Tweet> tweets, double averageSentiment, List<DateSentimentScore> avgSentimentGroupedByDate,
-    double standardDeviation){
+    double standardDeviation, double median){
         this.tweets = tweets;
         this.averageSentiment = averageSentiment;
         this.avgSentimentGroupedByDate = avgSentimentGroupedByDate;
         this.standardDeviation = standardDeviation;
+        this.median = median;
     }
 
     public List<Tweet> getTweets() {
@@ -64,6 +65,14 @@ public class SearchResource {
 
     public void setStandardDeviation(double standardDeviation) {
         this.standardDeviation = standardDeviation;
+    }
+
+    public double getMedian() {
+        return median;
+    }
+
+    public void setMedian(double median) {
+        this.median = median;
     }
 
 
