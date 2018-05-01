@@ -243,7 +243,7 @@ var updateKeywordsButtons = function (savedKeywords) {
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
         $("#savedKeywords").append(" <li >\n" +
-            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
             "                        </li>");
         keywordsArray.push(listOfKeywords[j]);
     }
@@ -1008,6 +1008,30 @@ var returnsCleanLineChart = function () {
         }
     });
 };
+
+$("#panelOne").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "info for the speed gauge"; 
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelTwo").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "info for the scatter plot";
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelThree").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "bar chart info";
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelFour").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "line chart info goes here";
+    $(".tooltip").eq(element).html(content);
+});
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
