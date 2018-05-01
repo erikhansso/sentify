@@ -9,7 +9,6 @@ var color = {
 };
 
 var colorRGB = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
@@ -19,10 +18,11 @@ var colorRGB = {
 };
 
 var colorRGBDarker = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241)",
+    mainColorDarkerShade: "rgba(92,118,102)",
     mainContrastColor: "rgba(135,82,79)",
-    mainColorLight: "rgba(224,224,224)",
+    mainContrastColorLighter: "rgba(167,129,127)",
+    mainColorLight: "rgba(123,123,123)",
     mainColorDark: "rgba(110,140,123)",
     mainColorDarker: "rgba(161,186,189)",
     mainColorDarkLighter: "rgba(135,173,152)"
