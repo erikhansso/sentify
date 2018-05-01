@@ -1056,7 +1056,7 @@ $("#panelOne").click(function(){
 $("#panelTwo").click(function(){
     element = $("has-tip").index($("#chartHelper"));
     content = "Tweets are plotted based on their individual sentiment scores. Mouse over a point to see the content of " +
-        "the tweet, when it was posted, and who posted it";
+        "the tweet and when it was posted";
     $(".tooltip").eq(element).html(content);
 });
 
