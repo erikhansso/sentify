@@ -60,6 +60,11 @@ $(document).ready(function () {
     });
 });
 
+var toggleDisableTrackKeywordsButton = function(isDisabled){
+    $("#addKeyWordButton").prop('disabled', isDisabled);
+};
+
+
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
@@ -101,6 +106,13 @@ $("#addKeyWordButton").on("click", function (e) {
     var searchInput = $("#addKeyWordButton").val();
     keywordInput = htmlEscape(searchInput);
     ajaxForSavingKeywords(searchInput);
+});
+
+//Keyword buttons
+$(".keywordButton").on("click", function (e) {
+    var searchInput = $(this).html();
+    keywordInput = htmlEscape(searchInput);
+    ajaxRequest(searchInput);
 });
 
 
@@ -199,7 +211,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
 };
 
 var ajaxForSavingKeywords = function (searchInput) {
-
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
         type: "POST",
@@ -215,14 +226,28 @@ var ajaxForSavingKeywords = function (searchInput) {
             console.log("successfully inserted ", savedKeywords);
             if (savedKeywords !== null) {
                 $(document.body).css({'cursor': 'default'});
-
             }
             $(document.body).css({'cursor': 'default'});
-
+            updateKeywordsButtons(savedKeywords);
         }
     });
 };
 
+var updateKeywordsButtons = function (savedKeywords) {
+    keywordsArray = [];
+    var listOfKeywords = [];
+    $("#savedKeywords").empty();
+    for (var i = 0; i < savedKeywords.length; i++) {
+        listOfKeywords.push(savedKeywords[i]);
+    }
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    for (var j = 0; j < listOfKeywords.length; j++) {
+        $("#savedKeywords").append(" <li >\n" +
+            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "                        </li>");
+        keywordsArray.push(listOfKeywords[j]);
+    }
+};
 
 var ajaxRequest = function (searchInput) {
     var tweetObjects = {};
@@ -240,6 +265,7 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
+                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
@@ -250,6 +276,8 @@ var ajaxRequest = function (searchInput) {
                 gauge.update(
                     {
                         dialValue: "-%",
+                        arcFillPercent: 0,
+                        colorArcFg: getColor(0)
                     }
                 );
                 $("#numberOfTweets").text("?");
@@ -258,6 +286,7 @@ var ajaxRequest = function (searchInput) {
                 updateAddKeywordButton("");
                 return;
             }
+            toggleDisableTrackKeywordsButton(false);
             $(document.body).css({'cursor': 'default'});
             tweetObjects = result;
 
@@ -358,6 +387,8 @@ var getColor = function (value) {
 var state = {
     tweetsSearchedFor: {} //contains the result of all tweets searched for in this session
 };
+
+var keywordsArray = [];
 
 //Scatterplot scripts below
 var createScatterPlot = function (searchQuery, tweets) {
@@ -978,6 +1009,7 @@ var returnsCleanLineChart = function () {
     });
 };
 
+toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
 returnsCleanBarChart();
 returnsCleanLineChart();
