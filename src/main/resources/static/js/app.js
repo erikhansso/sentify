@@ -912,14 +912,11 @@ $("#panelTwo").click(function () {
     $(".tooltip").eq(element).html(content);
 });
 
-// $("#panelThree").click(function(){
-//     element = $("has-tip").index($("#chartHelper"));
-//     content = "bar chart info";
-//     $(".tooltip").eq(element).html(content);
-// });
+
 
 
 $("#panelFour").click(function () {
+
     element = $("has-tip").index($("#chartHelper"));
     content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
         " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
