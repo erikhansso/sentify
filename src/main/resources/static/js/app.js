@@ -929,6 +929,13 @@ $("#panelFour").click(function () {
     $(".tooltip").eq(element).html(content);
 });
 
+$("#panelFive").click(function () {
+    element = $("has-tip").index($("#chartHelper"));
+    content = "Shows statistics about the current chosen keyword";
+    $(".tooltip").eq(element).html(content);
+});
+
+
 
 
 var updateOverview = function(listOfKeywords) {
