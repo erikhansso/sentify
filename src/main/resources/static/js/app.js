@@ -124,6 +124,10 @@ $(document).on("click", ".removeKeyword", function(e) {
     ajaxForUpdatingKeywords(keyword);
 });
 
+$("#resetButton").on("click", function (e) {
+    clearAll();
+});
+
 $("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
@@ -307,6 +311,12 @@ var ajaxRequest = function (searchInput) {
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
+                $("#scatterChartContainer").empty();
+                $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+                $("#barChartContainer").empty();
+                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+                $("#lineChartContainer").empty();
+                $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
                 returnsCleanScatter();
                 returnsCleanBarChart();
                 returnsCleanLineChart();
@@ -383,6 +393,34 @@ var ajaxRequest = function (searchInput) {
 var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
 };
+
+var clearAll = function(){
+    toggleDisableTrackKeywordsButton(true);
+    keywordInput = "-"; //To update the dialLabel
+    $("#scatterTitle").text("Latest opinions of tweets");
+    $("#numberOfTweets").text("?");
+    $("#numberOfPosTweets").text("?");
+    $("#numberOfNegTweets").text("?");
+    updateAddKeywordButton("");
+    $("#scatterChartContainer").empty();
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    $("#barChartContainer").empty();
+    $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+    $("#lineChartContainer").empty();
+    $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+    returnsCleanLineChart();
+    returnsCleanScatter();
+    state = {
+        tweetsSearchedFor: {}
+    };
+    gauge.update(
+        {
+            dialValue: "-%",
+            arcFillPercent: 0,
+            colorArcFg: getColor(0)
+        }
+    );
+}
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
