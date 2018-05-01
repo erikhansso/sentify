@@ -61,6 +61,11 @@
     z-index: 10;
 }
 
+#homeImg {
+    margin: 0;
+    padding: 0;
+}
+
 h4 {
 
     font-size: 2vw;
