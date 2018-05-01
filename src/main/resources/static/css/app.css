@@ -33,7 +33,7 @@ time, mark, audio, video {
     border: 0;
     /* font-size: 100%;
     font: inherit; */
-    vertical-align: baseline;
+    /*! vertical-align: baseline; */
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
@@ -64,49 +64,49 @@ table {
 
 /* Media queries below, add any CSS rules you want changed when size of viewing device reaches a threshold */
 
-    @media only screen and (max-width: 1300px) {
+@media only screen and (max-width: 1300px) {
 
-        #maindisplay{
-            margin-top: 25vh!important;
-        }
+    #maindisplay{
+        margin-top: 25vh!important;
+    }
+}
+
+@media only screen and (max-height: 500px) {
+
+    #maindisplay{
+        height: 100%!important;
     }
 
-    @media only screen and (max-height: 500px) {
-
-        #maindisplay{
-            height: 100%!important;
-        }
-
-        #belowsearchbar {
-            margin-top: 3vw;
-        }
-
-
+    #belowsearchbar {
+        margin-top: 3vw;
     }
 
-    @media only screen and (max-width: 950px) {
-        #maindisplay{
-            margin-top: 17vw!important;
-        }
-    }
 
-    @media only screen and (max-width: 890px) {
-        #maindisplay{
-            margin-top: 25vw!important;
-        }
-    }
+}
 
-    @media only screen and (max-width: 580px) {
-        #maindisplay{
-            margin-top: 40vh!important;
-        }
+@media only screen and (max-width: 950px) {
+    #maindisplay{
+        margin-top: 17vw!important;
     }
+}
 
-    @media only screen and (max-width: 370px) {
-        #maindisplay{
-            margin-top: 45vh!important;
-        }
+@media only screen and (max-width: 890px) {
+    #maindisplay{
+        margin-top: 25vw!important;
     }
+}
+
+@media only screen and (max-width: 580px) {
+    #maindisplay{
+        margin-top: 40vh!important;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    #maindisplay{
+        margin-top: 45vh!important;
+    }
+}
 
 
 
@@ -123,6 +123,29 @@ table {
     position: fixed;
     width: 100%;
     z-index: 10;
+    height: 82px;
+}
+
+#homeImg {
+    height: 100%;
+    /*! position: relative; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    vertical-align: middle;
+}
+
+/*#navbarlinks {*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+/*}*/
+
+#navbarlinks > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #maindisplay {
@@ -202,11 +225,11 @@ table {
 
 
 /*.chartContainer {*/
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*justify-content: center;*/
-    /*height: 100%;*/
-    /*width: 55vw;*/
+/*display: flex;*/
+/*flex-direction: row;*/
+/*justify-content: center;*/
+/*height: 100%;*/
+/*width: 55vw;*/
 /*}*/
 
 #barChart {
@@ -344,6 +367,7 @@ h4 {
     font-weight: 500;
     letter-spacing: 1px;
     transition: all 0.35s ease;
+    height: 100%;
 }
 
 .menu-hover-lines li a {
@@ -351,7 +375,7 @@ h4 {
     color: var(--main-contrast-color);
     position: relative;
     margin-left: 1rem;
-    margin-top: 1rem;
+    /*! margin-top: 1rem; */
 }
 
 .menu-hover-lines li:first-child a {
@@ -398,6 +422,7 @@ h4 {
 
 .top-bar, .top-bar li {
     background-color: var(--main-color-light);
+    height: 100%;
 }
 
 h1, h4, input, h3, span, .fg-dial {
