@@ -244,6 +244,7 @@ var updateKeywordsButtons = function (savedKeywords) {
     for (var j = 0; j < listOfKeywords.length; j++) {
         $("#savedKeywords").append(" <li >\n" +
             "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "<button type=\"submit\" class=\"searchButton button removeKeyword\">X</button>" +
             "                        </li>");
         keywordsArray.push(listOfKeywords[j]);
     }

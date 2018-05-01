@@ -139,6 +139,7 @@
                     <ul id="savedKeywords">
                         <li th:each="item : ${keywords}">
                             <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword</button>
+                            <button type="submit" class="searchButton button removeKeyword">X</button>
                         </li>
                     </ul>
 
