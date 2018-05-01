@@ -63,6 +63,16 @@ public class MainController {
         return new ModelAndView("scatter");
     }
 
+    @GetMapping("/#howItWorks")
+    public ModelAndView getWorkPage(){
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/#pricing")
+    public ModelAndView getPricingPage(){
+        return new ModelAndView("index");
+    }
+
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
