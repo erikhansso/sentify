@@ -1,3 +1,4 @@
+
 /** these classes are pre-generated **/
 :root {
     /*Use these five color variables, comes from our palette!*/
@@ -9,65 +10,323 @@
 }
 
 
+/* CSS RESETS */
+
+
+
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    /* font-size: 100%;
+    font: inherit; */
+    /*! vertical-align: baseline; */
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
 
 
 /* Media queries below, add any CSS rules you want changed when size of viewing device reaches a threshold */
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1300px) {
 
-    .input-group{
-        margin-top: 20vw!important;
-    }
-    .small-6 {
-        margin-top: 28vw!important;
+    #maindisplay{
+        margin-top: 25vh!important;
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-height: 500px) {
 
-    .input-group{
-        margin-top: 26vw!important;
+    #maindisplay{
+        height: 100%!important;
     }
-    .small-6 {
-        margin-top: 34vw!important;
+
+    #belowsearchbar {
+        margin-top: 3vw;
+    }
+
+
+}
+
+@media only screen and (max-width: 950px) {
+    #maindisplay{
+        margin-top: 17vw!important;
     }
 }
 
-@media only screen and (max-width: 550px) {
-
-    .input-group{
-        margin-top: 34vw!important;
-    }
-    .small-6 {
-        margin-top: 42vw!important;
+@media only screen and (max-width: 890px) {
+    #maindisplay{
+        margin-top: 25vw!important;
     }
 }
 
-@media only screen and (max-width: 400px) {
-
-    .input-group{
-        margin-top: 70vw!important;
-    }
-    .small-6 {
-        margin-top: 82vw!important;
+@media only screen and (max-width: 580px) {
+    #maindisplay{
+        margin-top: 40vh!important;
     }
 }
 
+@media only screen and (max-width: 370px) {
+    #maindisplay{
+        margin-top: 45vh!important;
+    }
+}
+
+
+
+
+#superwrapper{
+    margin: 0;
+    height: 100vh;
+
+}
 
 #navbar {
+    top: 0;
     font-size: 17px;
     position: fixed;
     width: 100%;
     z-index: 10;
+    height: 82px;
 }
 
 #homeImg {
-    margin: 0;
-    padding: 0;
+    height: 100%;
+    /*! position: relative; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    vertical-align: middle;
+}
+
+/*#navbarlinks {*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*justify-content: center;*/
+/*}*/
+
+#navbarlinks > li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#maindisplay {
+    margin-top: 7vw;
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+#searchbar {
+    width: 50vw;
+    max-width: 50vw;
+    height: 10vh;
+    margin: 0 auto;
+}
+
+
+#belowsearchbar {
+    /* overflow: hidden; */
+    height: 100%;
+}
+
+.gridded{
+    display: grid;
+    grid-template-columns: 20% 60% 10%;
+    grid-template-rows: 30vw 30vw 30vw;
+    grid-gap: 1em;
+}
+
+.gridded > * {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#accountoptions {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+}
+
+#accountoptions > img {
+    width: 10vw;
+    height: 10vh;
+}
+
+#accountoptions > a{
+    font-size: 1.2vw;
+    font-family: 'Sura', serif;
+    color: var(--main-contrast-color);
+    text-decoration: none;
+}
+
+#accountoptions > a:hover{
+    color: black;
+    transform: scale(1.1);
+}
+
+
+#tabsandcharts {
+    height: 100%;
+    width: 100%;
+}
+
+#scatterChartContainer {
+    /*height: 100%;*/
+    /*width: 100%;*/
+    /*overflow: auto;*/
+}
+
+#scatterChart {
+    /*height: 50vh!important;*/
+    /*width: 55vw!important;*/
+}
+
+
+/*.chartContainer {*/
+/*display: flex;*/
+/*flex-direction: row;*/
+/*justify-content: center;*/
+/*height: 100%;*/
+/*width: 55vw;*/
+/*}*/
+
+#barChart {
+    height: 50vh!important;
+    width: 55vw!important;
+}
+
+
+#lineChart {
+    height: 50vh!important;
+    width: 55vw!important;
+}
+
+.tabs-panel .is-active {
+    height: 100%;
+    width: 100%;
+}
+
+canvas {
+    width: 100%!important;
+    height: 100%!important;
+}
+
+#tabsandcharts > *{
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.small-6 {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.tabs-content{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    /* max-width: 50vw;
+    width: 50vw; */
+}
+
+.tabs-info {
+    margin-top: 15px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction:row-reverse;
+}
+
+
+#keywordlist {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /*width: 20vw;*/
+    /*max-width: 30vw;*/
+    height: 10vh;
+
+}
+
+
+#savedKeywords {
+    width: 100%;
+    height: 100%;
+}
+
+
+#savedKeywords>li {
+    list-style: none;
+    /*display: inline;*/
+}
+
+ul#savedKeywords {
+    margin: 0px;
+}
+
+#chart-tabs {
+    height: 7vh;
+}
+
+#addKeyWordButton {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-radius: 3px;
 }
 
 h4 {
-
     font-size: 2vw;
     text-align: center;
 }
@@ -108,6 +367,7 @@ h4 {
     font-weight: 500;
     letter-spacing: 1px;
     transition: all 0.35s ease;
+    height: 100%;
 }
 
 .menu-hover-lines li a {
@@ -115,7 +375,7 @@ h4 {
     color: var(--main-contrast-color);
     position: relative;
     margin-left: 1rem;
-    margin-top: 1rem;
+    /*! margin-top: 1rem; */
 }
 
 .menu-hover-lines a {
@@ -167,6 +427,7 @@ h4 {
 
 .top-bar, .top-bar li {
     background-color: var(--main-color-light);
+    height: 100%;
 }
 
 h1, h4, input, h3, span, .fg-dial {
@@ -196,27 +457,6 @@ p, a, .fg-dial-label, th, td {
     font-family: 'Rubik', sans-serif;
 }
 
-.center-me {
-    margin: 0 auto;
-    width: 80%;
-}
-
-
-.maindisplay {
-}
-
-.input-group {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 7vw;
-    margin-left: 20vw;
-    margin-bottom: 2vw;
-    width: 50vw;
-    max-width: 50vw;
-    border-radius: 3px;
-}
 
 
 .registration-group {
@@ -229,45 +469,6 @@ p, a, .fg-dial-label, th, td {
     border-radius: 3px;
 }
 
-#searchTweetInputWrapper{
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 7vw;
-    margin-left: 20vw;
-    margin-bottom: 2vw;
-    width: 50vw;
-    max-width: 50vw;
-    border-radius: 3px;
-}
-
-.small-6 {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 11.5vw;
-    margin-left: 10vw;
-    margin-bottom: 2vw;
-    width: 50vw;
-    max-width: 50vw;
-}
-
-.tabs-content{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-    max-width: 50vw;
-    width: 50vw;
-}
-
-.tabs-info {
-    margin-top: 15px;
-    padding-right: 10px;
-    display: flex;
-    flex-direction:row-reverse;
-}
 
 #chartHelper {
     opacity: 0.75;
@@ -284,22 +485,16 @@ p, a, .fg-dial-label, th, td {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    max-width: 50vw;
+    /* max-width: 50vw;
     width: 50vw;
-    height: 100%;
+    height: 100%; */
 }
 
 #panel2 panel1{
     height: 100%;
+    width: 100%;
 }
 
-.chartContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 100%;
-    width: 55vw;
-}
 
 #gaugeCanvas {
     height: 13vw;
@@ -319,6 +514,7 @@ p, a, .fg-dial-label, th, td {
 }
 
 .descrArea {
+    /* font-size: 1.5em; */
     display: flex;
     justify-content: center;
 }
@@ -336,13 +532,6 @@ p, a, .fg-dial-label, th, td {
     color: var(--main-contrast-color);
 }
 
-html, body {
-    background-color: whitesmoke;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .carousel-inner > .item > img {
     width:1780px;
@@ -371,7 +560,6 @@ input[type="checkbox"]{
 }
 
 
-html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
 
 .buttonToSite{
     font-family: 'Rubik', sans-serif;
@@ -389,14 +577,7 @@ html, body { padding: 0; margin: 0; width: 100%; height: 100%; }
     padding: 0;
 }
 
-#savedKeywords>li {
-    list-style: none;
-    display: inline;
-}
 
-ul#savedKeywords {
-    margin: 0px;
-}
 #textbox{
     color: rgba(0, 0, 0, 1);
     margin: 10px;
@@ -447,7 +628,6 @@ div.infoContainer{
 
 p{
     text-align:center;
-    margin-bottom: 70px;
 }
 
 .copy{
