@@ -49,16 +49,14 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
-function checkForInputInSearchField() {
-    $('#searchTweetInput').on('input change', function () {
-        if ($("#searchTweetInput").val() !== '') {
-            $('#searchTweetButton').prop('disabled', false);
-        }
-        else {
-            $('#searchTweetButton').prop('disabled', true);
-        }
-    });
-};
+$('#searchTweetInput').on('input change', function () {
+    if ($("#searchTweetInput").val() !== '') {
+        $('#searchTweetButton').prop('disabled', false);
+    }
+    else {
+        $('#searchTweetButton').prop('disabled', true);
+    }
+});
 
 var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
@@ -67,8 +65,8 @@ var toggleDisableTrackKeywordsButton = function (isDisabled) {
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-    if (event.which === 13) {
-        var searchInput = $("input[name=input]").val();
+    if (event.which === 13 && $(this).val() !== '') {
+        var searchInput = $(this).val();
         keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
     }
@@ -95,9 +93,9 @@ $(document).on("click", ".keywordButton", function (e) {
 });
 
 $(document).on("click", ".removeKeyword", function (e) {
-    console.log("clicked remove button")
+    console.log("clicked remove button");
     var pos = $(this).closest("li").attr("data-pos");
-    console.log("pos", pos)
+    console.log("pos", pos);
     var keyword = $("#" + pos).val();
     console.log("keyword", keyword);
     ajaxForUpdatingKeywords(keyword);
@@ -259,6 +257,7 @@ var updateKeywordsButtons = function (savedKeywords) {
 };
 
 var ajaxRequest = function (searchInput) {
+    $('#searchTweetButton').prop('disabled', true);
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
@@ -930,8 +929,7 @@ $("#panelFour").click(function () {
 });
 
 
-
-var updateOverview = function(listOfKeywords) {
+var updateOverview = function (listOfKeywords) {
     $("#numberOfKeywordsTracked").text("You are tracking " + listOfKeywords.length + " keyword(s).");
     $("#keywordHighestAvgSS").text(" has the highest average SentScore with ");
     $("#keywordLowestAvgSS").text(" has the lowest average SentScore with ");
