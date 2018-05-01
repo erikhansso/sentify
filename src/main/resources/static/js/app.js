@@ -9,7 +9,6 @@ var color = {
 };
 
 var colorRGB = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
@@ -19,10 +18,11 @@ var colorRGB = {
 };
 
 var colorRGBDarker = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241)",
+    mainColorDarkerShade: "rgba(92,118,102)",
     mainContrastColor: "rgba(135,82,79)",
-    mainColorLight: "rgba(224,224,224)",
+    mainContrastColorLighter: "rgba(167,129,127)",
+    mainColorLight: "rgba(123,123,123)",
     mainColorDark: "rgba(110,140,123)",
     mainColorDarker: "rgba(161,186,189)",
     mainColorDarkLighter: "rgba(135,173,152)"
@@ -64,11 +64,9 @@ var toggleDisableTrackKeywordsButton = function(isDisabled){
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
 
-
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-
     if (event.which === 13) {
         var searchInput = $("input[name=input]").val();
         keywordInput = htmlEscape(searchInput);
@@ -105,12 +103,15 @@ $(document).on("click", ".removeKeyword", function(e) {
     ajaxForUpdatingKeywords(keyword);
 });
 
+$("#resetButton").on("click", function (e) {
+    clearAll();
+});
+
 $("#searchTweetButton").on("click", function (e) {
     var searchInput = $("#searchTweetInput").val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(htmlEscape(searchInput));
 });
-
 
 var ajaxRequestForDemoPurposes = function (searchInput) {
     var tweetObjects = {};
@@ -129,20 +130,10 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
+                clearAll()
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
                 return;
             }
             $(document.body).css({'cursor': 'default'});
@@ -192,7 +183,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             }
 
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -245,8 +235,6 @@ var ajaxForUpdatingKeywords = function (keyword) {
     });
 };
 
-
-
 var updateKeywordsButtons = function (savedKeywords) {
     keywordsArray = [];
     var listOfKeywords = [];
@@ -283,25 +271,11 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
-                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                        arcFillPercent: 0,
-                        colorArcFg: getColor(0)
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
-                updateAddKeywordButton("");
                 return;
             }
             toggleDisableTrackKeywordsButton(false);
@@ -364,6 +338,34 @@ var ajaxRequest = function (searchInput) {
 var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
 };
+
+var clearAll = function(){
+    toggleDisableTrackKeywordsButton(true);
+    keywordInput = "-"; //To update the dialLabel
+    $("#scatterTitle").text("Latest opinions of tweets");
+    $("#numberOfTweets").text("?");
+    $("#numberOfPosTweets").text("?");
+    $("#numberOfNegTweets").text("?");
+    updateAddKeywordButton("");
+    $("#scatterChartContainer").empty();
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    $("#barChartContainer").empty();
+    $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+    $("#lineChartContainer").empty();
+    $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+    returnsCleanLineChart();
+    returnsCleanScatter();
+    state = {
+        tweetsSearchedFor: {}
+    };
+    gauge.update(
+        {
+            dialValue: "-%",
+            arcFillPercent: 0,
+            colorArcFg: getColor(0)
+        }
+    );
+}
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
@@ -662,142 +664,6 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-//Bar chart scripts below
-var createBarChart = function () {
-    var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
-
-    var convertToBarDataFormat = function (data) {
-        var dataArray = [];
-        for (var i = 0; i < data.length; i++) {
-            dataArray.push(data[i] - 0.5);
-        }
-        return dataArray;
-    };
-    var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: barLabels,
-            datasets: [
-                {
-                    backgroundColor: [colorRGB.mainColorDarker, colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
-                    data: convertToBarDataFormat(testBarData),
-                    borderColor: color.mainColorDark,
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-    barChart.update();
-};
-
-var returnsCleanBarChart = function () {
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["#example", "", "", "", ""],
-            datasets: [
-                {
-                    backgroundColor: colorRGB.mainColorDarker,
-                    data: [0.25],
-                    borderColor: color.mainColorDark
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 20,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-};
-
 //Line chart scripts below
 var createLineChart = function (searchInput) {
 
@@ -823,14 +689,15 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
-                    },
+                    title: function(){},
                     label: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["y"];
+                        return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                    },
+                    footer: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["y"];
                     },
                     afterFooter: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
                     }
                 }
             },
@@ -962,7 +829,6 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
     return dataset;
 };
 
-
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
@@ -1056,7 +922,6 @@ $("#panelFour").click(function(){
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
-returnsCleanBarChart();
 returnsCleanLineChart();
 
 
