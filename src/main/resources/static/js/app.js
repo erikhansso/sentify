@@ -9,7 +9,6 @@ var color = {
 };
 
 var colorRGB = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
@@ -19,10 +18,11 @@ var colorRGB = {
 };
 
 var colorRGBDarker = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241)",
+    mainColorDarkerShade: "rgba(92,118,102)",
     mainContrastColor: "rgba(135,82,79)",
-    mainColorLight: "rgba(224,224,224)",
+    mainContrastColorLighter: "rgba(167,129,127)",
+    mainColorLight: "rgba(123,123,123)",
     mainColorDark: "rgba(110,140,123)",
     mainColorDarker: "rgba(161,186,189)",
     mainColorDarkLighter: "rgba(135,173,152)"
@@ -122,6 +122,10 @@ $(document).on("click", ".removeKeyword", function(e) {
     var keyword =  $("#"+pos).val();
     console.log("keyword",keyword);
     ajaxForUpdatingKeywords(keyword);
+});
+
+$("#resetButton").on("click", function (e) {
+    clearAll();
 });
 
 $("#searchTweetButton").on("click", function (e) {
@@ -307,6 +311,12 @@ var ajaxRequest = function (searchInput) {
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
+                $("#scatterChartContainer").empty();
+                $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+                $("#barChartContainer").empty();
+                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+                $("#lineChartContainer").empty();
+                $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
                 returnsCleanScatter();
                 returnsCleanBarChart();
                 returnsCleanLineChart();
@@ -383,6 +393,34 @@ var ajaxRequest = function (searchInput) {
 var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
 };
+
+var clearAll = function(){
+    toggleDisableTrackKeywordsButton(true);
+    keywordInput = "-"; //To update the dialLabel
+    $("#scatterTitle").text("Latest opinions of tweets");
+    $("#numberOfTweets").text("?");
+    $("#numberOfPosTweets").text("?");
+    $("#numberOfNegTweets").text("?");
+    updateAddKeywordButton("");
+    $("#scatterChartContainer").empty();
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    $("#barChartContainer").empty();
+    $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+    $("#lineChartContainer").empty();
+    $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+    returnsCleanLineChart();
+    returnsCleanScatter();
+    state = {
+        tweetsSearchedFor: {}
+    };
+    gauge.update(
+        {
+            dialValue: "-%",
+            arcFillPercent: 0,
+            colorArcFg: getColor(0)
+        }
+    );
+}
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
