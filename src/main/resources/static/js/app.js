@@ -49,18 +49,18 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
-$(document).ready(function () {
+function checkForInputInSearchField() {
     $('#searchTweetInput').on('input change', function () {
-        if ($("#searchTweetInput").val() != '') {
+        if ($("#searchTweetInput").val() !== '') {
             $('#searchTweetButton').prop('disabled', false);
         }
         else {
             $('#searchTweetButton').prop('disabled', true);
         }
     });
-});
+};
 
-var toggleDisableTrackKeywordsButton = function(isDisabled){
+var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
 
@@ -74,7 +74,7 @@ $('#searchTweetInput').keypress(function (event) {
     }
 });
 
-$(".demoButton").on("click", function() {
+$(".demoButton").on("click", function () {
     var searchInput = $(this).val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequestForDemoPurposes(htmlEscape(searchInput));
@@ -88,18 +88,18 @@ $("#addKeyWordButton").on("click", function (e) {
 });
 
 //Keyword buttons are set on document because all buttons are not created on page load
-$(document).on("click", ".keywordButton", function(e) {
+$(document).on("click", ".keywordButton", function (e) {
     var searchInput = $(this).html();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(searchInput);
 });
 
-$(document).on("click", ".removeKeyword", function(e) {
+$(document).on("click", ".removeKeyword", function (e) {
     console.log("clicked remove button")
     var pos = $(this).closest("li").attr("data-pos");
-    console.log("pos",pos)
-    var keyword =  $("#"+pos).val();
-    console.log("keyword",keyword);
+    console.log("pos", pos)
+    var keyword = $("#" + pos).val();
+    console.log("keyword", keyword);
     ajaxForUpdatingKeywords(keyword);
 });
 
@@ -182,6 +182,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
                 state.tweetsSearchedFor[searchInput] = {tweets: result};
             }
 
+            printPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
             createLineChart(searchInput, state);
         }
@@ -245,8 +246,8 @@ var updateKeywordsButtons = function (savedKeywords) {
     }
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
-        $("#savedKeywords").append(" <li data-pos=\""+iterator+"\" >\n" +
-            "                            <button id=\""+iterator+"\" type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+        $("#savedKeywords").append(" <li data-pos=\"" + iterator + "\" >\n" +
+            "                            <button id=\"" + iterator + "\" type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
             "<button type=\"submit\" class=\"searchButton button removeKeyword\">X</button>" +
 
             "                        </li>");
@@ -339,7 +340,7 @@ var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
 };
 
-var clearAll = function(){
+var clearAll = function () {
     toggleDisableTrackKeywordsButton(true);
     keywordInput = "-"; //To update the dialLabel
     $("#scatterTitle").text("Latest opinions of tweets");
@@ -365,7 +366,7 @@ var clearAll = function(){
             colorArcFg: getColor(0)
         }
     );
-}
+};
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
@@ -496,7 +497,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         min: 0,
                         max: 1,
                         stepSize: 0.1
-                    },
+                    }
                 }]
             },
             tooltips: {
@@ -689,7 +690,8 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function(){},
+                    title: function () {
+                    },
                     label: function (tooltipItem, data) {
                         return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
                     },
@@ -893,35 +895,43 @@ var returnsCleanLineChart = function () {
     });
 };
 
-$("#panelOne").click(function(){
+$("#panelOne").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "To calculate the average sentiment the sentiment scores for all tweets are summed up and divided by the " +
         "number of tweets";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelTwo").click(function(){
+$("#panelTwo").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "Tweets are plotted based on their individual sentiment scores. Mouse over a point to see the content of " +
         "the tweet and when it was posted";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelThree").click(function(){
+$("#panelThree").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "Compare the average sentiment related to different keywords";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelFour").click(function(){
+$("#panelFour").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
         " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
     $(".tooltip").eq(element).html(content);
 });
 
+var printPureStatistics = function (searchInput, tweetObjects) {
+    $("#tableKeyword").text(searchInput);
+    $("#tableNumTweets").text(tweetObjects.tweets.length);
+    $("#tableAvgSentiment").text(tweetObjects.averageSentiment.toFixed(5));
+    $("#tableSD").text(tweetObjects.standardDeviation);
+    $("#tableMedian").text("TBD");
+    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date + " to " +
+        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date);
+};
+
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
 returnsCleanLineChart();
-
-
