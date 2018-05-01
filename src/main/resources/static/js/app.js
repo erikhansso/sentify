@@ -329,7 +329,6 @@ var ajaxRequest = function (searchInput) {
             updateAddKeywordButton(searchInput);
 
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -703,7 +702,12 @@ var createLineChart = function (searchInput) {
                     }
                 }
             },
-            legend: {display: true},
+            legend: {
+                display: true,
+                labels: {
+                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+                }
+            },
             title: {
                 display: false
             },
