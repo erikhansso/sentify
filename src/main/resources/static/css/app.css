@@ -108,9 +108,6 @@ table {
     }
 }
 
-
-
-
 #superwrapper{
     margin: 0;
     height: 100vh;
@@ -648,7 +645,6 @@ p{
 .removeKeyword {
     border-radius: 50%;
     padding: 0.40em 0.55em;
-
 }
 .inline-block {
     display: block;

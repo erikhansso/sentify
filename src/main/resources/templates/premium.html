@@ -61,11 +61,10 @@
                     sec:authentication="name"></span>
         </span>
 
-        <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
 
-    </nav>
-</div>
-
+        </nav>
+    </div>
 
 
     <section id="maindisplay">
@@ -221,9 +220,11 @@
             <section id="keywordlist">
 
                 <ul id="savedKeywords">
-                    <li th:each="item : ${keywords}">
-                        <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword
+                    <li th:data-pos="${iStat.index}" th:each="item, iStat : ${keywords}">
+                        <button type="submit" th:id="${iStat.index}" class="searchButton button keywordButton"
+                                th:value="${item}" th:text="${item}">Keyword
                         </button>
+                        <button type="submit" class="searchButton button removeKeyword">X</button>
                     </li>
                 </ul>
 
@@ -235,18 +236,18 @@
 
 </section>
 
-    <script src="js/vendor/jquery.js"></script>
-    <!--Maybe remove one of the jQuery script links-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="js/FlexGauge.js"></script>
-    <script src="js/app.js"></script>
-    <!-- <script src="js/vendor/what-input.js"></script> -->
-    <script src="js/vendor/foundation.min.js"></script>
-    <script>
-        $(document).foundation();
-    </script>
+<script src="js/vendor/jquery.js"></script>
+<!--Maybe remove one of the jQuery script links-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="js/FlexGauge.js"></script>
+<script src="js/app.js"></script>
+<!-- <script src="js/vendor/what-input.js"></script> -->
+<script src="js/vendor/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
 
 
 </body>
