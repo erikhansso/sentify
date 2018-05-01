@@ -137,8 +137,8 @@
                 <button id="addKeyWordButton" type="submit" class="searchButton button" value="">Track this keyword</button>
 
                     <ul id="savedKeywords">
-                        <li th:each="item : ${keywords}">
-                            <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword</button>
+                        <li th:data-pos="${iStat.index}" th:each="item, iStat : ${keywords}">
+                            <button type="submit" th:id="${iStat.index}" class="searchButton button keywordButton" th:value="${item}" th:text="${item}">Keyword</button>
                             <button type="submit" class="searchButton button removeKeyword">X</button>
                         </li>
                     </ul>

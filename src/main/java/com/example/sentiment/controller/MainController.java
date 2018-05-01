@@ -245,4 +245,51 @@ public class MainController {
     }
 
 
+    @PostMapping("/updateKeywordToUser")
+    @ResponseBody
+    public List<String> updateSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
+
+        //Maps the user who's logged in, email's unique
+        String email = request.getRemoteUser();
+
+        //if there were no tweets associated with that search query or on page load
+        if (searchInput.equals("")) {
+            List<String> savedKeywords = new ArrayList<>();
+            SentUser loggedInUser = sentUserRepository.findByEmail(email);
+            if (loggedInUser.getSavedKeywords() != null) {
+                loggedInUser.getSavedKeywords();
+                return loggedInUser.getSavedKeywords();
+            } else {
+                //user hasnt saved anything yet
+                return null;
+            }
+        }
+
+        SentUser loggedInUser = sentUserRepository.findByEmail(email);
+
+        List<String> savedQueries = new ArrayList<>();
+        if (loggedInUser.getSavedKeywords() != null) {
+            savedQueries = loggedInUser.getSavedKeywords();
+        }
+
+        if (savedQueries.contains(searchInput)) {
+            for(int i = 0; i < savedQueries.size(); i++){
+                if(savedQueries.get(i).equals(searchInput)){
+                    savedQueries.remove(i);
+                }
+            }
+        }
+
+        //Updates the list of saved keywords in db
+        loggedInUser.setSavedKeywords(savedQueries);
+        sentUserRepository.save(loggedInUser);
+
+        SentUser sentUser = sentUserRepository.findByEmail(email);
+
+        List<String> savedKeywords = sentUserRepository.findByEmail(email).getSavedKeywords();
+
+        return savedKeywords;
+    }
+
+
 }
