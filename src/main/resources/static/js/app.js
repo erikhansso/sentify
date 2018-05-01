@@ -1009,6 +1009,30 @@ var returnsCleanLineChart = function () {
     });
 };
 
+$("#panelOne").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "info for the speed gauge"; 
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelTwo").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "info for the scatter plot";
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelThree").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "bar chart info";
+    $(".tooltip").eq(element).html(content);
+});
+
+$("#panelFour").click(function(){
+    element = $("has-tip").index($("#chartHelper"));
+    content = "line chart info goes here";
+    $(".tooltip").eq(element).html(content);
+});
+
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
 returnsCleanBarChart();
