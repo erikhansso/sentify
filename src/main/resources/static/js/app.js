@@ -681,7 +681,7 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-//Bar chart scripts below
+//Bar chart scripts below   !TO BE REMOVED, test first
 var createBarChart = function () {
     var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
 
@@ -1058,11 +1058,11 @@ $("#panelTwo").click(function(){
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelThree").click(function(){
-    element = $("has-tip").index($("#chartHelper"));
-    content = "bar chart info";
-    $(".tooltip").eq(element).html(content);
-});
+// $("#panelThree").click(function(){
+//     element = $("has-tip").index($("#chartHelper"));
+//     content = "bar chart info";
+//     $(".tooltip").eq(element).html(content);
+// });
 
 $("#panelFour").click(function(){
     element = $("has-tip").index($("#chartHelper"));
