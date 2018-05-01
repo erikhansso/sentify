@@ -76,27 +76,8 @@ $('#searchTweetInput').keypress(function (event) {
     }
 });
 
-//Demo buttons
-$("#godofwar").on("click", function (e) {
-    var searchInput = $("#godofwar").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#infinitywar").on("click", function (e) {
-    var searchInput = $("#infinitywar").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#academicwork").on("click", function (e) {
-    var searchInput = $("#academicwork").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#val2018").on("click", function (e) {
-    var searchInput = $("#val2018").val()
+$(".demoButton").on("click", function() {
+    var searchInput = $(this).val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequestForDemoPurposes(htmlEscape(searchInput));
 });
