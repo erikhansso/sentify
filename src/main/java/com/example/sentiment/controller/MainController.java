@@ -79,6 +79,11 @@ public class MainController {
         return new ModelAndView("index");
     }
 
+    @GetMapping("/#about")
+    public ModelAndView getAboutPage(){
+        return new ModelAndView("index");
+    }
+
     @PostMapping("/searchForTweets")
     @ResponseBody
     public SearchResource getTweets(@RequestParam String searchInput) {
