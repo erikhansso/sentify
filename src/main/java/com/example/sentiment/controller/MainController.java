@@ -161,7 +161,7 @@ public class MainController {
         Collections.reverse(allTweets);
 
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets), dateSentimentScores,
-                Statistics.getStandardDeviation(allTweets));
+                Statistics.getStandardDeviation(allTweets), Statistics.getMedian(allTweets));
 
     }
 
@@ -213,13 +213,14 @@ public class MainController {
         }
 
 
-        return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb), dateSentimentScores);
+        return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb),
+                dateSentimentScores, Statistics.getStandardDeviation(matchingTweetsStoredInDb), Statistics.getMedian(matchingTweetsStoredInDb));
 
     }
 
     @PostMapping("/saveKeywordToUser")
     @ResponseBody
-    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
+    public List<String> saveSearchQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
 
         //Maps the user who's logged in, email's unique
         String email = request.getRemoteUser();

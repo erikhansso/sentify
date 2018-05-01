@@ -930,10 +930,10 @@ var printPureStatistics = function (searchInput, tweetObjects) {
     $("#tableKeyword").text(searchInput);
     $("#tableNumTweets").text(tweetObjects.tweets.length);
     $("#tableAvgSentiment").text(tweetObjects.averageSentiment.toFixed(5));
-    $("#tableSD").text(tweetObjects.standardDeviation);
-    $("#tableMedian").text("TBD");
-    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date + " to " +
-        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date);
+    $("#tableSD").text(tweetObjects.standardDeviation.toFixed(5));
+    $("#tableMedian").text(tweetObjects.median.toFixed(5));
+    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date.slice(0, 10) + " to " +
+        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date.slice(0, 10));
 };
 
 toggleDisableTrackKeywordsButton(true);
