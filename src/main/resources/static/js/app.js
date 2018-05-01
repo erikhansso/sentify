@@ -238,7 +238,7 @@ var updateKeywordsButtons = function (savedKeywords) {
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
         $("#savedKeywords").append(" <li >\n" +
-            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+            "                            <button type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
             "                        </li>");
         keywordsArray.push(listOfKeywords[j]);
     }
