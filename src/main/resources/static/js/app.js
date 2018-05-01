@@ -152,20 +152,10 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
+                clearAll()
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
                 return;
             }
             $(document.body).css({'cursor': 'default'});
@@ -268,8 +258,6 @@ var ajaxForUpdatingKeywords = function (keyword) {
     });
 };
 
-
-
 var updateKeywordsButtons = function (savedKeywords) {
     keywordsArray = [];
     var listOfKeywords = [];
@@ -306,31 +294,11 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
-                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                $("#scatterChartContainer").empty();
-                $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
-                $("#lineChartContainer").empty();
-                $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                        arcFillPercent: 0,
-                        colorArcFg: getColor(0)
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
-                updateAddKeywordButton("");
                 return;
             }
             toggleDisableTrackKeywordsButton(false);
