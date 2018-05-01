@@ -462,3 +462,8 @@ div.pricing{
     font-size: 12px;
     margin-right: 10px;
 }
+
+.removeKeyword {
+    border-radius: 50%;
+    padding: 0.40em 0.55em;
+}

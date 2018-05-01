@@ -60,7 +60,7 @@ $(document).ready(function () {
     });
 });
 
-var toggleDisableTrackKeywordsButton = function(isDisabled){
+var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
 
@@ -88,18 +88,18 @@ $("#addKeyWordButton").on("click", function (e) {
 });
 
 //Keyword buttons are set on document because all buttons are not created on page load
-$(document).on("click", ".keywordButton", function(e) {
+$(document).on("click", ".keywordButton", function (e) {
     var searchInput = $(this).html();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(searchInput);
 });
 
-$(document).on("click", ".removeKeyword", function(e) {
+$(document).on("click", ".removeKeyword", function (e) {
     console.log("clicked remove button")
     var pos = $(this).closest("li").attr("data-pos");
-    console.log("pos",pos)
-    var keyword =  $("#"+pos).val();
-    console.log("keyword",keyword);
+    console.log("pos", pos)
+    var keyword = $("#" + pos).val();
+    console.log("keyword", keyword);
     ajaxForUpdatingKeywords(keyword);
 });
 
@@ -245,8 +245,8 @@ var updateKeywordsButtons = function (savedKeywords) {
     }
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
-        $("#savedKeywords").append(" <li data-pos=\""+iterator+"\" >\n" +
-            "                            <button id=\""+iterator+"\" type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+        $("#savedKeywords").append(" <li data-pos=\"" + iterator + "\" >\n" +
+            "                            <button id=\"" + iterator + "\" type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
             "<button type=\"submit\" class=\"searchButton button removeKeyword\">X</button>" +
 
             "                        </li>");
@@ -328,7 +328,6 @@ var ajaxRequest = function (searchInput) {
             updateAddKeywordButton(searchInput);
 
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -339,7 +338,7 @@ var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
 };
 
-var clearAll = function(){
+var clearAll = function () {
     toggleDisableTrackKeywordsButton(true);
     keywordInput = "-"; //To update the dialLabel
     $("#scatterTitle").text("Latest opinions of tweets");
@@ -689,7 +688,8 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function(){},
+                    title: function () {
+                    },
                     label: function (tooltipItem, data) {
                         return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
                     },
@@ -701,7 +701,12 @@ var createLineChart = function (searchInput) {
                     }
                 }
             },
-            legend: {display: true},
+            legend: {
+                display: true,
+                labels: {
+                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+                }
+            },
             title: {
                 display: false
             },
@@ -893,21 +898,25 @@ var returnsCleanLineChart = function () {
     });
 };
 
-$("#panelOne").click(function(){
+$("#panelOne").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "To calculate the average sentiment the sentiment scores for all tweets are summed up and divided by the " +
         "number of tweets";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelTwo").click(function(){
+$("#panelTwo").click(function () {
     element = $("has-tip").index($("#chartHelper"));
     content = "Tweets are plotted based on their individual sentiment scores. Mouse over a point to see the content of " +
         "the tweet and when it was posted";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelFour").click(function(){
+
+
+
+$("#panelFour").click(function () {
+
     element = $("has-tip").index($("#chartHelper"));
     content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
         " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
