@@ -465,7 +465,12 @@ p{
     margin-right: 10px;
 }
 
+#statisticsTable {
+    width: 90%;
+}
+
 .removeKeyword {
     border-radius: 50%;
     padding: 0.40em 0.55em;
+
 }
