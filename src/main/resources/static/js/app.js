@@ -64,11 +64,9 @@ var toggleDisableTrackKeywordsButton = function(isDisabled){
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
 
-
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-
     if (event.which === 13) {
         var searchInput = $("input[name=input]").val();
         keywordInput = htmlEscape(searchInput);
@@ -134,7 +132,6 @@ $("#searchTweetButton").on("click", function (e) {
     ajaxRequest(htmlEscape(searchInput));
 });
 
-
 var ajaxRequestForDemoPurposes = function (searchInput) {
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
@@ -152,20 +149,10 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
+                clearAll()
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
                 return;
             }
             $(document.body).css({'cursor': 'default'});
@@ -215,7 +202,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             }
 
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -268,8 +254,6 @@ var ajaxForUpdatingKeywords = function (keyword) {
     });
 };
 
-
-
 var updateKeywordsButtons = function (savedKeywords) {
     keywordsArray = [];
     var listOfKeywords = [];
@@ -306,31 +290,11 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
-                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                $("#scatterChartContainer").empty();
-                $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
-                $("#lineChartContainer").empty();
-                $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                        arcFillPercent: 0,
-                        colorArcFg: getColor(0)
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
-                updateAddKeywordButton("");
                 return;
             }
             toggleDisableTrackKeywordsButton(false);
@@ -880,14 +844,15 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
-                    },
+                    title: function(){},
                     label: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["y"];
+                        return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                    },
+                    footer: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["y"];
                     },
                     afterFooter: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
                     }
                 }
             },
@@ -1019,7 +984,6 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
     return dataset;
 };
 
-
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
@@ -1113,7 +1077,6 @@ $("#panelFour").click(function(){
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
-returnsCleanBarChart();
 returnsCleanLineChart();
 
 
