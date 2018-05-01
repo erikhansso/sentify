@@ -486,6 +486,12 @@ p{
     align-items: center;
 }
 
+#pricingImg1 {
+    padding-top: 40px;
+    height: 300px;
+    width: 300px;
+}
+
 .elementWrapper {
     width: 33%;
     padding-top: 50px;
