@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
@@ -28,9 +29,6 @@
                     <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
                 </a>
             </li>
-            <li class="active">
-                <a href="/">Home</a>
-            </li>
             <li>
                 <a href="/demo">Demo</a>
             </li>
@@ -42,6 +40,9 @@
             </li>
             <li>
                 <a href="/premium">Premium</a>
+            </li>
+            <li>
+                <a href="#about">About us</a>
             </li>
         </ul>
         <span>
@@ -124,40 +125,51 @@
 
 
 <a name="howItWorks"></a>
-<div class="howText">
-
+<div class="infoContainer">
     <div>
         <h3 class="header1">
             How it works.
         </h3>
-        <p class="howText">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        </p>
+        <div class="howitworksWrapper">
+            <div class="elementWrapper">
+                <img id="howitworksImg1" class="inline-block" src="/images/brainstorming.jpg">
+                <p class="inline-block">
+                    Register an account
+                </p>
+            </div>
+            <div class="elementWrapper">
+                <img id="howitworksImg2" class="inline-block" src="/images/personwithcomputer.jpg">
+                <p class="inline-block">
+                    Search, save and track Your keywords
+                </p>
+            </div>
+            <div class="elementWrapper">
+                <img id="howitworksImg3" class="inline-block" src="/images/brainheart.jpg" >
+                <p class="inline-block">
+                    Receive easy-to-understand charts showing the sentiment
+                </p>
+            </div>
+        </div>
 
     </div>
 </div>
 
-    <a name="pricing"></a>
-<div class="pricing">
+<a name="pricing"></a>
+<div class="infoContainer">
     <h3 class="header2">
         Pricing
+    </h3>
+    <div class="pricingWrapper">
+        <h4>Subscription available from $89/month</h4>
+        <h5>Contact us for more info at </h5><a href="#form"> sentify@protonmail.com</a>
+        <img id="pricingImg1" class="inline-block" src="/images/personholdingtwitter.jpg">
+    </div>
+</div>
+
+<a name="about"></a>
+<div class="infoContainer">
+    <h3 class="header3">
+        About us
     </h3>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
@@ -182,7 +194,7 @@
 </div>
 <footer>
     <span class="copy">Copyrights:  &copy; Sentify</span>
-    <span class="contacts">@Contacts:<a href="#form"> Sentify@proton.com</a></span>
+    <span class="contacts">@Contacts:<a href="#form"> sentify@protonmail.com</a></span>
 
 </footer>
 </body>

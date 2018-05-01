@@ -9,7 +9,6 @@ var color = {
 };
 
 var colorRGB = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241,0.7)",
     mainContrastColor: "rgba(135,82,79,0.7)",
     mainColorLight: "rgba(224,224,224,0.7)",
@@ -19,10 +18,11 @@ var colorRGB = {
 };
 
 var colorRGBDarker = {
-    // mainBgColor: "rgba(255,255,255,0.1)",
     mainColor: "rgba(206,237,241)",
+    mainColorDarkerShade: "rgba(92,118,102)",
     mainContrastColor: "rgba(135,82,79)",
-    mainColorLight: "rgba(224,224,224)",
+    mainContrastColorLighter: "rgba(167,129,127)",
+    mainColorLight: "rgba(123,123,123)",
     mainColorDark: "rgba(110,140,123)",
     mainColorDarker: "rgba(161,186,189)",
     mainColorDarkLighter: "rgba(135,173,152)"
@@ -49,54 +49,31 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
-$(document).ready(function () {
-    $('#searchTweetInput').on('input change', function () {
-        if ($("#searchTweetInput").val() != '') {
-            $('#searchTweetButton').prop('disabled', false);
-        }
-        else {
-            $('#searchTweetButton').prop('disabled', true);
-        }
-    });
+$('#searchTweetInput').on('input change', function () {
+    if ($("#searchTweetInput").val() !== '') {
+        $('#searchTweetButton').prop('disabled', false);
+    }
+    else {
+        $('#searchTweetButton').prop('disabled', true);
+    }
 });
 
-var toggleDisableTrackKeywordsButton = function(isDisabled){
+var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
-
 
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-
-    if (event.which === 13) {
-        var searchInput = $("input[name=input]").val();
+    if (event.which === 13 && $(this).val() !== '') {
+        var searchInput = $(this).val();
         keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
     }
 });
 
-//Demo buttons
-$("#godofwar").on("click", function (e) {
-    var searchInput = $("#godofwar").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#infinitywar").on("click", function (e) {
-    var searchInput = $("#infinitywar").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#academicwork").on("click", function (e) {
-    var searchInput = $("#academicwork").val()
-    keywordInput = htmlEscape(searchInput);
-    ajaxRequestForDemoPurposes(htmlEscape(searchInput));
-});
-
-$("#val2018").on("click", function (e) {
-    var searchInput = $("#val2018").val()
+$(".demoButton").on("click", function () {
+    var searchInput = $(this).val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequestForDemoPurposes(htmlEscape(searchInput));
 });
@@ -109,19 +86,23 @@ $("#addKeyWordButton").on("click", function (e) {
 });
 
 //Keyword buttons are set on document because all buttons are not created on page load
-$(document).on("click", ".keywordButton", function(e) {
+$(document).on("click", ".keywordButton", function (e) {
     var searchInput = $(this).html();
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(searchInput);
 });
 
-$(document).on("click", ".removeKeyword", function(e) {
-    console.log("clicked remove button")
+$(document).on("click", ".removeKeyword", function (e) {
+    console.log("clicked remove button");
     var pos = $(this).closest("li").attr("data-pos");
-    console.log("pos",pos)
-    var keyword =  $("#"+pos).val();
-    console.log("keyword",keyword);
+    console.log("pos", pos);
+    var keyword = $("#" + pos).val();
+    console.log("keyword", keyword);
     ajaxForUpdatingKeywords(keyword);
+});
+
+$("#resetButton").on("click", function (e) {
+    clearAll();
 });
 
 $("#searchTweetButton").on("click", function (e) {
@@ -129,7 +110,6 @@ $("#searchTweetButton").on("click", function (e) {
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(htmlEscape(searchInput));
 });
-
 
 var ajaxRequestForDemoPurposes = function (searchInput) {
     var tweetObjects = {};
@@ -148,20 +128,10 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
                 return;
             }
             $(document.body).css({'cursor': 'default'});
@@ -210,8 +180,8 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
                 state.tweetsSearchedFor[searchInput] = {tweets: result};
             }
 
+            createPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -237,6 +207,7 @@ var ajaxForSavingKeywords = function (searchInput) {
             }
             $(document.body).css({'cursor': 'default'});
             updateKeywordsButtons(savedKeywords);
+            updateOverview(savedKeywords);
         }
     });
 };
@@ -260,11 +231,10 @@ var ajaxForUpdatingKeywords = function (keyword) {
             }
             $(document.body).css({'cursor': 'default'});
             updateKeywordsButtons(savedKeywords);
+            updateOverview(savedKeywords);
         }
     });
 };
-
-
 
 var updateKeywordsButtons = function (savedKeywords) {
     keywordsArray = [];
@@ -276,8 +246,8 @@ var updateKeywordsButtons = function (savedKeywords) {
     }
     $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
     for (var j = 0; j < listOfKeywords.length; j++) {
-        $("#savedKeywords").append(" <li data-pos=\""+iterator+"\" >\n" +
-            "                            <button id=\""+iterator+"\" type=\"submit\" class=\"searchButton button keywordButton\" value=\""+listOfKeywords[j]+"\">" + listOfKeywords[j] + "</button>\n" +
+        $("#savedKeywords").append(" <li data-pos=\"" + iterator + "\" >\n" +
+            "                            <button id=\"" + iterator + "\" type=\"submit\" class=\"searchButton button keywordButton\" value=\"" + listOfKeywords[j] + "\">" + listOfKeywords[j] + "</button>\n" +
             "<button type=\"submit\" class=\"searchButton button removeKeyword\">X</button>" +
 
             "                        </li>");
@@ -287,6 +257,7 @@ var updateKeywordsButtons = function (savedKeywords) {
 };
 
 var ajaxRequest = function (searchInput) {
+    $('#searchTweetButton').prop('disabled', true);
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
@@ -302,25 +273,11 @@ var ajaxRequest = function (searchInput) {
         success: function (result) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
-                toggleDisableTrackKeywordsButton(true);
                 $(document.body).css({'cursor': 'default'});
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
-                returnsCleanScatter();
-                returnsCleanBarChart();
-                returnsCleanLineChart();
-                gauge.update(
-                    {
-                        dialValue: "-%",
-                        arcFillPercent: 0,
-                        colorArcFg: getColor(0)
-                    }
-                );
-                $("#numberOfTweets").text("?");
-                $("#numberOfPosTweets").text("?");
-                $("#numberOfNegTweets").text("?");
-                updateAddKeywordButton("");
                 return;
             }
             toggleDisableTrackKeywordsButton(false);
@@ -371,9 +328,8 @@ var ajaxRequest = function (searchInput) {
             }
 
             updateAddKeywordButton(searchInput);
-
+            createPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -382,6 +338,35 @@ var ajaxRequest = function (searchInput) {
 
 var updateAddKeywordButton = function (keyword) {
     $("#addKeyWordButton").val(keyword);
+};
+
+var clearAll = function () {
+    toggleDisableTrackKeywordsButton(true);
+    keywordInput = "-"; //To update the dialLabel
+    $("#scatterTitle").text("Latest opinions of tweets");
+    $("#numberOfTweets").text("?");
+    $("#numberOfPosTweets").text("?");
+    $("#numberOfNegTweets").text("?");
+    updateAddKeywordButton("");
+    $("#scatterChartContainer").empty();
+    $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+    $("#barChartContainer").empty();
+    $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
+    $("#lineChartContainer").empty();
+    $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+    clearPureStatistics();
+    returnsCleanLineChart();
+    returnsCleanScatter();
+    state = {
+        tweetsSearchedFor: {}
+    };
+    gauge.update(
+        {
+            dialValue: "-%",
+            arcFillPercent: 0,
+            colorArcFg: getColor(0)
+        }
+    );
 };
 
 // //Creates a new gauge and appends it to the #demo-tag
@@ -513,7 +498,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         min: 0,
                         max: 1,
                         stepSize: 0.1
-                    },
+                    }
                 }]
             },
             tooltips: {
@@ -588,7 +573,7 @@ var returnsCleanScatter = function () {
                         display: false,
                         min: 0,
                         max: 100,
-                        stepSize: 10,
+                        stepSize: 10
                     },
                     scaleLabel: {
                         display: true,
@@ -616,8 +601,8 @@ var returnsCleanScatter = function () {
                         },
                         min: 0,
                         max: 1,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             title: {
@@ -681,142 +666,6 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-//Bar chart scripts below
-var createBarChart = function () {
-    var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
-
-    var convertToBarDataFormat = function (data) {
-        var dataArray = [];
-        for (var i = 0; i < data.length; i++) {
-            dataArray.push(data[i] - 0.5);
-        }
-        return dataArray;
-    };
-    var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: barLabels,
-            datasets: [
-                {
-                    backgroundColor: [colorRGB.mainColorDarker, colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
-                    data: convertToBarDataFormat(testBarData),
-                    borderColor: color.mainColorDark,
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-    barChart.update();
-};
-
-var returnsCleanBarChart = function () {
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["#example", "", "", "", ""],
-            datasets: [
-                {
-                    backgroundColor: colorRGB.mainColorDarker,
-                    data: [0.25],
-                    borderColor: color.mainColorDark
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 20,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-};
-
 //Line chart scripts below
 var createLineChart = function (searchInput) {
 
@@ -842,18 +691,25 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
+                    title: function () {
                     },
                     label: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["y"];
+                        return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                    },
+                    footer: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["y"];
                     },
                     afterFooter: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
                     }
                 }
             },
-            legend: {display: true},
+            legend: {
+                display: true,
+                labels: {
+                    fontFamily: "'Helvetica Neue', 'Helvetica', 'Arial', sans-serif"
+                }
+            },
             title: {
                 display: false
             },
@@ -981,7 +837,6 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
     return dataset;
 };
 
-
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
@@ -1046,33 +901,67 @@ var returnsCleanLineChart = function () {
     });
 };
 
-$("#panelOne").click(function(){
+$("#panelOne").click(function () {
     element = $("has-tip").index($("#chartHelper"));
-    content = "info for the speed gauge"; 
+    content = "To calculate the average sentiment the sentiment scores for all tweets are summed up and divided by the " +
+        "number of tweets";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelTwo").click(function(){
+$("#panelTwo").click(function () {
     element = $("has-tip").index($("#chartHelper"));
-    content = "info for the scatter plot";
+    content = "Tweets are plotted based on their individual sentiment scores. Mouse over a point to see the content of " +
+        "the tweet and when it was posted";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelThree").click(function(){
+$("#panelThree").click(function () {
     element = $("has-tip").index($("#chartHelper"));
-    content = "bar chart info";
+    content = "Compare the average sentiment related to different keywords";
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelFour").click(function(){
+$("#panelFour").click(function () {
     element = $("has-tip").index($("#chartHelper"));
-    content = "line chart info goes here";
+    content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
+        " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
     $(".tooltip").eq(element).html(content);
 });
+
+$("#panelFive").click(function () {
+    element = $("has-tip").index($("#chartHelper"));
+    content = "Shows statistics about the current chosen keyword";
+    $(".tooltip").eq(element).html(content);
+});
+
+
+
+var updateOverview = function (listOfKeywords) {
+    $("#numberOfKeywordsTracked").text("You are tracking " + listOfKeywords.length + " keyword(s).");
+    $("#keywordHighestAvgSS").text(" has the highest average SentScore with ");
+    $("#keywordLowestAvgSS").text(" has the lowest average SentScore with ");
+    $("#totalTweetsForAllKW").text("Total number of tweets analyzed for your keywords combined: ");
+};
+
+var createPureStatistics = function (searchInput, tweetObjects) {
+    $("#tableKeyword").text(searchInput);
+    $("#tableNumTweets").text(tweetObjects.tweets.length);
+    $("#tableAvgSentiment").text(tweetObjects.averageSentiment.toFixed(5));
+    $("#tableSD").text(tweetObjects.standardDeviation.toFixed(5));
+    $("#tableMedian").text(tweetObjects.median.toFixed(5));
+    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date.slice(0, 10) + " to " +
+        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date.slice(0, 10));
+};
+
+var clearPureStatistics = function () {
+    $("#tableKeyword").empty();
+    $("#tableNumTweets").empty();
+    $("#tableAvgSentiment").empty();
+    $("#tableSD").empty();
+    $("#tableMedian").empty();
+    $("#tableTimeSpan").empty();
+};
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
-returnsCleanBarChart();
 returnsCleanLineChart();
-
-

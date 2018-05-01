@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,8 +62,45 @@ public class MainController {
         SentUser loggedInUser = sentUserRepository.findByEmail(email);
         List<String> keywords = loggedInUser.getSavedKeywords();
 
+        double maxSentScore = 0;
+        double minSentScore = 101;
+        double avgSentScore = 0;
+        String maxSentScoreKeyword = "-";
+        String minSentScoreKeyword = "-";
+        int totalTweets = 0;
+
+        for (int i = 0; i < keywords.size(); i++) {
+            List<Tweet> tweets = (List) tweetRepository.findByQuery(queryRepository.findByQueryText(keywords.get(i)));
+            totalTweets+= tweets.size();
+            avgSentScore = Statistics.getAverageSentimentOfTweets(tweets);
+            if (avgSentScore > maxSentScore) {
+                maxSentScore = avgSentScore;
+                maxSentScoreKeyword = keywords.get(i);
+            }
+            if(avgSentScore < minSentScore) {
+                minSentScore = avgSentScore;
+                minSentScoreKeyword = keywords.get(i);
+            }
+        }
+
+        if(minSentScore == 101){
+            minSentScore = 0;
+        }
+
+        BigDecimal bdmax = new BigDecimal(maxSentScore*100);
+        bdmax = bdmax.setScale(0, RoundingMode.HALF_UP);
+        BigDecimal bdmin = new BigDecimal(minSentScore*100);
+        bdmin = bdmin.setScale(0, RoundingMode.HALF_UP);
+
         return new ModelAndView("premium")
-                .addObject("keywords", keywords);
+                .addObject("keywords", keywords)
+                .addObject("username", loggedInUser.getFirstName())
+                .addObject("keywordsSize", keywords.size())
+                .addObject("highestKeyword", maxSentScoreKeyword)
+                .addObject("maxAvgSentScore", bdmax)
+                .addObject("lowestKeyword", minSentScoreKeyword)
+                .addObject("minAvgSentScore", bdmin)
+                .addObject("totalTweets", totalTweets);
     }
 
     @GetMapping("/scatter")
@@ -70,12 +109,17 @@ public class MainController {
     }
 
     @GetMapping("/#howItWorks")
-    public ModelAndView getWorkPage(){
+    public ModelAndView getWorkPage() {
         return new ModelAndView("index");
     }
 
     @GetMapping("/#pricing")
-    public ModelAndView getPricingPage(){
+    public ModelAndView getPricingPage() {
+        return new ModelAndView("index");
+    }
+
+    @GetMapping("/#about")
+    public ModelAndView getAboutPage(){
         return new ModelAndView("index");
     }
 
@@ -156,7 +200,7 @@ public class MainController {
         Collections.reverse(allTweets);
 
         return new SearchResource(allTweets, Statistics.getAverageSentimentOfTweets(allTweets), dateSentimentScores,
-                Statistics.getStandardDeviation(allTweets));
+                Statistics.getStandardDeviation(allTweets), Statistics.getMedian(allTweets));
 
     }
 
@@ -208,13 +252,14 @@ public class MainController {
         }
 
 
-        return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb), dateSentimentScores);
+        return new SearchResource(matchingTweetsStoredInDb, Statistics.getAverageSentimentOfTweets(matchingTweetsStoredInDb),
+                dateSentimentScores, Statistics.getStandardDeviation(matchingTweetsStoredInDb), Statistics.getMedian(matchingTweetsStoredInDb));
 
     }
 
     @PostMapping("/saveKeywordToUser")
     @ResponseBody
-    public List<String> saveSearcQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
+    public List<String> saveSearchQueryToFollowedQueries(@RequestParam String searchInput, HttpServletRequest request) {
 
         //Maps the user who's logged in, email's unique
         String email = request.getRemoteUser();
@@ -283,8 +328,8 @@ public class MainController {
         }
 
         if (savedQueries.contains(searchInput)) {
-            for(int i = 0; i < savedQueries.size(); i++){
-                if(savedQueries.get(i).equals(searchInput)){
+            for (int i = 0; i < savedQueries.size(); i++) {
+                if (savedQueries.get(i).equals(searchInput)) {
                     savedQueries.remove(i);
                 }
             }

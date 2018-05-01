@@ -1,8 +1,7 @@
-
-
 <!DOCTYPE html>
 
-<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 
 <head>
@@ -19,32 +18,35 @@
 
 <body>
 
-<section id="superwrapper">
 
+<section id="superwrapper">
     <div id="navbar">
         <nav class="top-bar" data-topbar role="navigation">
             <ul class="menu menu-hover-lines">
                 <li>
-                    <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
-                </li>
-                <li >
-                    <a href="/">Home</a>
+                    <a id="homeImg" href="/">
+                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+                    </a>
                 </li>
                 <li>
                     <a href="/demo">Demo</a>
                 </li>
                 <li>
-                    <a href="#howItWorks">How it works</a>
+                    <a href="/#howItWorks">How it works</a>
                 </li>
                 <li>
-                    <a href="#pricing">Pricing</a>
+                    <a href="/#pricing">Pricing</a>
                 </li>
 
                 <li class="active">
                     <a href="/premium">Premium</a>
                 </li>
+                <li>
+                    <a href="#about">About us</a>
+                </li>
             </ul>
             <span>
+
             <ul class="menu menu-hover-lines">
             <li sec:authorize="isAnonymous()">
                 <a href="/login">Login</a>
@@ -65,13 +67,14 @@
 
 
     <section id="maindisplay">
-
         <section id="searchbar">
             <div class="input-group">
-                <input id="searchTweetInput" class="input-group-field" type="text" name="input" placeholder="#Search for tweets" autofocus/>
+                <input id="searchTweetInput" class="input-group-field" type="text" name="input"
+                       placeholder="#Search for tweets" autofocus/>
 
                 <div class="input-group-button">
-                    <input id="searchTweetButton" type="submit" class="searchButton button" value="Search" disabled="disabled">
+                    <input id="searchTweetButton" type="submit" class="searchButton button" value="Search"
+                           disabled="disabled">
                 </div>
 
             </div>
@@ -88,7 +91,7 @@
 
             </section>
 
-            <section id="tabsandcharts" >
+            <section id="tabsandcharts">
                 <section class="tabsandchartsinterior">
                     <!-- <div class="row"> -->
                     <section id="tabwrapper">
@@ -101,16 +104,22 @@
                                     <a id="panelTwo" href="#panel2">Scatter plot</a>
                                 </li>
                                 <li class="tabs-title">
+                                    <a id="panelThree" href="#panel3">Overview</a>
 
-                                    <a id="panelThree" href="#panel3">Bar chart</a>
                                 </li>
                                 <li class="tabs-title">
                                     <a id="panelFour" href="#panel4">Line chart</a>
                                 </li>
+                                <li class="tabs-title">
+                                    <a id="panelFive" href="#panel5">Statistics</a>
+                                </li>
                                 <li class="tabs-info">
-                                    <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper" title="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">
+                                    <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper"
+                                         title="To calculate
+                        the average sentiment the sentiment scores for all tweets are summed up and divided by the number of tweets">
                                 </li>
                             </ul>
+                        </div>
                     </section>
                     <section id="actualcharts">
                         <div class="tabs-content" data-tabs-content="example-tabs">
@@ -140,11 +149,17 @@
                                 </div>
                             </div>
                             <div class="tabs-panel" id="panel3">
-                                <h4>Placeholder</h4>
+                                <h4 th:text="'Welcome back '+${username}+'!'"></h4>
+                                <p th:text="'Today it is '+${#calendars.format(#calendars.createNow(), 'dd MMM yyyy')}"></p>
+                                <p id="numberOfKeywordsTracked"
+                                   th:text="'You are tracking '+${keywordsSize}+' keyword(s).'"></p>
+                                <p id="keywordHighestAvgSS"
+                                   th:text="${highestKeyword}+' has the highest average SentScore with '+${maxAvgSentScore}+'%'"></p>
+                                <p id="keywordLowestAvgSS"
+                                   th:text="${lowestKeyword}+' has the lowest average SentScore with '+${minAvgSentScore}+'%'"></p>
+                                <p id="totalTweetsForAllKW"
+                                   th:text="'Total number of tweets analyzed for your keywords combined: '+${totalTweets}"></p>
 
-                                <div id="barChartContainer" class="chartContainer">
-                                    <canvas id="barChart" class="jsChart"></canvas>
-                                </div>
                             </div>
                             <div class="tabs-panel" id="panel4">
                                 <h4 id="lineChartTitle">Opinion of tweets over time</h4>
@@ -152,11 +167,52 @@
                                     <canvas id="lineChart" class="jsChart"></canvas>
                                 </div>
                             </div>
+                            <div class="tabs-panel" id="panel5">
+                                <h4 id="statisticsTitle">Statistics</h4>
+                                <div id="statisticsContainer" class="chartContainer">
+                                    <table id="statisticsTable" class="hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Key</th>
+                                            <th>Value</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>Keyword</td>
+                                            <td id="tableKeyword"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Number of tweets</td>
+                                            <td id="tableNumTweets"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Average sentiment score</td>
+                                            <td id="tableAvgSentiment"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Standard deviation</td>
+                                            <td id="tableSD"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Median</td>
+                                            <td id="tableMedian"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Time span</td>
+                                            <td id="tableTimeSpan"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </section>
 
-                    <button id="addKeyWordButton" type="submit" class="searchButton button" value="">Track this keyword</button>
-
+                    <button id="addKeyWordButton" type="submit" class="searchButton button" value="">Track this
+                        keyword
+                    </button>
+                    <button id="resetButton" type="submit" class="searchButton button" value="">Reset</button>
                 </section>
             </section>
 
@@ -164,17 +220,18 @@
 
                 <ul id="savedKeywords">
                     <li th:each="item : ${keywords}">
-                        <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword</button>
+                        <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword
+                        </button>
                     </li>
                 </ul>
 
             </section>
 
-
-
         </section>
 
     </section>
+
+</section>
 
     <script src="js/vendor/jquery.js"></script>
     <!--Maybe remove one of the jQuery script links-->

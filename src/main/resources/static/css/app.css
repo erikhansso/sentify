@@ -423,7 +423,7 @@ h1, h4, input, h3, span, .fg-dial {
     margin: 5px;
 }
 
-p, a, .fg-dial-label {
+p, a, .fg-dial-label, th, td {
     font-family: 'Rubik', sans-serif;
 }
 
@@ -474,16 +474,7 @@ p, a, .fg-dial-label {
 .button {
     background-color: var(--main-contrast-color);
 }
-#panelOne{
-    color: var(--main-contrast-color);
-}
-#panelTwo{
-    color: var(--main-contrast-color);
-}
-#panelThree{
-    color: var(--main-contrast-color);
-}
-#panelFour{
+#panelOne, #panelTwo, #panelThree, #panelFour, #panelFive {
     color: var(--main-contrast-color);
 }
 
@@ -578,9 +569,9 @@ input[type="checkbox"]{
     font-size: 16px;
 }
 
-div.howText{
+div.infoContainer{
     margin: 0 auto;
-    width:500px;
+    width:100%;
     height:734px;
     display: table;
 }
@@ -598,15 +589,17 @@ div.howText{
     color: var(--main-contrast-color);
 }
 
+.header3 {
+    margin-top: 113px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--main-contrast-color);
+}
+
 p{
     text-align:center;
 }
-div.pricing{
-    margin: 0 auto;
-    width: 500px;
-    height: 734px;
-    display: table;
-}
+
 .copy{
     text-align: center;
     font-size: 12px;
@@ -616,4 +609,54 @@ div.pricing{
     float: right;
     font-size: 12px;
     margin-right: 10px;
+}
+
+#statisticsTable {
+    width: 90%;
+}
+
+.removeKeyword {
+    border-radius: 50%;
+    padding: 0.40em 0.55em;
+
+}
+.inline-block {
+    display: block;
+    padding-bottom: 50px;
+    font-size: 20px;
+}
+
+.inline-block>p {
+    display: inline;
+}
+
+.howitworksWrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.pricingWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pricingImg1 {
+    padding-top: 40px;
+    height: 300px;
+    width: 300px;
+}
+
+.elementWrapper {
+    width: 33%;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#howitworksImg1, #howitworksImg2, #howitworksImg3 {
+    height: 200px;
+    width: 200px;
 }
