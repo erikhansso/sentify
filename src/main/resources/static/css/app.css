@@ -118,6 +118,11 @@ h4 {
     margin-top: 1rem;
 }
 
+.menu-hover-lines a {
+    text-transform: uppercase;
+    color: var(--main-contrast-color);
+}
+
 .menu-hover-lines li:first-child a {
     margin-left: 0;
 }
