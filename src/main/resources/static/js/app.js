@@ -64,11 +64,9 @@ var toggleDisableTrackKeywordsButton = function(isDisabled){
     $("#addKeyWordButton").prop('disabled', isDisabled);
 };
 
-
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-
     if (event.which === 13) {
         var searchInput = $("input[name=input]").val();
         keywordInput = htmlEscape(searchInput);
@@ -133,7 +131,6 @@ $("#searchTweetButton").on("click", function (e) {
     keywordInput = htmlEscape(searchInput);
     ajaxRequest(htmlEscape(searchInput));
 });
-
 
 var ajaxRequestForDemoPurposes = function (searchInput) {
     var tweetObjects = {};
@@ -205,7 +202,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             }
 
             createScatterPlot(searchInput, result.tweets);
-            createBarChart();
             createLineChart(searchInput, state);
         }
     });
@@ -687,142 +683,6 @@ function htmlEscape(str) {
         .replace(/>/g, '&gt;');
 }
 
-//Bar chart scripts below
-var createBarChart = function () {
-    var testBarData = [0.8, 0.3, 0.51, 0.7, 0.2];
-
-    var convertToBarDataFormat = function (data) {
-        var dataArray = [];
-        for (var i = 0; i < data.length; i++) {
-            dataArray.push(data[i] - 0.5);
-        }
-        return dataArray;
-    };
-    var barLabels = ["#pancake", "cat", "#godofwar", "#trump", "#cake"];
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: barLabels,
-            datasets: [
-                {
-                    backgroundColor: [colorRGB.mainColorDarker, colorRGB.mainColorDark, colorRGB.mainColorLight, colorRGB.mainContrastColor, colorRGB.mainColorDarkLighter],
-                    data: convertToBarDataFormat(testBarData),
-                    borderColor: color.mainColorDark,
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 50,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-    barChart.update();
-};
-
-var returnsCleanBarChart = function () {
-    var ctx = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ["#example", "", "", "", ""],
-            datasets: [
-                {
-                    backgroundColor: colorRGB.mainColorDarker,
-                    data: [0.25],
-                    borderColor: color.mainColorDark
-                }
-            ]
-        },
-        options: {
-            legend: {display: false},
-            title: {
-                display: false
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        color: color.mainColorLight
-                    }
-                }],
-                yAxes: [{
-                    gridLines: {
-                        color: [color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight, color.mainColorLight],
-                        lineWidth: [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
-                    },
-                    ticks: {
-                        callback: function (value, index, values) {
-                            if (index === 10) {
-                                return 'Negative';
-                            }
-                            if (index === 5) {
-                                return 'Neutral';
-                            }
-                            if (index === 0) {
-                                return 'Positive';
-                            }
-                            return "";
-                        },
-                        min: -0.5,
-                        max: 0.5,
-                        stepSize: 0.1
-                    }
-                }]
-            },
-            layout: {
-                padding: {
-                    left: 20,
-                    right: 50,
-                    top: 0,
-                    bottom: 0
-                }
-            }
-
-        }
-    });
-};
-
 //Line chart scripts below
 var createLineChart = function (searchInput) {
 
@@ -848,14 +708,15 @@ var createLineChart = function (searchInput) {
                 bodyFontColor: "#000000",
                 displayColors: false, //whether to display colored boxes in tooltip
                 callbacks: {
-                    title: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
-                    },
+                    title: function(){},
                     label: function (tooltipItem, data) {
-                        return "SentScore: " + data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["y"];
+                        return data["datasets"][tooltipItem["datasetIndex"]]["data"][tooltipItem["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                    },
+                    footer: function (tooltipItem, data) {
+                        return "SentScore: " + data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["y"];
                     },
                     afterFooter: function (tooltipItem, data) {
-                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["numberOfTweets"] + " tweet(s) analyzed this day";
+                        return data["datasets"][tooltipItem[0]["datasetIndex"]]["data"][tooltipItem[0]["index"]]["x"].format("ddd MMM D YYYY");
                     }
                 }
             },
@@ -987,7 +848,6 @@ var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
     return dataset;
 };
 
-
 var returnsCleanLineChart = function () {
     var ctx = document.getElementById('lineChart').getContext('2d');
     var lineChart = new Chart(ctx, {
@@ -1081,7 +941,6 @@ $("#panelFour").click(function(){
 
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
-returnsCleanBarChart();
 returnsCleanLineChart();
 
 
