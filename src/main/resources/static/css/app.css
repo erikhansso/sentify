@@ -55,6 +55,7 @@
 
 
 #navbar {
+    font-size: 17px;
     position: fixed;
     width: 100%;
     z-index: 10;
@@ -335,6 +336,7 @@ p, a, .fg-dial-label {
 }
 
 html, body {
+    background-color: whitesmoke;
     padding: 0;
     margin: 0;
     width: 100%;
@@ -413,4 +415,45 @@ ul#savedKeywords {
     margin-left: 700px;
     margin-bottom: 400px;
     font-size: 16px;
+}
+
+div.howText{
+    margin: 0 auto;
+    width:500px;
+    height:734px;
+    display: table;
+}
+
+.header1{
+    margin-top: 120px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--main-contrast-color);
+}
+.header2 {
+    margin-top: 113px;
+    margin-bottom: 40px;
+    text-align: center;
+    color: var(--main-contrast-color);
+}
+
+p{
+    text-align:center;
+    margin-bottom: 70px;
+}
+div.pricing{
+    margin: 0 auto;
+    width: 500px;
+    height: 734px;
+    display: table;
+}
+.copy{
+    text-align: center;
+    font-size: 12px;
+    margin-left: 10px;
+}
+.contacts{
+    float: right;
+    font-size: 12px;
+    margin-right: 10px;
 }
