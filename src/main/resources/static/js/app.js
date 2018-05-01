@@ -49,16 +49,16 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
-$(document).ready(function () {
+function checkForInputInSearchField() {
     $('#searchTweetInput').on('input change', function () {
-        if ($("#searchTweetInput").val() != '') {
+        if ($("#searchTweetInput").val() !== '') {
             $('#searchTweetButton').prop('disabled', false);
         }
         else {
             $('#searchTweetButton').prop('disabled', true);
         }
     });
-});
+};
 
 var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
@@ -74,7 +74,7 @@ $('#searchTweetInput').keypress(function (event) {
     }
 });
 
-$(".demoButton").on("click", function() {
+$(".demoButton").on("click", function () {
     var searchInput = $(this).val();
     keywordInput = htmlEscape(searchInput);
     ajaxRequestForDemoPurposes(htmlEscape(searchInput));
@@ -182,6 +182,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
                 state.tweetsSearchedFor[searchInput] = {tweets: result};
             }
 
+            printPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
             createLineChart(searchInput, state);
         }
@@ -364,7 +365,7 @@ var clearAll = function () {
             colorArcFg: getColor(0)
         }
     );
-}
+};
 
 // //Creates a new gauge and appends it to the #demo-tag
 var gauge = new FlexGauge({
@@ -495,7 +496,7 @@ var createScatterPlot = function (searchQuery, tweets) {
                         min: 0,
                         max: 1,
                         stepSize: 0.1
-                    },
+                    }
                 }]
             },
             tooltips: {
@@ -912,19 +913,29 @@ $("#panelTwo").click(function () {
     $(".tooltip").eq(element).html(content);
 });
 
-
-
+$("#panelThree").click(function () {
+    element = $("has-tip").index($("#chartHelper"));
+    content = "Compare the average sentiment related to different keywords";
+    $(".tooltip").eq(element).html(content);
+});
 
 $("#panelFour").click(function () {
-
     element = $("has-tip").index($("#chartHelper"));
     content = "Shows the average sentiment related to certain keywords over time. Click the colored field just above the chart" +
         " to hide and reveal a line. Mouse over a point to see how many tweets matching that keyword were found that day";
     $(".tooltip").eq(element).html(content);
 });
 
+var printPureStatistics = function (searchInput, tweetObjects) {
+    $("#tableKeyword").text(searchInput);
+    $("#tableNumTweets").text(tweetObjects.tweets.length);
+    $("#tableAvgSentiment").text(tweetObjects.averageSentiment.toFixed(5));
+    $("#tableSD").text(tweetObjects.standardDeviation);
+    $("#tableMedian").text("TBD");
+    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date + " to " +
+        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date);
+};
+
 toggleDisableTrackKeywordsButton(true);
 returnsCleanScatter();
 returnsCleanLineChart();
-
-
