@@ -912,11 +912,12 @@ $("#panelTwo").click(function () {
     $(".tooltip").eq(element).html(content);
 });
 
-$("#panelThree").click(function () {
-    element = $("has-tip").index($("#chartHelper"));
-    content = "Compare the average sentiment related to different keywords";
-    $(".tooltip").eq(element).html(content);
-});
+// $("#panelThree").click(function(){
+//     element = $("has-tip").index($("#chartHelper"));
+//     content = "bar chart info";
+//     $(".tooltip").eq(element).html(content);
+// });
+
 
 $("#panelFour").click(function () {
     element = $("has-tip").index($("#chartHelper"));
