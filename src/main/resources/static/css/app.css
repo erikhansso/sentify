@@ -108,9 +108,6 @@ table {
     }
 }
 
-
-
-
 #superwrapper{
     margin: 0;
     height: 100vh;
@@ -219,8 +216,8 @@ table {
 }
 
 #scatterChart {
-    /*height: 50vh!important;*/
-    /*width: 55vw!important;*/
+    height: 50vh!important;
+    width: 55vw!important;
 }
 
 
@@ -231,11 +228,6 @@ table {
 /*height: 100%;*/
 /*width: 55vw;*/
 /*}*/
-
-#barChart {
-    height: 50vh!important;
-    width: 55vw!important;
-}
 
 
 #lineChart {
@@ -376,6 +368,11 @@ h4 {
     position: relative;
     margin-left: 1rem;
     /*! margin-top: 1rem; */
+}
+
+.menu-hover-lines a {
+    text-transform: uppercase;
+    color: var(--main-contrast-color);
 }
 
 .menu-hover-lines li:first-child a {
@@ -527,13 +524,11 @@ p, a, .fg-dial-label, th, td {
     color: var(--main-contrast-color);
 }
 
-
 .carousel-inner > .item > img {
     width:1780px;
     height:758px;
     opacity: 0.9;
 }
-
 
 #registrationForm {
     display: flex;
@@ -553,8 +548,6 @@ input[type="checkbox"]{
 #areabelow{
     display: inline-block;
 }
-
-
 
 .buttonToSite{
     font-family: 'Rubik', sans-serif;
@@ -643,7 +636,6 @@ p{
 .removeKeyword {
     border-radius: 50%;
     padding: 0.40em 0.55em;
-
 }
 .inline-block {
     display: block;

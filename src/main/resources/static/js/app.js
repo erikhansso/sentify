@@ -131,7 +131,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
                 clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
-                $("#output").empty();
                 return;
             }
             $(document.body).css({'cursor': 'default'});
@@ -141,7 +140,6 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
 
             var percentage = result.averageSentiment.toFixed(2);
 
-            $("#output").empty();
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
             gauge.dialValue = true;
@@ -277,7 +275,6 @@ var ajaxRequest = function (searchInput) {
                 clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
-                $("#output").empty();
                 return;
             }
             toggleDisableTrackKeywordsButton(false);
@@ -288,7 +285,6 @@ var ajaxRequest = function (searchInput) {
 
             var percentage = result.averageSentiment.toFixed(2);
 
-            $("#output").empty();
             $("#gauge").find("h1").empty();
             gauge.dialLabel = true;
             gauge.dialValue = true;
@@ -530,7 +526,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             layout: {
                 padding: {
-                    left: 50,
+                    left: 20,
                     right: 50,
                     top: 0,
                     bottom: 0
