@@ -39,6 +39,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+//        http.requiresChannel().anyRequest().requiresSecure();
+
+        http
+                .headers()
+                .frameOptions()
+                .sameOrigin();
+
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/resources/**", "/registration/**", "/login/**", "/static/**").permitAll()
                 .antMatchers("/searchForTweets/**").hasRole("USER")
