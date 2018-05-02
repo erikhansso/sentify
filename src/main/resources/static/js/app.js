@@ -101,7 +101,7 @@ $(document).ready(function () {
             /**
              *  {double} Percentage the arc fills
              */
-            arcFillPercent: .5,
+            arcFillPercent: 0.0,
             /**
              *  {Int} Starting and Ending values that are used to
              *  find a difference for amount of units

@@ -44,24 +44,27 @@
                     <a href="#about">About us</a>
                 </li>
             </ul>
-            <span>
-                    <ul class="menu menu-hover-lines">
-                        <li sec:authorize="isAnonymous()">
-                            <button type="submit" class="button" id="loggainknapp">Login here</button>
-                        </li>
-                        <li sec:authorize="isAnonymous()">
-                            <a href="/registration">Sign up</a>
-                        </li>
-                    </ul>
-                </span>
+
 
             <span sec:authorize="isAuthenticated()"> Logged in as
                     <span sec:authentication="name"></span>
                 </span>
 
-            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()">
+            <span>
+
+            <ul class="menu menu-hover-lines">
+            <li sec:authorize="isAnonymous()">
+                      <button type="submit" class="button" id="loggainknapp">Login here</button>
+            </li>
+            <li sec:authorize="isAnonymous()">
+                <a href="/registration">Sign up</a>
+            </li>
+
+                <li sec:authorize="isAuthenticated()">
                     <a href="/logout">Logout</a>
-                </span>
+                </li>
+            </ul>
+            </span>
 
         </nav>
     </div>
