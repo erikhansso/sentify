@@ -37,7 +37,7 @@
             <li>
                 <a href="/demo">Demo</a>
             </li>
-            <li>
+            <li sec:authorize="isAuthenticated()">
                 <a href="/premium">Premium</a>
             </li>
 
