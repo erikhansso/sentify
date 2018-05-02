@@ -18,8 +18,9 @@
 
 <div id="navbar">
     <nav class="top-bar" data-topbar role="navigation">
+
         <ul class="menu menu-hover-lines" id="navbarlinks">
-            <li>
+            <li id="homeLogo">
                 <a id="homeImg" href="/">
                     <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
                 </a>
@@ -36,11 +37,14 @@
             <li>
                 <a href="/demo">Demo</a>
             </li>
-            <li>
+            <li sec:authorize="isAuthenticated()">
                 <a href="/premium">Premium</a>
             </li>
 
         </ul>
+        <span sec:authorize="isAuthenticated()"> Logged in as <span
+                sec:authentication="name"></span>
+        </span>
         <span>
 
             <ul class="menu menu-hover-lines">
@@ -50,13 +54,12 @@
             <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
             </li>
-                </ul>
-                </span>
 
-        <span sec:authorize="isAuthenticated()"> Logged in as <span
-                sec:authentication="name"></span>
-        </span>
-        <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            </span>
     </nav>
 </div>
 

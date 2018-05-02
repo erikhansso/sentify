@@ -404,6 +404,16 @@ h4 {
     width: 100%;
 }
 
+#homeLogo a:before,
+#homeLogo a::after{
+    height: 3px;
+    position: absolute;
+    content: '';
+    transition: all 0.35s ease;
+    background-color: transparent;
+    width: 0;
+}
+
 .top-bar, .top-bar li {
     background-color: var(--main-color-light);
     height: 100%;
