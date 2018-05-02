@@ -110,13 +110,17 @@ table {
 
 
 #loginiframe {
-    width: 50vw;
+    width: 45vw;
     height: 80vh;
     z-index: 12;
     position: fixed;
     margin-top: 7%;
-    margin-left: 25%;
+    margin-left: 30%;
     border-radius: 50px;
+}
+
+#login-submit {
+    width: 200px;
 }
 
 #superwrapper{
@@ -144,6 +148,11 @@ table {
     align-content: center;
     vertical-align: middle;
     margin-bottom: 0.7vh;
+}
+
+#loginlogo {
+    margin-left: 27vw;
+    margin-top: 5vw;
 }
 
 /*#navbarlinks {*/
@@ -552,10 +561,11 @@ p, a, .fg-dial-label, th, td {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 17vw;
-    margin-top: 12vw;
-    width: 80%;
+    margin-left: 15vw;
+    margin-top: 4vw;
+    width: 100%;
     border-radius: 8px;
+    margin-bottom: 10vw;
 }
 
 input[type="checkbox"] {
@@ -650,10 +660,15 @@ p {
     margin-left: 10px;
 }
 
-.contacts {
-    float: right;
-    font-size: 12px;
-    margin-right: 10px;
+#footer {
+    font-size: 14px;
+    margin-left: 3vw;
+}
+
+#contacts {
+    float:right;
+    margin-right: 3vw;
+    font-size: 14px;
 }
 
 #statisticsTable {
@@ -723,17 +738,6 @@ p {
 #tabsandchartsdemo {
 }
 
-footer {
-    padding: 1rem;
-    text-align: end;
-}
-
-.fixedFooter {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-}
 
 #trackedKeywordsTitle {
     align-self: baseline;
