@@ -41,7 +41,7 @@
                 <li>
                     <a href="/#about">About</a>
                 </li>
-                <li>
+                <li sec:authorize="isAnonymous()">
                     <a href="/demo">Demo</a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
@@ -55,7 +55,7 @@
 
                     <ul class="menu menu-hover-lines">
                         <li sec:authorize="isAnonymous()">
-                            <button type="submit" class="button" id="loggainknapp">Login here</button>
+                            <a href="#" id="loggainknapp">Login</a>
                         </li>
                         <li sec:authorize="isAnonymous()">
                             <a href="/registration">Sign up</a>
