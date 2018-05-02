@@ -163,7 +163,7 @@ table {
 
 .gridded {
     display: grid;
-    grid-template-columns: 20% 60% 10%;
+    grid-template-columns: 20% 60% 20%;
     grid-template-rows: 30vw 30vw 30vw;
     grid-gap: 1em;
 }
@@ -686,4 +686,8 @@ footer {
     left: 0;
     bottom: 0;
     width: 100%;
+}
+
+#trackedKeywordsTitle {
+    align-self: baseline;
 }
