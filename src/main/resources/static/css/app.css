@@ -1,4 +1,3 @@
-
 /** these classes are pre-generated **/
 :root {
     /*Use these five color variables, comes from our palette!*/
@@ -9,11 +8,7 @@
     --main-color-dark: #6E8C7B;
 }
 
-
 /* CSS RESETS */
-
-
-
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -35,80 +30,82 @@ time, mark, audio, video {
     font: inherit; */
     /*! vertical-align: baseline; */
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
 body {
     line-height: 1;
 }
+
 ol, ul {
     list-style: none;
 }
+
 blockquote, q {
     quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
 }
 
-
-
-
 /* Media queries below, add any CSS rules you want changed when size of viewing device reaches a threshold */
 
 @media only screen and (max-width: 1300px) {
 
-    #maindisplay{
-        margin-top: 25vh!important;
+    #maindisplay {
+        margin-top: 25vh !important;
     }
 }
 
 @media only screen and (max-height: 500px) {
 
-    #maindisplay{
-        height: 100%!important;
+    #maindisplay {
+        height: 100% !important;
     }
 
     #belowsearchbar {
         margin-top: 3vw;
     }
 
-
 }
 
 @media only screen and (max-width: 950px) {
-    #maindisplay{
-        margin-top: 17vw!important;
+    #maindisplay {
+        margin-top: 17vw !important;
     }
 }
 
 @media only screen and (max-width: 890px) {
-    #maindisplay{
-        margin-top: 25vw!important;
+    #maindisplay {
+        margin-top: 25vw !important;
     }
 }
 
 @media only screen and (max-width: 580px) {
-    #maindisplay{
-        margin-top: 40vh!important;
+    #maindisplay {
+        margin-top: 40vh !important;
     }
 }
 
 @media only screen and (max-width: 370px) {
-    #maindisplay{
-        margin-top: 45vh!important;
+    #maindisplay {
+        margin-top: 45vh !important;
     }
 }
 
-#superwrapper{
+#superwrapper {
     margin: 0;
     height: 100vh;
 
@@ -134,9 +131,9 @@ table {
 }
 
 /*#navbarlinks {*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
+/*display: flex;*/
+/*flex-direction: column;*/
+/*justify-content: center;*/
 /*}*/
 
 #navbarlinks > li {
@@ -159,13 +156,12 @@ table {
     margin: 0 auto;
 }
 
-
 #belowsearchbar {
     /* overflow: hidden; */
     height: 100%;
 }
 
-.gridded{
+.gridded {
     display: grid;
     grid-template-columns: 20% 60% 10%;
     grid-template-rows: 30vw 30vw 30vw;
@@ -191,18 +187,17 @@ table {
     height: 10vh;
 }
 
-#accountoptions > a{
+#accountoptions > a {
     font-size: 1.2vw;
     font-family: 'Sura', serif;
     color: var(--main-contrast-color);
     text-decoration: none;
 }
 
-#accountoptions > a:hover{
+#accountoptions > a:hover {
     color: black;
     transform: scale(1.1);
 }
-
 
 #tabsandcharts {
     height: 100%;
@@ -216,10 +211,9 @@ table {
 }
 
 #scatterChart {
-    height: 50vh!important;
-    width: 55vw!important;
+    height: 50vh !important;
+    width: 55vw !important;
 }
-
 
 /*.chartContainer {*/
 /*display: flex;*/
@@ -229,10 +223,9 @@ table {
 /*width: 55vw;*/
 /*}*/
 
-
 #lineChart {
-    height: 50vh!important;
-    width: 55vw!important;
+    height: 50vh !important;
+    width: 55vw !important;
 }
 
 .tabs-panel .is-active {
@@ -241,11 +234,11 @@ table {
 }
 
 canvas {
-    width: 100%!important;
-    height: 100%!important;
+    width: 100% !important;
+    height: 100% !important;
 }
 
-#tabsandcharts > *{
+#tabsandcharts > * {
     width: 100% !important;
     height: 100% !important;
 }
@@ -258,7 +251,7 @@ canvas {
 
 }
 
-.tabs-content{
+.tabs-content {
     display: flex;
     justify-content: center;
     flex-direction: row;
@@ -271,9 +264,8 @@ canvas {
     margin-top: 15px;
     padding-right: 10px;
     display: flex;
-    flex-direction:row-reverse;
+    flex-direction: row-reverse;
 }
-
 
 #keywordlist {
     display: flex;
@@ -285,14 +277,12 @@ canvas {
 
 }
 
-
 #savedKeywords {
     width: 100%;
     height: 100%;
 }
 
-
-#savedKeywords>li {
+#savedKeywords > li {
     list-style: none;
     /*display: inline;*/
 }
@@ -323,7 +313,6 @@ h4 {
     text-align: center;
 }
 
-
 #gauge {
     max-width: 600px;
     max-height: max-content;
@@ -351,7 +340,6 @@ h4 {
     text-align: center;
     top: 250px;
 }
-
 
 .menu-hover-lines {
     text-align: center;
@@ -409,7 +397,6 @@ h4 {
     transition: all 0.35s ease;
 }
 
-
 .menu-hover-lines a:hover::before,
 .menu-hover-lines .active a::before,
 .menu-hover-lines a:hover::after,
@@ -429,6 +416,7 @@ h1, h4, input, h3, span, .fg-dial {
 .searchButton {
     background-color: var(--main-contrast-color);
 }
+
 .searchButton:active {
     transform: translateY(1px);
 }
@@ -449,8 +437,6 @@ p, a, .fg-dial-label, th, td {
     font-family: 'Rubik', sans-serif;
 }
 
-
-
 .registration-group {
     position: relative;
     margin-top: 2vw;
@@ -460,7 +446,6 @@ p, a, .fg-dial-label, th, td {
     max-width: 50vw;
     border-radius: 3px;
 }
-
 
 #chartHelper {
     opacity: 0.75;
@@ -482,11 +467,10 @@ p, a, .fg-dial-label, th, td {
     height: 100%; */
 }
 
-#panel2 panel1{
+#panel2 panel1 {
     height: 100%;
     width: 100%;
 }
-
 
 #gaugeCanvas {
     height: 13vw;
@@ -496,6 +480,7 @@ p, a, .fg-dial-label, th, td {
 .button {
     background-color: var(--main-contrast-color);
 }
+
 #panelOne, #panelTwo, #panelThree, #panelFour, #panelFive {
     color: var(--main-contrast-color);
 }
@@ -525,31 +510,31 @@ p, a, .fg-dial-label, th, td {
 }
 
 .carousel-inner > .item > img {
-    width:1780px;
-    height:758px;
+    width: 1780px;
+    height: 758px;
     opacity: 0.9;
 }
 
 #registrationForm {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     justify-content: center;
     margin-left: 17vw;
     margin-top: 12vw;
-    width:80%;
+    width: 80%;
     border-radius: 8px;
 }
 
-input[type="checkbox"]{
-    width:5vw;
+input[type="checkbox"] {
+    width: 5vw;
     height: 5vh;
 }
 
-#areabelow{
+#areabelow {
     display: inline-block;
 }
 
-.buttonToSite{
+.buttonToSite {
     font-family: 'Rubik', sans-serif;
     color: rgba(0, 0, 0, 1);
     font-size: 16px;
@@ -557,22 +542,23 @@ input[type="checkbox"]{
     text-decoration: none;
 
 }
-.buttonToSite:hover{
+
+.buttonToSite:hover {
     text-decoration: none;
     color: rgba(0, 0, 0, 1);
 }
-.container-fluid{
+
+.container-fluid {
     padding: 0;
 }
 
-
-#textbox{
+#textbox {
     color: rgba(0, 0, 0, 1);
     margin: 10px;
 }
 
 .carousel-caption {
-    position:absolute;
+    position: absolute;
     font-family: 'Rubik', sans-serif;
     width: 300px;
     color: #0a0a0a;
@@ -587,19 +573,20 @@ input[type="checkbox"]{
     font-size: 16px;
 }
 
-div.infoContainer{
+div.infoContainer {
     margin: 0 auto;
-    width:100%;
-    height:734px;
+    width: 100%;
+    height: 734px;
     display: table;
 }
 
-.header1{
+.header1 {
     margin-top: 120px;
     margin-bottom: 40px;
     text-align: center;
     color: var(--main-contrast-color);
 }
+
 .header2 {
     margin-top: 113px;
     margin-bottom: 40px;
@@ -614,16 +601,17 @@ div.infoContainer{
     color: var(--main-contrast-color);
 }
 
-p{
-    text-align:center;
+p {
+    text-align: center;
 }
 
-.copy{
+.copy {
     text-align: center;
     font-size: 12px;
     margin-left: 10px;
 }
-.contacts{
+
+.contacts {
     float: right;
     font-size: 12px;
     margin-right: 10px;
@@ -637,13 +625,14 @@ p{
     border-radius: 50%;
     padding: 0.40em 0.55em;
 }
+
 .inline-block {
     display: block;
     padding-bottom: 50px;
     font-size: 20px;
 }
 
-.inline-block>p {
+.inline-block > p {
     display: inline;
 }
 
@@ -676,4 +665,16 @@ p{
 #howitworksImg1, #howitworksImg2, #howitworksImg3 {
     height: 200px;
     width: 200px;
+}
+
+footer {
+    padding: 1rem;
+    text-align: end;
+}
+
+.fixedFooter {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
