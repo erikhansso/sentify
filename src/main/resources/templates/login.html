@@ -16,34 +16,37 @@
 <body>
 
 
-<div id="navbar">
-    <nav class="top-bar" data-topbar role="navigation">
-        <ul class="menu menu-hover-lines">
-            <li>
-                <a id="homeImg" href="/">
-                    <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
-                </a>
-            </li>
-            <li>
-                <a href="/demo">Demo</a>
-            </li>
-            <li>
-                <a href="/#howItWorks">How it works</a>
-            </li>
-            <li>
-                <a href="/#pricing">Pricing</a>
-            </li>
-            <li>
-                <a href="/premium">Premium</a>
-            </li>
-            <li >
-                <a href="/#about">About us</a>
-            </li>
-        </ul>
-        <span>
+<section id="superwrapper">
+    <div id="navbar">
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="menu menu-hover-lines" id="navbarlinks">
+                <li>
+                    <a id="homeImg" href="/">
+                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="/demo">Demo</a>
+                </li>
+                <li>
+                    <a href="/#howItWorks">How it works</a>
+                </li>
+                <li>
+                    <a href="/#pricing">Pricing</a>
+                </li>
+
+                <li >
+                    <a href="/premium">Premium</a>
+                </li>
+                <li>
+                    <a href="#about">About us</a>
+                </li>
+            </ul>
+            <span>
+
             <ul class="menu menu-hover-lines">
-            <li class="active" sec:authorize="isAnonymous()">
-                <a href="/login">Login</a>
+            <li sec:authorize="isAnonymous()" class="active">
+                <a href="/login" >Login</a>
             </li>
             <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
@@ -51,13 +54,13 @@
                 </ul>
                 </span>
 
-        <span sec:authorize="isAuthenticated()"> Logged in as <span
-                sec:authentication="name"></span>
+            <span sec:authorize="isAuthenticated()"> Logged in as <span
+                    sec:authentication="name"></span>
         </span>
-        <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+            <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
 
-    </nav>
-</div>
+        </nav>
+    </div>
 
 
 

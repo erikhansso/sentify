@@ -49,16 +49,14 @@ function setFocusToTextBox() {
     $("#searchTweetInput").focus();
 }
 
-function checkForInputInSearchField() {
-    $('#searchTweetInput').on('input change', function () {
-        if ($("#searchTweetInput").val() !== '') {
-            $('#searchTweetButton').prop('disabled', false);
-        }
-        else {
-            $('#searchTweetButton').prop('disabled', true);
-        }
-    });
-};
+$('#searchTweetInput').on('input change', function () {
+    if ($("#searchTweetInput").val() !== '') {
+        $('#searchTweetButton').prop('disabled', false);
+    }
+    else {
+        $('#searchTweetButton').prop('disabled', true);
+    }
+});
 
 var toggleDisableTrackKeywordsButton = function (isDisabled) {
     $("#addKeyWordButton").prop('disabled', isDisabled);
@@ -67,8 +65,8 @@ var toggleDisableTrackKeywordsButton = function (isDisabled) {
 var keywordInput = '';
 
 $('#searchTweetInput').keypress(function (event) {
-    if (event.which === 13) {
-        var searchInput = $("input[name=input]").val();
+    if (event.which === 13 && $(this).val() !== '') {
+        var searchInput = $(this).val();
         keywordInput = htmlEscape(searchInput);
         ajaxRequest(searchInput);
     }
@@ -95,9 +93,9 @@ $(document).on("click", ".keywordButton", function (e) {
 });
 
 $(document).on("click", ".removeKeyword", function (e) {
-    console.log("clicked remove button")
+    console.log("clicked remove button");
     var pos = $(this).closest("li").attr("data-pos");
-    console.log("pos", pos)
+    console.log("pos", pos);
     var keyword = $("#" + pos).val();
     console.log("keyword", keyword);
     ajaxForUpdatingKeywords(keyword);
@@ -130,7 +128,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
             console.log("successfully inserted ", result);
             if (result.tweets === null) {
                 $(document.body).css({'cursor': 'default'});
-                clearAll()
+                clearAll();
                 keywordInput = "No tweets were found"; //To update the dialLabel
                 $("#scatterTitle").text("No tweets were found");
                 $("#output").empty();
@@ -182,7 +180,7 @@ var ajaxRequestForDemoPurposes = function (searchInput) {
                 state.tweetsSearchedFor[searchInput] = {tweets: result};
             }
 
-            printPureStatistics(searchInput, tweetObjects);
+            createPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
             createLineChart(searchInput, state);
         }
@@ -259,6 +257,7 @@ var updateKeywordsButtons = function (savedKeywords) {
 };
 
 var ajaxRequest = function (searchInput) {
+    $('#searchTweetButton').prop('disabled', true);
     var tweetObjects = {};
     $(document.body).css({'cursor': 'wait'});
     $.ajax({
@@ -329,7 +328,7 @@ var ajaxRequest = function (searchInput) {
             }
 
             updateAddKeywordButton(searchInput);
-
+            createPureStatistics(searchInput, tweetObjects);
             createScatterPlot(searchInput, result.tweets);
             createLineChart(searchInput, state);
         }
@@ -355,6 +354,7 @@ var clearAll = function () {
     $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
     $("#lineChartContainer").empty();
     $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+    clearPureStatistics();
     returnsCleanLineChart();
     returnsCleanScatter();
     state = {
@@ -573,7 +573,7 @@ var returnsCleanScatter = function () {
                         display: false,
                         min: 0,
                         max: 100,
-                        stepSize: 10,
+                        stepSize: 10
                     },
                     scaleLabel: {
                         display: true,
@@ -601,8 +601,8 @@ var returnsCleanScatter = function () {
                         },
                         min: 0,
                         max: 1,
-                        stepSize: 0.1,
-                    },
+                        stepSize: 0.1
+                    }
                 }]
             },
             title: {
@@ -928,23 +928,38 @@ $("#panelFour").click(function () {
     $(".tooltip").eq(element).html(content);
 });
 
+$("#panelFive").click(function () {
+    element = $("has-tip").index($("#chartHelper"));
+    content = "Shows statistics about the current chosen keyword";
+    $(".tooltip").eq(element).html(content);
+});
 
 
-var updateOverview = function(listOfKeywords) {
+
+var updateOverview = function (listOfKeywords) {
     $("#numberOfKeywordsTracked").text("You are tracking " + listOfKeywords.length + " keyword(s).");
     $("#keywordHighestAvgSS").text(" has the highest average SentScore with ");
     $("#keywordLowestAvgSS").text(" has the lowest average SentScore with ");
     $("#totalTweetsForAllKW").text("Total number of tweets analyzed for your keywords combined: ");
-}
+};
 
-var printPureStatistics = function (searchInput, tweetObjects) {
+var createPureStatistics = function (searchInput, tweetObjects) {
     $("#tableKeyword").text(searchInput);
     $("#tableNumTweets").text(tweetObjects.tweets.length);
     $("#tableAvgSentiment").text(tweetObjects.averageSentiment.toFixed(5));
-    $("#tableSD").text(tweetObjects.standardDeviation);
-    $("#tableMedian").text("TBD");
-    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date + " to " +
-        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date);
+    $("#tableSD").text(tweetObjects.standardDeviation.toFixed(5));
+    $("#tableMedian").text(tweetObjects.median.toFixed(5));
+    $("#tableTimeSpan").text(tweetObjects.avgSentimentGroupedByDate[0].date.slice(0, 10) + " to " +
+        tweetObjects.avgSentimentGroupedByDate[tweetObjects.avgSentimentGroupedByDate.length - 1].date.slice(0, 10));
+};
+
+var clearPureStatistics = function () {
+    $("#tableKeyword").empty();
+    $("#tableNumTweets").empty();
+    $("#tableAvgSentiment").empty();
+    $("#tableSD").empty();
+    $("#tableMedian").empty();
+    $("#tableTimeSpan").empty();
 };
 
 toggleDisableTrackKeywordsButton(true);
