@@ -22,14 +22,12 @@
 <section id="superwrapper">
     <div id="navbar">
         <nav class="top-bar" data-topbar role="navigation">
+
             <ul class="menu menu-hover-lines" id="navbarlinks">
-                <li>
+                <li id="homeLogo">
                     <a id="homeImg" href="/">
                         <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
                     </a>
-                </li>
-                <li>
-                    <a href="/demo">Demo</a>
                 </li>
                 <li>
                     <a href="/#howItWorks">How it works</a>
@@ -37,14 +35,19 @@
                 <li>
                     <a href="/#pricing">Pricing</a>
                 </li>
-
-                <li class="active">
-                    <a href="/premium">Premium</a>
+                <li>
+                    <a href="/#about">About</a>
                 </li>
                 <li>
-                    <a href="#about">About us</a>
+                    <a href="/demo">Demo</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/premium">Premium</a>
                 </li>
             </ul>
+            <span sec:authorize="isAuthenticated()"> Logged in as <span
+                    sec:authentication="name"></span>
+        </span>
             <span>
 
             <ul class="menu menu-hover-lines">
@@ -54,14 +57,12 @@
             <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
             </li>
-                </ul>
-                </span>
 
-            <span sec:authorize="isAuthenticated()"> Logged in as <span
-                    sec:authentication="name"></span>
-        </span>
-
-            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            </span>
 
         </nav>
     </div>
@@ -149,13 +150,14 @@
     </section>
 
 </section>
+<footer>
+    <span class="contacts ">Copyrights:  &copy; Sentify @Contacts:<a href="#form"> sentify@protonmail.com</a></span>
+</footer>
 
 <script src="/js/vendor/jquery.js"></script>
-<!--Maybe remove one of the jQuery script links-->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script src="/js/FlexGauge.js"></script>
 <script src="/js/app.js"></script>
 <script src="/js/vendor/foundation.min.js"></script>
 <script>
