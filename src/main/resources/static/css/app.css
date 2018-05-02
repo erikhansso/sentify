@@ -563,14 +563,13 @@ input[type="checkbox"] {
     width: 300px;
     color: #0a0a0a;
     background-color: rgba(224, 224, 224, 0.5);
-    max-height: 200px;
-    max-width: 300px;
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.6);
     padding: 0px;
     margin-top: 100px;
     margin-left: 700px;
     margin-bottom: 400px;
     font-size: 16px;
+    display: inline-block;
 }
 
 div.infoContainer {
