@@ -585,11 +585,14 @@ input[type="checkbox"] {
     color: #0a0a0a;
     background-color: rgba(224, 224, 224, 0.5);
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.6);
-    margin-top: 100px;
     margin-left: 300px;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     font-size: 16px;
     display: inline-block;
+}
+
+.tryButton {
+    margin-top: 2em;
 }
 
 div.infoContainer {
