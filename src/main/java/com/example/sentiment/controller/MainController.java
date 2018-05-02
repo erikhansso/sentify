@@ -55,8 +55,8 @@ public class MainController {
         return new ModelAndView("demo");
     }
 
-    @GetMapping("/premium")
-    public ModelAndView getPremiumPage(HttpServletRequest request) {
+    @GetMapping("/premium/overview")
+    public ModelAndView getOverviewPage(HttpServletRequest request){
         String email = request.getRemoteUser();
 
         SentUser loggedInUser = sentUserRepository.findByEmail(email);
@@ -92,7 +92,7 @@ public class MainController {
         BigDecimal bdmin = new BigDecimal(minSentScore*100);
         bdmin = bdmin.setScale(0, RoundingMode.HALF_UP);
 
-        return new ModelAndView("premium")
+        return new ModelAndView("overview")
                 .addObject("keywords", keywords)
                 .addObject("username", loggedInUser.getFirstName())
                 .addObject("keywordsSize", keywords.size())
@@ -101,6 +101,28 @@ public class MainController {
                 .addObject("lowestKeyword", minSentScoreKeyword)
                 .addObject("minAvgSentScore", bdmin)
                 .addObject("totalTweets", totalTweets);
+    }
+
+    @GetMapping("/premium/settings")
+    public ModelAndView getSettingsPage(HttpServletRequest request){
+        String email = request.getRemoteUser();
+
+        SentUser loggedInUser = sentUserRepository.findByEmail(email);
+        List<String> keywords = loggedInUser.getSavedKeywords();
+
+        return new ModelAndView("settings")
+                .addObject("keywords", keywords);
+    }
+
+    @GetMapping("/premium")
+    public ModelAndView getPremiumPage(HttpServletRequest request) {
+        String email = request.getRemoteUser();
+
+        SentUser loggedInUser = sentUserRepository.findByEmail(email);
+        List<String> keywords = loggedInUser.getSavedKeywords();
+
+        return new ModelAndView("premium")
+                .addObject("keywords", keywords);
     }
 
     @GetMapping("/scatter")

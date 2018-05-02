@@ -60,7 +60,8 @@
             <span sec:authorize="isAuthenticated()"> Logged in as <span
                     sec:authentication="name"></span>
         </span>
-            <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+
+            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
 
         </nav>
     </div>
@@ -85,9 +86,9 @@
 
             <section id="accountoptions">
 
-                <a href="#"><img src="/images/grid-world.svg">Overview</img></a>
+                <a href="/premium/overview"><img src="/images/grid-world.svg">Overview</img></a>
                 <a href="#"><img src="/images/line-chart.svg">Sentiments</img></a>
-                <a href="#"><img src="/images/settings.svg">Account</img></a>
+                <a href="/premium/settings"><img src="/images/settings.svg">Account</img></a>
 
             </section>
 
@@ -103,10 +104,7 @@
                                 <li class="tabs-title">
                                     <a id="panelTwo" href="#panel2">Scatter plot</a>
                                 </li>
-                                <li class="tabs-title">
-                                    <a id="panelThree" href="#panel3">Overview</a>
 
-                                </li>
                                 <li class="tabs-title">
                                     <a id="panelFour" href="#panel4">Line chart</a>
                                 </li>
@@ -148,19 +146,7 @@
 
                                 </div>
                             </div>
-                            <div class="tabs-panel" id="panel3">
-                                <h4 th:text="'Welcome back '+${username}+'!'"></h4>
-                                <p th:text="'Today it is '+${#calendars.format(#calendars.createNow(), 'dd MMM yyyy')}"></p>
-                                <p id="numberOfKeywordsTracked"
-                                   th:text="'You are tracking '+${keywordsSize}+' keyword(s).'"></p>
-                                <p id="keywordHighestAvgSS"
-                                   th:text="${highestKeyword}+' has the highest average SentScore with '+${maxAvgSentScore}+'%'"></p>
-                                <p id="keywordLowestAvgSS"
-                                   th:text="${lowestKeyword}+' has the lowest average SentScore with '+${minAvgSentScore}+'%'"></p>
-                                <p id="totalTweetsForAllKW"
-                                   th:text="'Total number of tweets analyzed for your keywords combined: '+${totalTweets}"></p>
-
-                            </div>
+                            
                             <div class="tabs-panel" id="panel4">
                                 <h4 id="lineChartTitle">Opinion of tweets over time</h4>
                                 <div id="lineChartContainer" class="chartContainer">
@@ -218,10 +204,15 @@
 
             <section id="keywordlist">
 
+                <h4>Tracked keywords</h4>
+
                 <ul id="savedKeywords">
-                    <li th:each="item : ${keywords}">
-                        <button type="submit" class="searchButton button keywordButton" th:text="${item}">Keyword
+
+                    <li th:data-pos="${iStat.index}" th:each="item, iStat : ${keywords}">
+                        <button type="submit" th:id="${iStat.index}" class="searchButton button keywordButton"
+                                th:value="${item}" th:text="${item}">Keyword
                         </button>
+                        <button type="submit" class="searchButton button removeKeyword">X</button>
                     </li>
                 </ul>
 
@@ -233,18 +224,18 @@
 
 </section>
 
-    <script src="js/vendor/jquery.js"></script>
-    <!--Maybe remove one of the jQuery script links-->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-    <script src="js/FlexGauge.js"></script>
-    <script src="js/app.js"></script>
-    <!-- <script src="js/vendor/what-input.js"></script> -->
-    <script src="js/vendor/foundation.min.js"></script>
-    <script>
-        $(document).foundation();
-    </script>
+<script src="js/vendor/jquery.js"></script>
+<!--Maybe remove one of the jQuery script links-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment-with-locales.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script src="js/FlexGauge.js"></script>
+<script src="js/app.js"></script>
+<!-- <script src="js/vendor/what-input.js"></script> -->
+<script src="js/vendor/foundation.min.js"></script>
+<script>
+    $(document).foundation();
+</script>
 
 
 </body>

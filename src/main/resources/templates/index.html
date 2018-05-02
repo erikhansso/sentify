@@ -20,7 +20,6 @@
 
 <body>
 
-
 <section id="superwrapper">
     <div id="navbar">
         <nav class="top-bar" data-topbar role="navigation">
@@ -40,7 +39,7 @@
                     <a href="/#pricing">Pricing</a>
                 </li>
 
-                <li >
+                <li>
                     <a href="/premium">Premium</a>
                 </li>
                 <li>
@@ -62,142 +61,145 @@
             <span sec:authorize="isAuthenticated()"> Logged in as <span
                     sec:authentication="name"></span>
         </span>
-            <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+
+            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
 
         </nav>
     </div>
 
-<div class="container-fluid">
+
+    <div class="container-fluid">
 
 
-    <div id="jsaAboutCarousel" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-            <li data-target="#jsaAboutCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#jsaAboutCarousel" data-slide-to="1"></li>
-            <li data-target="#jsaAboutCarousel" data-slide-to="2"></li>
-        </ol>
+        <div id="jsaAboutCarousel" class="carousel slide" data-ride="carousel">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#jsaAboutCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#jsaAboutCarousel" data-slide-to="1"></li>
+                <li data-target="#jsaAboutCarousel" data-slide-to="2"></li>
+            </ol>
 
-        <div class="carousel-item active">
-            <div class="carousel-caption d-md-block">
-                <div id="textbox">
-                    <h2 data-animation="animated bounceInLeft">
-                        Sentify
-                    </h2>
-                    <span data-animation="animated bounceInRight">
+            <div class="carousel-item active">
+                <div class="carousel-caption d-md-block">
+                    <div id="textbox">
+                        <h2 data-animation="animated bounceInLeft">
+                            Sentify
+                        </h2>
+                        <span data-animation="animated bounceInRight">
                      Here is some text that we want to change
                 <br>
                     </span>
-                    <a class="buttonToSite" href="http://localhost:8080/demo">#search</a>
+                        <a class="buttonToSite" href="http://localhost:8080/demo">#search</a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner">
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner">
 
 
-            <div class="item active">
-                <img src="/images/damsomhoppar.jpg" alt="JSA-About"/>
+                <div class="item active">
+                    <img src="/images/damsomhoppar.jpg" alt="JSA-About"/>
 
+                </div>
+
+                <div class="item">
+                    <img src="/images/dream.jpg" alt="JSA-About"/>
+
+                </div>
+
+                <div class="item">
+                    <img src="/images/stockphoto.jpg" alt="JSA-About"/>
+
+                </div>
+
+                <!-- Left and right controls -->
+                <a class="left carousel-control" href="#jsaAboutCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#jsaAboutCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
-
-            <div class="item">
-                <img src="/images/dream.jpg" alt="JSA-About"/>
-
-            </div>
-
-            <div class="item">
-                <img src="/images/stockphoto.jpg" alt="JSA-About"/>
-
-            </div>
-
-            <!-- Left and right controls -->
-            <a class="left carousel-control" href="#jsaAboutCarousel" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#jsaAboutCarousel" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-                <span class="sr-only">Next</span>
-            </a>
         </div>
     </div>
-</div>
 
 
-<a name="howItWorks"></a>
-<div class="infoContainer">
-    <div>
-        <h3 class="header1">
-            How it works.
+    <a name="howItWorks"></a>
+    <div class="infoContainer">
+        <div>
+            <h3 class="header1">
+                How it works
+            </h3>
+            <div class="howitworksWrapper">
+                <div class="elementWrapper">
+                    <img id="howitworksImg1" class="inline-block" src="/images/brainstorming.jpg">
+                    <p class="inline-block">
+                        Register an account
+                    </p>
+                </div>
+                <div class="elementWrapper">
+                    <img id="howitworksImg2" class="inline-block" src="/images/personwithcomputer.jpg">
+                    <p class="inline-block">
+                        Search, save and track Your keywords
+                    </p>
+                </div>
+                <div class="elementWrapper">
+                    <img id="howitworksImg3" class="inline-block" src="/images/brainheart.jpg">
+                    <p class="inline-block">
+                        Receive easy-to-understand charts showing the sentiment
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <a name="pricing"></a>
+    <div class="infoContainer">
+        <h3 class="header2">
+            Pricing
         </h3>
-        <div class="howitworksWrapper">
-            <div class="elementWrapper">
-                <img id="howitworksImg1" class="inline-block" src="/images/brainstorming.jpg">
-                <p class="inline-block">
-                    Register an account
-                </p>
-            </div>
-            <div class="elementWrapper">
-                <img id="howitworksImg2" class="inline-block" src="/images/personwithcomputer.jpg">
-                <p class="inline-block">
-                    Search, save and track Your keywords
-                </p>
-            </div>
-            <div class="elementWrapper">
-                <img id="howitworksImg3" class="inline-block" src="/images/brainheart.jpg" >
-                <p class="inline-block">
-                    Receive easy-to-understand charts showing the sentiment
-                </p>
-            </div>
+        <div class="pricingWrapper">
+            <h4>Subscription available from $89/month</h4>
+            <h5>Contact us for more info at </h5><a href="#form"> sentify@protonmail.com</a>
+            <img id="pricingImg1" class="inline-block" src="/images/personholdingtwitter.jpg">
         </div>
-
     </div>
-</div>
 
-<a name="pricing"></a>
-<div class="infoContainer">
-    <h3 class="header2">
-        Pricing
-    </h3>
-    <div class="pricingWrapper">
-        <h4>Subscription available from $89/month</h4>
-        <h5>Contact us for more info at </h5><a href="#form"> sentify@protonmail.com</a>
-        <img id="pricingImg1" class="inline-block" src="/images/personholdingtwitter.jpg">
+    <a name="about"></a>
+    <div class="infoContainer">
+        <h3 class="header3">
+            About us
+        </h3>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
+            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
+            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+        </p>
     </div>
-</div>
+    <footer>
+        <span class="copy">Copyrights:  &copy; Sentify</span>
+        <span class="contacts">@Contacts:<a href="#form"> sentify@protonmail.com</a></span>
 
-<a name="about"></a>
-<div class="infoContainer">
-    <h3 class="header3">
-        About us
-    </h3>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-        commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-        necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-    </p>
-</div>
-<footer>
-    <span class="copy">Copyrights:  &copy; Sentify</span>
-    <span class="contacts">@Contacts:<a href="#form"> sentify@protonmail.com</a></span>
-
-</footer>
+    </footer>
+</section>
 </body>
 </html>
