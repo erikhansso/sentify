@@ -50,7 +50,7 @@
 
             <ul class="menu menu-hover-lines">
             <li sec:authorize="isAnonymous()">
-                <button type="submit" class="button" id="loggainknapp">Login here</button>
+                <a href="#" id="loggainknapp">Login</a>
             </li>
             <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
@@ -177,7 +177,7 @@
         </div>
     </div>
     <footer>
-        <span class="contacts">Copyrights:  &copy; Sentify @Contacts:<a href="#form"> sentify@protonmail.com</a></span>
+        <span id="footer">&copy;Sentify 2018 <a href="mailto:sentify@protonmail.com" id="contacts">Contact Sentify</a></span>
     </footer>
 
     <script src="js/login.js"></script>

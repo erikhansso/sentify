@@ -22,13 +22,10 @@
     <div id="navbar">
         <nav class="top-bar" data-topbar role="navigation">
             <ul class="menu menu-hover-lines" id="navbarlinks">
-                <li>
+                <li id="homeLogo">
                     <a id="homeImg" href="/">
-                        <img src="/images/logotinyhuge2.png" width="117px" height="64px" />
+                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
                     </a>
-                </li>
-                <li class="active">
-                    <a href="/demo">Demo</a>
                 </li>
                 <li>
                     <a href="/#howItWorks">How it works</a>
@@ -36,36 +33,34 @@
                 <li>
                     <a href="/#pricing">Pricing</a>
                 </li>
-
                 <li>
+                    <a href="/#about">About</a>
+                </li>
+                <li sec:authorize="isAnonymous()">
+                    <a href="/demo">Demo</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
                     <a href="/premium">Premium</a>
                 </li>
-                <li>
-                    <a href="#about">About us</a>
-                </li>
             </ul>
-
-
-            <span sec:authorize="isAuthenticated()"> Logged in as
-                    <span sec:authentication="name"></span>
-                </span>
-
+            <span sec:authorize="isAuthenticated()"> Logged in as <span
+                    sec:authentication="name"></span>
+        </span>
             <span>
 
-            <ul class="menu menu-hover-lines">
-            <li sec:authorize="isAnonymous()">
-                      <button type="submit" class="button" id="loggainknapp">Login here</button>
-            </li>
-            <li sec:authorize="isAnonymous()">
-                <a href="/registration">Sign up</a>
-            </li>
+                    <ul class="menu menu-hover-lines">
+                        <li sec:authorize="isAnonymous()">
+                            <a href="#" id="loggainknapp">Login</a>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a href="/registration">Sign up</a>
+                        </li>
 
                 <li sec:authorize="isAuthenticated()">
                     <a href="/logout">Logout</a>
                 </li>
             </ul>
             </span>
-
         </nav>
     </div>
 
@@ -194,7 +189,7 @@
 </section>
 
 <footer>
-    <span class="contacts fixedFooter">Copyrights:  &copy; Sentify @Contacts:<a href="#form"> sentify@protonmail.com</a></span>
+    <span id="footer">&copy;Sentify 2018 <a href="mailto:sentify@protonmail.com" id="contacts">Contact Sentify</a></span>
 </footer>
 
 <script src="js/login.js"></script>
