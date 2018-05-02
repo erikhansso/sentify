@@ -4,8 +4,11 @@
     --main-bg-color: white;
     --main-contrast-color: #87524F;
     --main-color: #8FB8A0;
-    --main-color-light: #E0E0E0;
-    --main-color-dark: #6E8C7B;
+    --main-color-light: #C0D6C3;
+    --main-color-dark: #8d9c8d;
+    --main-color-text: #262626;
+    --main-color-text-lighter: #9c6663;
+    --main-contrast-color-faded: rgba(156, 102, 99, 0.8);
 }
 
 /* CSS RESETS */
@@ -352,7 +355,7 @@ h4 {
 
 .menu-hover-lines li a {
     padding: 0.75rem 0;
-    color: var(--main-contrast-color);
+    color: var(--main-color-text);
     position: relative;
     margin-left: 1rem;
     /*! margin-top: 1rem; */
@@ -360,7 +363,7 @@ h4 {
 
 .menu-hover-lines a {
     text-transform: uppercase;
-    color: var(--main-contrast-color);
+    color: var(--main-color-text);
 }
 
 .menu-hover-lines li:first-child a {
@@ -377,7 +380,7 @@ h4 {
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color: var(--main-contrast-color);
+    background-color: var(--main-color-dark);
     width: 0;
 }
 
@@ -424,7 +427,7 @@ h1, h2, h3, h4, input, span, .fg-dial {
 }
 
 .searchButton {
-    background-color: var(--main-contrast-color);
+    background-color: var(--main-color-dark);
 }
 
 .searchButton:active {
@@ -432,7 +435,7 @@ h1, h2, h3, h4, input, span, .fg-dial {
 }
 
 .searchButton:hover {
-    background-color: var(--main-color-light);
+    background-color: var(--main-color-text-lighter);
 }
 
 .searchButton:focus {
@@ -441,6 +444,13 @@ h1, h2, h3, h4, input, span, .fg-dial {
 
 .buttonMargin {
     margin: 5px;
+}
+
+.button:disabled {
+    background-color: var(--main-contrast-color-faded);
+}
+.button:disabled:hover {
+    background-color: var(--main-contrast-color-faded);
 }
 
 p, a, .fg-dial-label, th, td {
