@@ -530,7 +530,7 @@ var createScatterPlot = function (searchQuery, tweets) {
             },
             layout: {
                 padding: {
-                    left: 50,
+                    left: 20,
                     right: 50,
                     top: 0,
                     bottom: 0
