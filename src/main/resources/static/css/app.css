@@ -270,7 +270,7 @@ canvas {
 #keywordlist {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: baseline;
     /*width: 20vw;*/
     /*max-width: 30vw;*/
     height: 10vh;
