@@ -595,6 +595,10 @@ input[type="checkbox"] {
     margin-top: 2em;
 }
 
+.tryButton:hover {
+    background-color: var(--main-contrast-color-faded);
+}
+
 div.infoContainer {
     margin: 0 auto;
     width: 100%;
