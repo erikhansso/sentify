@@ -650,6 +650,13 @@ p {
     justify-content: space-around;
 }
 
+.devTeamWrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
 .pricingWrapper {
     display: flex;
     flex-direction: column;
@@ -690,4 +697,9 @@ footer {
 
 #trackedKeywordsTitle {
     align-self: baseline;
+}
+
+.avatar {
+    height: 300px;
+    width: 300px;
 }
