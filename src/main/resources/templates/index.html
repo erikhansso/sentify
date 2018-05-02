@@ -68,19 +68,14 @@
 
 
     <div class="container-fluid">
-
-
-        <div id="jsaAboutCarousel" class="carousel slide" data-ride="carousel">
+        <div id="jsaAboutCarousel" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="false">
             <!-- Indicators -->
             <ol class="carousel-indicators">
                 <li data-target="#jsaAboutCarousel" data-slide-to="0" class="active"></li>
                 <li data-target="#jsaAboutCarousel" data-slide-to="1"></li>
                 <li data-target="#jsaAboutCarousel" data-slide-to="2"></li>
+                <li data-target="#jsaAboutCarousel" data-slide-to="3"></li>
             </ol>
-
-            <div class="carousel-item active">
-
-            </div>
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
@@ -88,11 +83,10 @@
                     <img src="/images/bulle1.jpg" alt="JSA-About"/>
                     <div class="carousel-caption d-md-block">
                         <div class="textbox">
-                            <a class="buttonToSite" href="http://localhost:8080/demo">
-                                <h2 data-animation="animated bounceInLeft">
-                                    Track your social media presence
-                                </h2>
-                            </a>
+                            <h2 data-animation="animated bounceInLeft">
+                                Track your social media presence
+                            </h2>
+                            <a class="button large" href="/demo">Try it out!</a>
                         </div>
                     </div>
                 </div>
@@ -101,11 +95,10 @@
                     <img src="/images/mobil.jpg" alt="JSA-About"/>
                     <div class="carousel-caption d-md-block">
                         <div class="textbox">
-                            <a class="buttonToSite" href="http://localhost:8080/demo">
-                                <h2 data-animation="animated bounceInLeft">
-                                    Find out what people feel about your product
-                                </h2>
-                            </a>
+                            <h2 data-animation="animated bounceInLeft">
+                                Compare keywords to see what's popular
+                            </h2>
+                            <a class="button large" href="/demo">Try it out!</a>
                         </div>
                     </div>
                 </div>
@@ -114,11 +107,10 @@
                     <img src="/images/bulletugga.jpg" alt="JSA-About"/>
                     <div class="carousel-caption d-md-block">
                         <div class="textbox">
-                            <a class="buttonToSite" href="http://localhost:8080/demo">
-                                <h2 data-animation="animated bounceInLeft">
-                                    Follow feelings across time
-                                </h2>
-                            </a>
+                            <h2 data-animation="animated bounceInLeft">
+                                See how opinions change across time
+                            </h2>
+                            <a class="button large" href="/demo">Try it out!</a>
                         </div>
                     </div>
                 </div>
@@ -126,11 +118,10 @@
                     <img src="/images/closeup.jpg" alt="JSA-About"/>
                     <div class="carousel-caption d-md-block">
                         <div class="textbox">
-                            <a class="buttonToSite" href="http://localhost:8080/demo">
                                 <h2 data-animation="animated bounceInLeft">
-                                    Follow feelings across time
+                                    Get the information you need at a glance
                                 </h2>
-                            </a>
+                                <a class="button large" href="/demo">Try it out!</a>
                         </div>
                     </div>
                 </div>
@@ -196,10 +187,11 @@
         <h3 class="header3">
             About us
         </h3>
+
         <div class="devTeamWrapper">
-            <p>
+            <p class="inline-block">
                 Sentify was created as an exam project by us, a group of aspiring developers
-                with an interest in data science and artificial intelligens. This is our final assignment
+                with an interest in data science and artificial intelligence. This is our final assignment
                 in a 12 week Java-course.
             </p>
             <div id="devteam">
