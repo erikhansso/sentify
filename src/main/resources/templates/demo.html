@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8"/>
@@ -15,33 +16,32 @@
 
 <body>
 
-<section id="superwrapper">
-    <div id="navbar">
-        <nav class="top-bar" data-topbar role="navigation">
-            <ul class="menu menu-hover-lines" id="navbarlinks">
-                <li>
-                    <a id="homeImg" href="/">
-                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
-                    </a>
-                </li>
-                <li class="active">
-                    <a href="/demo">Demo</a>
-                </li>
-                <li>
-                    <a href="/#howItWorks">How it works</a>
-                </li>
-                <li>
-                    <a href="/#pricing">Pricing</a>
-                </li>
+<div id="navbar">
+    <nav class="top-bar" data-topbar role="navigation">
+        <ul class="menu menu-hover-lines" id="navbarlinks">
+            <li>
+                <a id="homeImg" href="/">
+                    <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+                </a>
+            </li>
+            <li class="active">
+                <a href="/demo">Demo</a>
+            </li>
+            <li>
+                <a href="/#howItWorks">How it works</a>
+            </li>
+            <li>
+                <a href="/#pricing">Pricing</a>
+            </li>
 
-                <li >
-                    <a href="/premium">Premium</a>
-                </li>
-                <li>
-                    <a href="#about">About us</a>
-                </li>
-            </ul>
-            <span>
+            <li>
+                <a href="/premium">Premium</a>
+            </li>
+            <li>
+                <a href="#about">About us</a>
+            </li>
+        </ul>
+        <span>
 
             <ul class="menu menu-hover-lines">
             <li sec:authorize="isAnonymous()">
@@ -53,24 +53,32 @@
                 </ul>
                 </span>
 
-            <span sec:authorize="isAuthenticated()"> Logged in as <span
-                    sec:authentication="name"></span>
+        <span sec:authorize="isAuthenticated()"> Logged in as <span
+                sec:authentication="name"></span>
         </span>
-            <span sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+        <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+    </nav>
+</div>
 
-        </nav>
-    </div>
 
-<div class="maindisplay">
-    <div class="input-group">
-        <input  type="submit" id="godofwar" class="button searchButton buttonMargin demoButton" value="#godofwar">
-        <input type="submit" id="infinitywar" class="button searchButton buttonMargin demoButton" value="#infinitywar">
-        <input type="submit" id="pepsi" class="button searchButton buttonMargin demoButton" value="pepsi">
-        <input  type="submit" id="coca-cola" class="button searchButton buttonMargin demoButton" value="coca-cola">
-    </div>
+<section id="maindisplay">
+    <section id="searchbar">
+        <div class="input-group">
+            <input type="submit" id="godofwar" class="button searchButton buttonMargin demoButton"
+                   value="#godofwar">
+            <input type="submit" id="infinitywar" class="button searchButton buttonMargin demoButton"
+                   value="#infinitywar">
+            <input type="submit" id="pepsi" class="button searchButton buttonMargin demoButton" value="pepsi">
+            <input type="submit" id="coca-cola" class="button searchButton buttonMargin demoButton"
+                   value="coca-cola">
+        </div>
+    </section>
+</section>
 
-    <div class="center-me">
-        <div class="row">
+<section id="tabsandcharts">
+    <section class="tabsandchartsinterior">
+        <!-- <div class="row"> -->
+        <section id="tabwrapper">
             <div class="small-6 centered columns">
                 <ul class="tabs" data-tabs id="example-tabs">
                     <li class="tabs-title is-active">
@@ -86,7 +94,8 @@
                         <a id="panelFive" href="#panel5">Statistics</a>
                     </li>
                     <li class="tabs-info">
-                        <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper" title="To calculate
+                        <img src="/images/info.png" data-tooltip data-click-open="false" id="chartHelper"
+                             title="To calculate
                         the average sentiment the sentiment scores for all tweets are summed up and divided by the number of tweets">
                     </li>
                 </ul>
@@ -128,48 +137,48 @@
                     </div>
                     <div class="tabs-panel" id="panel5">
                         <h4 id="statisticsTitle">Statistics</h4>
-                            <div id="statisticsContainer" class="chartContainer">
-                                <table id="statisticsTable" class="hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Key</th>
-                                        <th>Value</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>Keyword</td>
-                                        <td id="tableKeyword"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Number of tweets</td>
-                                        <td id="tableNumTweets"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Average sentiment score</td>
-                                        <td id="tableAvgSentiment"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Standard deviation</td>
-                                        <td id="tableSD"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Median</td>
-                                        <td id="tableMedian"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Time span</td>
-                                        <td id="tableTimeSpan"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <div id="statisticsContainer" class="chartContainer">
+                            <table id="statisticsTable" class="hover">
+                                <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>Keyword</td>
+                                    <td id="tableKeyword"></td>
+                                </tr>
+                                <tr>
+                                    <td>Number of tweets</td>
+                                    <td id="tableNumTweets"></td>
+                                </tr>
+                                <tr>
+                                    <td>Average sentiment score</td>
+                                    <td id="tableAvgSentiment"></td>
+                                </tr>
+                                <tr>
+                                    <td>Standard deviation</td>
+                                    <td id="tableSD"></td>
+                                </tr>
+                                <tr>
+                                    <td>Median</td>
+                                    <td id="tableMedian"></td>
+                                </tr>
+                                <tr>
+                                    <td>Time span</td>
+                                    <td id="tableTimeSpan"></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+        </section>
+    </section>
+</section>
 
 
 <div id="output"></div>
