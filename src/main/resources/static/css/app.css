@@ -220,7 +220,6 @@ table {
     width: 55vw!important;
 }
 
-
 /*.chartContainer {*/
 /*display: flex;*/
 /*flex-direction: row;*/
@@ -228,7 +227,6 @@ table {
 /*height: 100%;*/
 /*width: 55vw;*/
 /*}*/
-
 
 #lineChart {
     height: 50vh!important;
