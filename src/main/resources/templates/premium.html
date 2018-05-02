@@ -63,7 +63,13 @@
                     sec:authentication="name"></span>
         </span>
 
-            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+            <span>
+            <ul class="menu menu-hover-lines">
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            </span>
 
         </nav>
     </div>
