@@ -108,7 +108,19 @@ table {
     }
 }
 
-#superwrapper {
+
+#loginiframe {
+    width: 50vw;
+    height: 80vh;
+    z-index: 12;
+    position: fixed;
+    margin-top: 7%;
+    margin-left: 25%;
+    border-radius: 50px;
+}
+
+#superwrapper{
+
     margin: 0;
     height: 100vh;
 
@@ -595,6 +607,10 @@ input[type="checkbox"] {
     margin-top: 2em;
 }
 
+.tryButton:hover {
+    background-color: var(--main-contrast-color-faded);
+}
+
 div.infoContainer {
     margin: 0 auto;
     width: 100%;
@@ -696,6 +712,16 @@ p {
     width: 200px;
 }
 
+
+#maindisplaydemo{
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 7vw;
+}
+
+#tabsandchartsdemo {
+}
+
 footer {
     padding: 1rem;
     text-align: end;
@@ -715,4 +741,5 @@ footer {
 .avatar {
     height: 300px;
     width: 300px;
+
 }

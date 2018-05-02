@@ -16,9 +16,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Rubik|Sura" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+
+<iframe name="loginiframe" id="loginiframe" src="/login"></iframe>
 
 <section id="superwrapper">
     <div id="navbar">
@@ -50,14 +53,14 @@
         </span>
             <span>
 
-            <ul class="menu menu-hover-lines">
-            <li sec:authorize="isAnonymous()">
-                <a href="/login">Login</a>
-            </li>
-            <li sec:authorize="isAnonymous()">
-                <a href="/registration">Sign up</a>
-            </li>
-
+                    <ul class="menu menu-hover-lines">
+                        <li sec:authorize="isAnonymous()">
+                            <button type="submit" class="button" id="loggainknapp">Login here</button>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a href="/registration">Sign up</a>
+                        </li>
+                        
                 <li sec:authorize="isAuthenticated()">
                     <a href="/logout">Logout</a>
                 </li>
@@ -76,6 +79,7 @@
                 <li data-target="#jsaAboutCarousel" data-slide-to="2"></li>
                 <li data-target="#jsaAboutCarousel" data-slide-to="3"></li>
             </ol>
+
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner">
@@ -119,10 +123,11 @@
                     <div class="carousel-caption d-md-block">
                         <div class="textbox">
 
-                                <h2 data-animation="animated bounceInLeft">
-                                    Get the information you need at a glance
-                                </h2>
-                                <a class="button large tryButton" href="/demo">Try it out!</a>
+                            <h2 data-animation="animated bounceInLeft">
+                                Get the information you need at a glance
+                            </h2>
+                            <a class="button large tryButton" href="/demo">Try it out!</a>
+
 
                         </div>
                     </div>
@@ -179,10 +184,12 @@
         </h3>
         <div class="pricingWrapper">
             <h4>Subscription available from $89/month</h4>
-            <h5>Contact us for more info at </h5><a href="#form"> sentify@protonmail.com</a>
+            <h5>Contact us for more info at </h5>
+            <a href="#form"> sentify@protonmail.com</a>
             <img id="pricingImg1" class="inline-block" src="/images/personholdingtwitter.jpg">
         </div>
     </div>
+
 
     <a name="about"></a>
     <div class="infoContainer">
@@ -213,6 +220,10 @@
 
 </section>
 
+<script src="js/login.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/vendor/foundation.min.js"></script>
 
 </body>
+
 </html>
