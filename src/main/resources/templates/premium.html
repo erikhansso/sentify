@@ -17,7 +17,13 @@
 </head>
 
 <body>
-
+<script>
+    if( self == top ) {
+        document.documentElement.style.display = 'block' ;
+    } else {
+        top.location = self.location ;
+    }
+    </script>
 
 <section id="superwrapper">
     <div id="navbar">
@@ -236,7 +242,6 @@
 <script>
     $(document).foundation();
 </script>
-
 
 </body>
 

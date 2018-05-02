@@ -108,6 +108,17 @@ table {
     }
 }
 
+
+#loginiframe {
+    width: 50vw;
+    height: 80vh;
+    z-index: 12;
+    position: fixed;
+    margin-top: 7%;
+    margin-left: 25%;
+    border-radius: 50px;
+}
+
 #superwrapper{
     margin: 0;
     height: 100vh;
@@ -134,9 +145,9 @@ table {
 }
 
 /*#navbarlinks {*/
-    /*display: flex;*/
-    /*flex-direction: column;*/
-    /*justify-content: center;*/
+/*display: flex;*/
+/*flex-direction: column;*/
+/*justify-content: center;*/
 /*}*/
 
 #navbarlinks > li {
@@ -676,4 +687,14 @@ p{
 #howitworksImg1, #howitworksImg2, #howitworksImg3 {
     height: 200px;
     width: 200px;
+}
+
+#maindisplaydemo{
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 7vw;
+}
+
+#tabsandchartsdemo{
+
 }

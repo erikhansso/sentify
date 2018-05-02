@@ -15,6 +15,7 @@
 
 <body>
 
+<iframe name="loginiframe" id="loginiframe" src="/login"></iframe>
 
 <section id="superwrapper">
     <div id="navbar">
@@ -46,7 +47,7 @@
 
             <ul class="menu menu-hover-lines">
             <li sec:authorize="isAnonymous()">
-                <a href="/login">Login</a>
+                <button type="submit" class="button" id="loggainknapp">Login here</button>
             </li>
             <li sec:authorize="isAnonymous()" class="active">
                 <a href="/registration">Sign up</a>
@@ -176,6 +177,7 @@
         </div>
     </div>
 
+    <script src="js/login.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
 

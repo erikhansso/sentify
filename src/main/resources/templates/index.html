@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html class="no-js" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sentify - Track social media sentiment</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/foundation.css"/>
-    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/app.css" />
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Rubik|Sura" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Rubik|Sura" rel="stylesheet">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+
+<iframe name="loginiframe" id="loginiframe" src="/login"></iframe>
 
 <section id="superwrapper">
     <div id="navbar">
@@ -26,7 +28,7 @@
             <ul class="menu menu-hover-lines" id="navbarlinks">
                 <li class="active">
                     <a id="homeImg" href="/">
-                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+                        <img src="/images/logotinyhuge2.png" width="117px" height="64px" />
                     </a>
                 </li>
                 <li>
@@ -47,25 +49,28 @@
                 </li>
             </ul>
             <span>
-
-            <ul class="menu menu-hover-lines">
-            <li sec:authorize="isAnonymous()">
-                <a href="/login">Login</a>
-            </li>
-            <li sec:authorize="isAnonymous()">
-                <a href="/registration">Sign up</a>
-            </li>
-                </ul>
+                    <ul class="menu menu-hover-lines">
+                        <li sec:authorize="isAnonymous()">
+                            <button type="submit" class="button" id="loggainknapp">Login here</button>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a href="/registration">Sign up</a>
+                        </li>
+                    </ul>
                 </span>
 
-            <span sec:authorize="isAuthenticated()"> Logged in as <span
-                    sec:authentication="name"></span>
-        </span>
+            <span sec:authorize="isAuthenticated()"> Logged in as
+                    <span sec:authentication="name"></span>
+                </span>
 
-            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()"><a href="/logout">Logout</a></span>
+            <span class="menu menu-hover-lines" sec:authorize="isAuthenticated()">
+                    <a href="/logout">Logout</a>
+                </span>
 
         </nav>
     </div>
+
+
 
 
     <div class="container-fluid">
@@ -86,9 +91,9 @@
                             Sentify
                         </h2>
                         <span data-animation="animated bounceInRight">
-                     Here is some text that we want to change
-                <br>
-                    </span>
+                                Here is some text that we want to change
+                                <br>
+                            </span>
                         <a class="buttonToSite" href="http://localhost:8080/demo">#search</a>
                     </div>
                 </div>
@@ -99,17 +104,17 @@
 
 
                 <div class="item active">
-                    <img src="/images/damsomhoppar.jpg" alt="JSA-About"/>
+                    <img src="/images/damsomhoppar.jpg" alt="JSA-About" />
 
                 </div>
 
                 <div class="item">
-                    <img src="/images/dream.jpg" alt="JSA-About"/>
+                    <img src="/images/dream.jpg" alt="JSA-About" />
 
                 </div>
 
                 <div class="item">
-                    <img src="/images/stockphoto.jpg" alt="JSA-About"/>
+                    <img src="/images/stockphoto.jpg" alt="JSA-About" />
 
                 </div>
 
@@ -164,10 +169,15 @@
         </h3>
         <div class="pricingWrapper">
             <h4>Subscription available from $89/month</h4>
-            <h5>Contact us for more info at </h5><a href="#form"> sentify@protonmail.com</a>
+            <h5>Contact us for more info at </h5>
+            <a href="#form"> sentify@protonmail.com</a>
             <img id="pricingImg1" class="inline-block" src="/images/personholdingtwitter.jpg">
         </div>
     </div>
+
+
+
+
 
     <a name="about"></a>
     <div class="infoContainer">
@@ -175,31 +185,33 @@
             About us
         </h3>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-            commodi culpa dolorum ea earum enim ex maxime minima molestias, nam
-            necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident. Lorem ipsum dolor sit
+            amet, consectetur adipisicing elit. Aliquid commodi culpa dolorum ea earum enim ex maxime minima molestias,
+            nam necessitatibus nemo praesentium quaerat similique sit. Ad nisi omnis provident.
         </p>
     </div>
     <footer>
-        <span class="copy">Copyrights:  &copy; Sentify</span>
-        <span class="contacts">@Contacts:<a href="#form"> sentify@protonmail.com</a></span>
+        <span class="copy">&copy; Sentify 2018</span>
+        <span class="contacts">@Contacts:
+                <a href="#form"> sentify@protonmail.com</a>
+            </span>
 
     </footer>
+
 </section>
+<script src="js/login.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/vendor/foundation.min.js"></script>
+
 </body>
+
 </html>
