@@ -42,6 +42,9 @@
             </li>
 
         </ul>
+        <span sec:authorize="isAuthenticated()"> Logged in as <span
+                sec:authentication="name"></span>
+        </span>
         <span>
 
             <ul class="menu menu-hover-lines">
@@ -51,14 +54,7 @@
             <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
             </li>
-                </ul>
-                </span>
 
-        <span sec:authorize="isAuthenticated()"> Logged in as <span
-                sec:authentication="name"></span>
-        </span>
-        <span>
-            <ul class="menu menu-hover-lines">
                 <li sec:authorize="isAuthenticated()">
                     <a href="/logout">Logout</a>
                 </li>

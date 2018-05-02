@@ -42,30 +42,24 @@
                     <a href="/premium">Premium</a>
                 </li>
             </ul>
+            <span sec:authorize="isAuthenticated()"> Logged in as <span
+                    sec:authentication="name"></span>
+        </span>
             <span>
 
             <ul class="menu menu-hover-lines">
             <li sec:authorize="isAnonymous()">
                 <a href="/login">Login</a>
             </li>
-            <li sec:authorize="isAnonymous()" class="active">
+            <li sec:authorize="isAnonymous()">
                 <a href="/registration">Sign up</a>
             </li>
-                </ul>
-                </span>
 
-            <span sec:authorize="isAuthenticated()"> Logged in as <span
-                    sec:authentication="name"></span>
-        </span>
-
-            <span>
-            <ul class="menu menu-hover-lines">
                 <li sec:authorize="isAuthenticated()">
                     <a href="/logout">Logout</a>
                 </li>
             </ul>
             </span>
-
 
         </nav>
     </div>
