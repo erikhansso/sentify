@@ -414,8 +414,12 @@ h4 {
     height: 100%;
 }
 
-h1, h2, h3, h4, input, span, .fg-dial {
+h1, h2, h3, h4, h5, input, span, .fg-dial {
     font-family: 'Sura', serif;
+}
+
+.errorText {
+    text-align: center;
 }
 
 .searchButton {
