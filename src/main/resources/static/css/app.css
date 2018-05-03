@@ -136,7 +136,7 @@ table {
     position: fixed;
     width: 100%;
     z-index: 10;
-    height: 82px;
+    height: 10vh;
 }
 
 #homeImg {
@@ -552,8 +552,8 @@ p, a, .fg-dial-label, th, td {
 }
 
 .carousel-inner > .item > img {
-    width: 1780px;
-    height: 758px;
+    width: 100vw;
+    height: 100vh;
     opacity: 0.9;
 }
 
