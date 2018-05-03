@@ -4,7 +4,7 @@
     --main-bg-color: white;
     --main-contrast-color: #87524F;
     --main-color: #8FB8A0;
-    --main-color-light: #C0D6C3;
+    --main-color-light: #E0E0E0;
     --main-color-dark: #8d9c8d;
     --main-color-text: #262626;
     --main-color-text-lighter: #9c6663;
@@ -136,7 +136,7 @@ table {
     position: fixed;
     width: 100%;
     z-index: 10;
-    height: 82px;
+    height: 10vh;
 }
 
 #homeImg {
@@ -402,7 +402,7 @@ h4 {
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color: var(--main-color-dark);
+    background-color: var(--main-color-text);
     width: 0;
 }
 
@@ -552,8 +552,8 @@ p, a, .fg-dial-label, th, td {
 }
 
 .carousel-inner > .item > img {
-    width: 1780px;
-    height: 758px;
+    width: 100vw;
+    height: 100vh;
     opacity: 0.9;
 }
 
@@ -596,6 +596,11 @@ input[type="checkbox"] {
 }
 
 
+#jsaAboutCarousel {
+    z-index: 9;
+}
+>>>>>>> master
+
 .textbox {
     color: rgba(0, 0, 0, 1);
     margin: 10px;
@@ -609,8 +614,8 @@ input[type="checkbox"] {
     color: #0a0a0a;
     background-color: rgba(224, 224, 224, 0.5);
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.6);
-    margin-left: 300px;
-    margin-bottom: 100px;
+    margin-left: 500px;
+    margin-bottom: 200px;
     font-size: 16px;
     display: inline-block;
 }
@@ -726,13 +731,13 @@ p {
 }
 
 #howitworksImg1, #howitworksImg2, #howitworksImg3 {
-    height: 200px;
-    width: 200px;
+    height: 300px;
+    width: 300px;
 }
 
 
 #maindisplaydemo{
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
     padding-top: 7vw;
 }
@@ -745,9 +750,27 @@ p {
     align-self: baseline;
 }
 
+#devteam {
+    text-align: center;
+}
+
 .avatar {
-    height: 300px;
-    width: 300px;
+    width: 19%;
+}
+
+.avatarName{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 7vw;
+    padding-right: 7vw;
+    padding-top: 1vw;
+}
+
+#overviewTextWrapper {
+    padding: 10px;
+}
 
 
+#overviewTextWrapper>p {
+    padding: 7px;
 }
