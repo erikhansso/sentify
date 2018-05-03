@@ -29,7 +29,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
         }
         catch (final Exception ignore)
         {
-            // ignore
+
         }
 
         if (!valid){

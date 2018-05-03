@@ -30,7 +30,6 @@ public class TwitterCommunication {
     }
 
     public List<Tweet> getTweetsByQuery(String query, QueryEntity queryEntity){
-        //TODO: check if possible to refactor, very long
 
         List<Tweet> tweetObjectList = new ArrayList<>();
 
