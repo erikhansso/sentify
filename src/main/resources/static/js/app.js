@@ -19,7 +19,6 @@ $(document).ready(function () {
     };
 
     var colorRGBDarker = {
-        mainColor: "rgba(206,237,241)",
         mainColorDarkerShade: "rgba(92,118,102)",
         mainContrastColor: "rgba(135,82,79)",
         mainContrastColorLighter: "rgba(167,129,127)",
