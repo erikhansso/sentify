@@ -754,3 +754,11 @@ p {
 .avatar {
     width: 19%;
 }
+
+#overviewTextWrapper {
+    padding: 10px;
+}
+
+#overviewTextWrapper>p {
+    padding: 7px;
+}
