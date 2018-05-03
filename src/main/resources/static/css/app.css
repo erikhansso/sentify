@@ -135,7 +135,7 @@ table {
     font-size: 17px;
     position: fixed;
     width: 100%;
-    z-index: 10;
+    z-index: 20;
     height: 10vh;
 }
 
