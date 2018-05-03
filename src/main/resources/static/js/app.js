@@ -1206,9 +1206,9 @@ $(document).ready(function () {
             } else {
                 for (var k = 0; k < maxNumberOfDates; k++) {
                     dataPoints.push({
-                        x: moment(datesToBeAnalyzed[j].date, "YYYY-MM-DD"),
-                        y: datesToBeAnalyzed[j].avgSentScore.toFixed(2),
-                        numberOfTweets: datesToBeAnalyzed[j].numberOfTweetsThisDay
+                        x: moment(datesToBeAnalyzed[k].date, "YYYY-MM-DD"),
+                        y: datesToBeAnalyzed[k].avgSentScore.toFixed(2),
+                        numberOfTweets: datesToBeAnalyzed[k].numberOfTweetsThisDay
                     });
                 }
             }
