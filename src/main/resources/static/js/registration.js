@@ -15,13 +15,13 @@ termsBtn.addEventListener('click', termsBtnClick, true);
 
 // When the user clicks on <span> (x), close the modalTerms
 spanCloseTerms.onclick = function() {
-    console.log("triggererd click close");
+
     modalTerms.style.display = "none";
 }
 
 // When the user clicks anywhere outside of the modalTerms, close it
 window.onclick = function(event) {
-     console.log("triggererd");
+
     if (event.target == modalTerms) {
         modalTerms.style.display = "none";
     }
