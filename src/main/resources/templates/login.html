@@ -23,7 +23,7 @@
 
         <img src="/images/loginlogo.png" id="loginlogo"/>
 
-        <form th:action="@{/login}" method="post" id="registrationForm">
+        <form th:action="@{/login}" method="post" id="loginForm">
             <div class="large-12 columns">
                 <label for="username">Username (the e-mail address you used to sign up)</label>
                 <input type="text"
@@ -47,8 +47,8 @@
                         <input type="submit"
                                name="login-submit"
                                id="login-submit"
-                               class="button"
-                               value="Log In" onclick="redirect()"/>
+                               class="button searchButton buttonMargin"
+                               value="Login" onclick="redirect()"/>
                     </div>
                 </div>
             </div>

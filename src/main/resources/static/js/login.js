@@ -31,7 +31,12 @@
                     modal.style.visibility = "hidden";
                     document.body.style.background = "none";
                     superwrapper.style.filter = "none";
-                    carousel.style.filter = "none";
+
+                    if(document.getElementById("jsaAboutCarousel") != null) {
+                        carousel.style.filter = "none";
+                    }
+
+
                
                 }
             }
