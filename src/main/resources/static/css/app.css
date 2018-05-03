@@ -743,8 +743,10 @@ p {
     align-self: baseline;
 }
 
-.avatar {
-    height: 300px;
-    width: 300px;
+#devteam {
+    text-align: center;
+}
 
+.avatar {
+    width: 19%;
 }
