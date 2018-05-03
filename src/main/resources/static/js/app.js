@@ -512,11 +512,8 @@ $(document).ready(function () {
     });
 
     $(document).on("click", ".removeKeyword", function (e) {
-        console.log("clicked remove button");
         var pos = $(this).closest("li").attr("data-pos");
-        console.log("pos", pos);
         var keyword = $("#" + pos).val();
-        console.log("keyword", keyword);
         ajaxForUpdatingKeywords(keyword);
     });
 
@@ -537,14 +534,12 @@ $(document).ready(function () {
             type: "POST",
             error: function () {
                 $(document.body).css({'cursor': 'default'});
-                console.log("error sending the data");
             },
             data: {
                 searchInput: searchInput
             },
-            url: "/searchForDemoTweets", //which is mapped to its partner function on our controller class
+            url: "/searchForDemoTweets",
             success: function (result) {
-                console.log("successfully inserted ", result);
                 if (result.tweets === null) {
                     $(document.body).css({'cursor': 'default'});
                     clearAll();
@@ -588,7 +583,6 @@ $(document).ready(function () {
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
-
                 if (searchInput in state.tweetsSearchedFor) {
                     state.tweetsSearchedFor[searchInput].tweets = result;
                 } else {
@@ -609,14 +603,12 @@ $(document).ready(function () {
             type: "POST",
             error: function () {
                 $(document.body).css({'cursor': 'default'});
-                console.log("error sending the data");
             },
             data: {
                 searchInput: searchInput
             },
-            url: "/saveKeywordToUser", //which is mapped to its partner function on our controller class
+            url: "/saveKeywordToUser",
             success: function (savedKeywords) {
-                console.log("successfully inserted ", savedKeywords);
                 if (savedKeywords !== null) {
                     $(document.body).css({'cursor': 'default'});
                 }
@@ -633,14 +625,12 @@ $(document).ready(function () {
             type: "POST",
             error: function () {
                 $(document.body).css({'cursor': 'default'});
-                console.log("error sending the data");
             },
             data: {
                 searchInput: keyword
             },
-            url: "/updateKeywordToUser", //which is mapped to its partner function on our controller class
+            url: "/updateKeywordToUser",
             success: function (savedKeywords) {
-                console.log("successfully inserted ", savedKeywords);
                 if (savedKeywords !== null) {
                     $(document.body).css({'cursor': 'default'});
                 }
@@ -679,14 +669,12 @@ $(document).ready(function () {
             type: "POST",
             error: function () {
                 $(document.body).css({'cursor': 'default'});
-                console.log("error sending the data");
             },
             data: {
                 searchInput: searchInput
             },
-            url: "/searchForTweets", //which is mapped to its partner function on our controller class
+            url: "/searchForTweets",
             success: function (result) {
-                console.log("successfully inserted ", result);
                 if (result.tweets === null) {
                     $(document.body).css({'cursor': 'default'});
                     clearAll();
@@ -732,7 +720,6 @@ $(document).ready(function () {
                 $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
-
 
                 if (searchInput in state.tweetsSearchedFor) {
                     state.tweetsSearchedFor[searchInput].tweets = result;
@@ -826,7 +813,6 @@ $(document).ready(function () {
             var hue = ((1 - (Math.abs(value - 1))) * 120).toString(10);
             return ["hsl(", hue, ",65%,65%)"].join("");
         },
-
         dialValue: "-%",
         dialLabel: true
     });
@@ -869,7 +855,6 @@ $(document).ready(function () {
                 sentimentScore: tweetsToBeAnalyzed[i - 1].sentimentScore.toFixed(2)
             });
         }
-
         var pointBackgroundColors = [];
         var ctx = document.getElementById('scatterChart').getContext('2d');
         var scatterChart = new Chart(ctx, {
@@ -952,7 +937,6 @@ $(document).ready(function () {
                         afterFooter: function (tooltipItem, data) {
                             return "Posted: " + data["datasets"][0]["data"][tooltipItem[0]["index"]].createdAt;
                         }
-
                     }
                 },
                 title: {
@@ -1106,7 +1090,6 @@ $(document).ready(function () {
 
         var dataSets = generateDatasetsFromLineChartDataPoints(dataPoints, searchInput);
 
-
         var ctx = document.getElementById('lineChart').getContext('2d');
         var lineChart = new Chart(ctx, {
             type: 'line',
@@ -1193,7 +1176,6 @@ $(document).ready(function () {
                         bottom: 0
                     }
                 }
-
             }
         });
         lineChart.update();
@@ -1206,11 +1188,8 @@ $(document).ready(function () {
 
         //Array with objects containing searchinput and tweets
         var allTweetsSearchedFor = generateArrayFromHashmap(state.tweetsSearchedFor);
-
-
         for (var i = 0; i < allTweetsSearchedFor.length; i++) {
             var datesToBeAnalyzed = allTweetsSearchedFor[i]["tweets"]["tweets"]["avgSentimentGroupedByDate"];
-
             var dataPoints = [];
             if (datesToBeAnalyzed.length < maxNumberOfDates) {
                 for (var j = 0; j < datesToBeAnalyzed.length; j++) {
@@ -1229,7 +1208,6 @@ $(document).ready(function () {
                     });
                 }
             }
-
             dataPointsArray.push({
                 dataPoints: dataPoints,
                 searchQuery: allTweetsSearchedFor[i]["searchInput"]
@@ -1250,9 +1228,7 @@ $(document).ready(function () {
     };
 
     var generateDatasetsFromLineChartDataPoints = function (dataPointsArray) {
-
         var dataset = [];
-        //Generates a dataset from every datapoints-array
         for (var i = 0; i < dataPointsArray.length; i++) {
             dataset.push({
                 label: [dataPointsArray[i]["searchQuery"]],
@@ -1265,8 +1241,6 @@ $(document).ready(function () {
                 pointBorderColor: getColorBasedOnIndex(i)
             });
         }
-
-
         return dataset;
     };
 
