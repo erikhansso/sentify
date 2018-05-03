@@ -549,7 +549,7 @@ $(document).ready(function () {
                     $(document.body).css({'cursor': 'default'});
                     clearAll();
                     keywordInput = "No tweets were found"; //To update the dialLabel
-                    $("#scatterTitle").text("No tweets were found");
+                    $(".errorText").text("No tweets were found for keyword: "+searchInput);
                     return;
                 }
                 $(document.body).css({'cursor': 'default'});
@@ -579,7 +579,7 @@ $(document).ready(function () {
                         numberOfNegativeTweets++;
                     }
                 }
-
+                $(".errorText").empty();
                 $("#numberOfPosTweets").text(numberOfPositiveTweets);
                 $("#numberOfNegTweets").text(numberOfNegativeTweets);
 
@@ -692,6 +692,7 @@ $(document).ready(function () {
                     clearAll();
                     keywordInput = "No tweets were found"; //To update the dialLabel
                     $("#scatterTitle").text("No tweets were found");
+                    $(".errorText").text("No tweets were found for keyword: "+searchInput);
                     return;
                 }
                 toggleDisableTrackKeywordsButton(false);
@@ -723,6 +724,7 @@ $(document).ready(function () {
                     }
                 }
 
+                $(".errorText").empty();
                 $("#numberOfPosTweets").text(numberOfPositiveTweets);
                 $("#numberOfNegTweets").text(numberOfNegativeTweets);
 
@@ -753,6 +755,7 @@ $(document).ready(function () {
 
     var clearAllIncLine = function() {
         toggleDisableTrackKeywordsButton(true);
+        $(".errorText").empty();
         keywordInput = "-"; //To update the dialLabel
         $("#scatterTitle").text("Latest opinions of tweets");
         $("#numberOfTweets").text("?");
@@ -776,11 +779,6 @@ $(document).ready(function () {
                 colorArcFg: getColor(0)
             }
         );
-
-
-
-
-
     }
 
     var clearAll = function () {
@@ -793,14 +791,8 @@ $(document).ready(function () {
         updateAddKeywordButton("");
         $("#scatterChartContainer").empty();
         $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-        // $("#lineChartContainer").empty();
-        // $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
         clearPureStatistics();
-        // returnsCleanLineChart();
         returnsCleanScatter();
-        state = {
-            tweetsSearchedFor: {}
-        };
         gauge.update(
             {
                 dialValue: "-%",
@@ -810,7 +802,7 @@ $(document).ready(function () {
         );
     };
 
-// //Creates a new gauge and appends it to the #demo-tag
+//Creates a new gauge and appends it to the #demo-tag
     var gauge = new FlexGauge({
         appendTo: '#gauge',
 
