@@ -16,10 +16,13 @@
 </head>
 <body>
 
-
 <section id="superwrapper">
 
     <div id="areabelow">
+
+
+        <img src="/images/loginlogo.png" id="loginlogo"/>
+
         <form th:action="@{/login}" method="post" id="registrationForm">
             <div class="large-12 columns">
                 <label for="username">Username (the e-mail address you used to sign up)</label>
@@ -60,25 +63,18 @@
                 </div>
             </div>
             <div class="large-12 columns">
-                <span>New user? <a href="/" th:href="@{/registration}">Register here</a></span>
+                <span>New user? <a href="/registration" target="_top">Register here</a></span>
             </div>
         </form>
     </div>
     <footer>
-        <span class="contacts fixedFooter">Copyrights:  &copy; Sentify @Contacts:<a href="#form"> sentify@protonmail.com</a></span>
+        <span id="footer">&copy;Sentify 2018 <a href="mailto:sentify@protonmail.com" id="contacts">Contact Sentify</a></span>
     </footer>
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
-    <script>
-        function redirect(){
-            console.log("ooo boy");
-        }
 
-
-        $(document).foundation();
-    </script>
 </section>
 </body>
 </html>
