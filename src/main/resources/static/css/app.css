@@ -4,7 +4,7 @@
     --main-bg-color: white;
     --main-contrast-color: #87524F;
     --main-color: #8FB8A0;
-    --main-color-light: #C0D6C3;
+    --main-color-light: #E0E0E0;
     --main-color-dark: #8d9c8d;
     --main-color-text: #262626;
     --main-color-text-lighter: #9c6663;
@@ -402,7 +402,7 @@ h4 {
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color: var(--main-color-dark);
+    background-color: var(--main-color-text);
     width: 0;
 }
 
