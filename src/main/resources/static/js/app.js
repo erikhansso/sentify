@@ -585,8 +585,6 @@ $(document).ready(function () {
 
                 $("#scatterChartContainer").empty();
                 $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
@@ -730,8 +728,6 @@ $(document).ready(function () {
 
                 $("#scatterChartContainer").empty();
                 $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
@@ -765,12 +761,10 @@ $(document).ready(function () {
         updateAddKeywordButton("");
         $("#scatterChartContainer").empty();
         $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-        $("#barChartContainer").empty();
-        $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
-        $("#lineChartContainer").empty();
-        $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+        // $("#lineChartContainer").empty();
+        // $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
         clearPureStatistics();
-        returnsCleanLineChart();
+        // returnsCleanLineChart();
         returnsCleanScatter();
         state = {
             tweetsSearchedFor: {}
