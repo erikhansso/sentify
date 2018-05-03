@@ -22,9 +22,6 @@ public class UserServiceImpl implements SentUserService {
     @Autowired
     private SentUserRepository sentUserRepository;
 
-//    @Autowired
-//    PasswordEncoder passwordEncoder;
-
     PasswordEncoder passwordEncoder =
             PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
