@@ -730,7 +730,7 @@ p {
 
 
 #maindisplaydemo{
-    width: 50%;
+    width: 60%;
     margin: 0 auto;
     padding-top: 7vw;
 }
@@ -743,8 +743,10 @@ p {
     align-self: baseline;
 }
 
-.avatar {
-    height: 300px;
-    width: 300px;
+#devteam {
+    text-align: center;
+}
 
+.avatar {
+    width: 19%;
 }
