@@ -521,7 +521,7 @@ $(document).ready(function () {
     });
 
     $("#resetButton").on("click", function (e) {
-        clearAll();
+        clearAllIncLine();
     });
 
     $("#searchTweetButton").on("click", function (e) {
@@ -585,8 +585,6 @@ $(document).ready(function () {
 
                 $("#scatterChartContainer").empty();
                 $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
@@ -730,8 +728,6 @@ $(document).ready(function () {
 
                 $("#scatterChartContainer").empty();
                 $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-                $("#barChartContainer").empty();
-                $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
                 $("#lineChartContainer").empty();
                 $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
 
@@ -755,6 +751,38 @@ $(document).ready(function () {
         $("#addKeyWordButton").val(keyword);
     };
 
+    var clearAllIncLine = function() {
+        toggleDisableTrackKeywordsButton(true);
+        keywordInput = "-"; //To update the dialLabel
+        $("#scatterTitle").text("Latest opinions of tweets");
+        $("#numberOfTweets").text("?");
+        $("#numberOfPosTweets").text("?");
+        $("#numberOfNegTweets").text("?");
+        updateAddKeywordButton("");
+        $("#scatterChartContainer").empty();
+        $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+        $("#lineChartContainer").empty();
+        $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+        clearPureStatistics();
+        returnsCleanLineChart();
+        returnsCleanScatter();
+        state = {
+            tweetsSearchedFor: {}
+        };
+        gauge.update(
+            {
+                dialValue: "-%",
+                arcFillPercent: 0,
+                colorArcFg: getColor(0)
+            }
+        );
+
+
+
+
+
+    }
+
     var clearAll = function () {
         toggleDisableTrackKeywordsButton(true);
         keywordInput = "-"; //To update the dialLabel
@@ -765,12 +793,10 @@ $(document).ready(function () {
         updateAddKeywordButton("");
         $("#scatterChartContainer").empty();
         $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
-        $("#barChartContainer").empty();
-        $("#barChartContainer").append(" <canvas id=\"barChart\"></canvas>");
-        $("#lineChartContainer").empty();
-        $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+        // $("#lineChartContainer").empty();
+        // $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
         clearPureStatistics();
-        returnsCleanLineChart();
+        // returnsCleanLineChart();
         returnsCleanScatter();
         state = {
             tweetsSearchedFor: {}
