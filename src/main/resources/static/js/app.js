@@ -521,7 +521,7 @@ $(document).ready(function () {
     });
 
     $("#resetButton").on("click", function (e) {
-        clearAll();
+        clearAllIncLine();
     });
 
     $("#searchTweetButton").on("click", function (e) {
@@ -750,6 +750,38 @@ $(document).ready(function () {
     var updateAddKeywordButton = function (keyword) {
         $("#addKeyWordButton").val(keyword);
     };
+
+    var clearAllIncLine = function() {
+        toggleDisableTrackKeywordsButton(true);
+        keywordInput = "-"; //To update the dialLabel
+        $("#scatterTitle").text("Latest opinions of tweets");
+        $("#numberOfTweets").text("?");
+        $("#numberOfPosTweets").text("?");
+        $("#numberOfNegTweets").text("?");
+        updateAddKeywordButton("");
+        $("#scatterChartContainer").empty();
+        $("#scatterChartContainer").append(" <canvas id=\"scatterChart\"></canvas>");
+        $("#lineChartContainer").empty();
+        $("#lineChartContainer").append(" <canvas id=\"lineChart\"></canvas>");
+        clearPureStatistics();
+        returnsCleanLineChart();
+        returnsCleanScatter();
+        state = {
+            tweetsSearchedFor: {}
+        };
+        gauge.update(
+            {
+                dialValue: "-%",
+                arcFillPercent: 0,
+                colorArcFg: getColor(0)
+            }
+        );
+
+
+
+
+
+    }
 
     var clearAll = function () {
         toggleDisableTrackKeywordsButton(true);
