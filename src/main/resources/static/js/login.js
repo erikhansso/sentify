@@ -1,5 +1,4 @@
 
-        console.log("login script active");
 
         var modal = document.getElementById("loginiframe");
         modal.style.visibility = "hidden";
