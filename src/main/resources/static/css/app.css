@@ -4,7 +4,7 @@
     --main-bg-color: white;
     --main-contrast-color: #87524F;
     --main-color: #8FB8A0;
-    --main-color-light: #C0D6C3;
+    --main-color-light: #E0E0E0;
     --main-color-dark: #8d9c8d;
     --main-color-text: #262626;
     --main-color-text-lighter: #9c6663;
@@ -402,7 +402,7 @@ h4 {
     position: absolute;
     content: '';
     transition: all 0.35s ease;
-    background-color: var(--main-color-dark);
+    background-color: var(--main-color-text);
     width: 0;
 }
 
@@ -595,6 +595,10 @@ input[type="checkbox"] {
     padding: 0;
 }
 
+#jsaAboutCarousel {
+    z-index: 9;
+}
+
 .textbox {
     color: rgba(0, 0, 0, 1);
     margin: 10px;
@@ -608,8 +612,8 @@ input[type="checkbox"] {
     color: #0a0a0a;
     background-color: rgba(224, 224, 224, 0.5);
     box-shadow: 8px 8px 8px rgba(0, 0, 0, 0.6);
-    margin-left: 300px;
-    margin-bottom: 100px;
+    margin-left: 500px;
+    margin-bottom: 200px;
     font-size: 16px;
     display: inline-block;
 }
