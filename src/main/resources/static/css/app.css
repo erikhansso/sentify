@@ -762,6 +762,15 @@ p {
     text-align: center;
 }
 
+
+.avatarName {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 7vw;
+    padding-right: 7vw;
+    padding-top: 1vw;
+}
+
 .avatar {
     width: 19%;
 }
