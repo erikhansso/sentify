@@ -162,25 +162,83 @@
                     <input id="terms"
                            type="checkbox"
                            th:field="*{terms}"/>
-                    <label class="control-label" for="terms">
-                        I agree with the <a href="#">terms and conditions</a> for registration.
-                    </label>
+                    <!--<label class="control-label" for="terms">-->
+                    <p>I agree with the<a id="termsButton"> Terms and Conditions</a> for registration.</p>
+                    <!--</label>-->
                     <p class="error-message"
                        th:each="error : ${#fields.errors('terms')}"
                        th:text="${error}">Validation error</p>
                 </div>
                 <div class="input-group registration-group">
-                    <button type="submit" class="button expanded">Sign up!</button>
-                    <span>Already registered? <a href="/" th:href="@{/login}">Login here</a></span>
+
+                    <button type="submit" class="button expanded searchButton buttonMargin" id="signupBtn">Sign up!</button>
+                    <span>Already registered? <a href="/login">Login here</a></span>
+
                 </div>
             </form>
         </div>
+    </div>
+    <div id="termsSheet" class="termsClass">
+
+        <!-- Modal content -->
+        <div class="termsContent">
+            <span class="closeTerms">&times;</span>
+            <p>
+            <p><br />Sentify Terms and Conditions<br /><br /><br />&nbsp;&nbsp;&nbsp; 1. Introduction.<br /><br />These Sentify Standard
+            Terms And Conditions (these &ldquo;Terms&rdquo; or these "Sentify Standard Terms And Conditions&rdquo;) contained herein on this
+            webpage, shall govern your use of Sentify, including all pages within Sentify (collectively referred to herein below as "Sentify").
+            These Terms apply in full force and effect to your use of Sentify and by using Sentify, you expressly accept all terms and conditions
+            contained herein in full. You must not use Sentify, if you have any objection to any of these Sentify Standard Terms And Conditions.<br />
+            <br />Sentify is not for use by any minors (defined as those who are not at least 18 years of age), and you must not use Sentify if you a minor.
+            <br /><br />&nbsp;&nbsp;&nbsp; 2. Intellectual Property Rights.<br /><br />Other than content you own, which you may have opted to include on Sentify,
+            under these Terms, Sentify and/or its licensors own all rights to the intellectual property and material contained in Sentify, and all such rights
+            are reserved.<br /><br />You are granted a limited license only, subject to the restrictions provided in these Terms, for purposes of viewing the
+            material contained on Sentify.<br /><br />&nbsp;&nbsp;&nbsp; 3. Restrictions.<br /><br />You are expressly and emphatically restricted from all of
+            the following:<br /><br />&nbsp;&nbsp;&nbsp; publishing any Sentify material in any media;<br /><br />&nbsp;&nbsp;&nbsp; selling, sublicensing
+            and/or otherwise commercializing any Sentify material;<br /><br />&nbsp;&nbsp;&nbsp; publicly performing and/or showing any Sentify material;<br />
+            <br />&nbsp;&nbsp;&nbsp; using Sentify in any way that is, or may be, damaging to Sentify;<br /><br />&nbsp;&nbsp;&nbsp; using Sentify in any way
+            that impacts user access to Sentify;<br /><br />&nbsp;&nbsp;&nbsp; using Sentify contrary to applicable laws and regulations, or in a way that
+            causes, or may cause, harm to the Sentify, or to any person or business entity;<br /><br />&nbsp;&nbsp;&nbsp; engaging in any data mining,
+            data harvesting, data extracting or any other similar activity in relation to Sentify, or while using Sentify;<br /><br />&nbsp;&nbsp;&nbsp;
+            using Sentify to engage in any advertising or marketing;<br /><br />Certain areas of Sentify are restricted from access by you and Sentify
+            may further restrict access by you to any areas of Sentify, at any time, in its sole and absolute discretion.&nbsp; Any user ID and password
+            you may have for Sentify are confidential and you must maintain confidentiality of such information.<br /><br />&nbsp;&nbsp;&nbsp;
+            4. Your Content.<br /><br />In these Sentify Standard Terms And Conditions, &ldquo;Your Content&rdquo; shall mean any audio, video,
+            text, images or other material you choose to display on Sentify. With respect to Your Content, by displaying it, you grant Sentify a
+            non-exclusive, worldwide, irrevocable, royalty-free, sublicensable license to use, reproduce, adapt, publish, translate and distribute
+            it in any and all media.<br /><br />Your Content must be your own and must not be infringing on any third party&rsquo;s rights. Sentify
+            reserves the right to remove any of Your Content from Sentify at any time, and for any reason, without notice.<br /><br />&nbsp;&nbsp;&nbsp;
+            5. No warranties.<br /><br />Sentify is provided &ldquo;as is,&rdquo; with all faults, and Sentify makes no express or implied representations
+            or warranties, of any kind related to Sentify or the materials contained on Sentify. Additionally, nothing contained on Sentify shall be
+            construed as providing consult or advice to you.<br /><br />&nbsp;&nbsp;&nbsp; 6. Limitation of liability.<br /><br />In no event shall
+            Sentify, nor any of its officers, directors and employees, be liable to you for anything arising out of or in any way connected with
+            your use of Sentify, whether such liability is under contract, tort or otherwise, and Sentify, including its officers, directors and
+            employees shall not be liable for any indirect, consequential or special liability arising out of or in any way related to your use of
+            Sentify.<br /><br />&nbsp;&nbsp;&nbsp; 7. Indemnification.<br /><br />You hereby indemnify to the fullest extent Sentify from and against
+            any and all liabilities, costs, demands, causes of action, damages and expenses (including reasonable attorney&rsquo;s fees) arising out
+            of or in any way related to your breach of any of the provisions of these Terms.<br /><br />&nbsp;&nbsp;&nbsp; 8. Severability.<br /><br />
+            If any provision of these Terms is found to be unenforceable or invalid under any applicable law, such unenforceability or invalidity
+            shall not render these Terms unenforceable or invalid as a whole, and such provisions shall be deleted without affecting the remaining
+            provisions herein.<br /><br />&nbsp;&nbsp;&nbsp; 9. Variation of Terms.<br /><br />Sentify is permitted to revise these Terms at any
+            time as it sees fit, and by using Sentify you are expected to review such Terms on a regular basis to ensure you understand all terms
+            and conditions governing use of Sentify.<br /><br />&nbsp;&nbsp;&nbsp; 10. Assignment.<br /><br />Sentify shall be permitted to assign,
+            transfer, and subcontract its rights and/or obligations under these Terms without any notification or consent required. However, you
+            shall not be permitted to assign, transfer, or subcontract any of your rights and/or obligations under these Terms.<br /><br />
+            &nbsp;&nbsp;&nbsp; 11. Entire Agreement.<br /><br />These Terms, including any legal notices and disclaimers contained on Sentify,
+            constitute the entire agreement between Sentify and you in relation to your use of Sentify, and supersede all prior agreements and
+            understandings with respect to the same.<br /><br />&nbsp;&nbsp;&nbsp; 12. Governing Law &amp; Jurisdiction.<br /><br />
+            These Terms will be governed by and construed in accordance with Swedish law, and you submit to the non-exclusive jurisdiction of
+            the state and federal courts located in Sweden for the resolution of any disputes.<br /><br /></p>
+            </p>
+        </div>
+
     </div>
     <footer>
         <span id="footer">&copy;Sentify 2018 <a href="mailto:sentify@protonmail.com" id="contacts">Contact Sentify</a></span>
     </footer>
 
     <script src="js/login.js"></script>
+    <script src="js/registration.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="js/vendor/foundation.min.js"></script>
 
