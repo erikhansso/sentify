@@ -1,12 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html class="no-js" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="css/foundation.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <title>Sentify - Track social media sentiment</title>
 </head>
 <body>
-<h1>Sorry, something went wrong</h1>
+<iframe name="loginiframe" id="loginiframe" src="/login"></iframe>
+
+<section id="superwrapper">
+    <div id="navbar">
+        <nav class="top-bar" data-topbar role="navigation">
+            <ul class="menu menu-hover-lines" id="navbarlinks">
+                <li id="homeLogo">
+                    <a id="homeImg" href="/">
+                        <img src="/images/logotinyhuge2.png" width="117px" height="64px"/>
+                    </a>
+                </li>
+                <li>
+                    <a href="/#howItWorks">How it works</a>
+                </li>
+                <li>
+                    <a href="/#pricing">Pricing</a>
+                </li>
+                <li>
+                    <a href="/#about">About</a>
+                </li>
+                <li sec:authorize="isAnonymous()">
+                    <a href="/demo">Demo</a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/premium">Premium</a>
+                </li>
+            </ul>
+            <span sec:authorize="isAuthenticated()"> Logged in as <span
+                    sec:authentication="name"></span>
+        </span>
+            <span>
+
+                    <ul class="menu menu-hover-lines">
+                        <li sec:authorize="isAnonymous()">
+                            <a href="#" id="loggainknapp">Login</a>
+                        </li>
+                        <li sec:authorize="isAnonymous()">
+                            <a href="/registration">Sign up</a>
+                        </li>
+
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+            </span>
+        </nav>
+    </div>
+    <section id="errorMessage"><h1>Sorry, something went wrong</h1><a href="/index"><h2>Return to home</h2></a></section>
+
+</section>
+
+<script src="js/login.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="js/vendor/foundation.min.js"></script>
+
 </body>
 </html>

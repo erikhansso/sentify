@@ -766,6 +766,11 @@ p {
     width: 19%;
 }
 
+#errorMessage {
+    padding-top: 25%;
+    padding-left: 25%;
+    font-family: Rubik, sans-serif;
+}
 
 #termsButton{
 
@@ -817,7 +822,6 @@ p {
     padding: 10px;
 }
 
-#overviewTextWrapper>p {
+#overviewTextWrapper > p {
     padding: 7px;
-
 }
